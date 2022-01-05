@@ -31,12 +31,9 @@ class AccountService(
     }
 
     fun teacherSignup(request: TeacherSignupRequest){
-        var random = ThreadLocalRandom.current().nextInt(1000000, 9999999).toString()
-        userRepository.findById(random).map{
 
-        }
+        request.toTeacher(idGene(), bCrypt.encode(request.password))
 
-//        request.toTeacher(, bCrypt.encode(request.password))
     }
 
     fun studentSignup(){
@@ -44,11 +41,19 @@ class AccountService(
 
     }
 
+    private fun random(): String{
+        return ThreadLocalRandom.current().nextInt(1000000, 9999999).toString()
+    }
 
+    private fun idGene(): String{
+        var random = random()
+        return userRepository.findById(random).map {
+            userRepository.findById(random).map {
+                random()
+            }.orElse(random)
+        }.orElse(random)
+    }
 
-
-
-
-
+    
 
 }
