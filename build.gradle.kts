@@ -39,6 +39,8 @@ dependencies {
 
     implementation(group = "org.springframework.boot", name="spring-boot-starter-validation")
 
+    implementation("io.jsonwebtoken:jjwt:0.9.1")
+
 }
 
 tasks.withType<KotlinCompile> {
