@@ -20,3 +20,9 @@ spring:
   redis:
     port: ${redis.port}
     host: ${redis.host}
+
+
+defined:
+  fcm:
+    url: ${fcm.url}
+    firebaseConfigPath: ${fcm.firebaseConfigPath}
