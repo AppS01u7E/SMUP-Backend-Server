@@ -18,7 +18,7 @@ class ExceptionHanlder(
     @ExceptionHandler(GlobalException::class)
     fun GlobalExceptionHandler(e: GlobalException): ResponseEntity<*>{
         val user = current.get()
-        log.info("user: ${user.getId()}(${user.getEmail()}) errorMessage: ${e.errorCode.message}")
+        log.info("user: ${user.id}(${user.getEmail()}) errorMessage: ${e.errorCode.message}")
         return ResponseEntity.status(e.errorCode.status.value()).body(e.errorCode.message)
     }
 

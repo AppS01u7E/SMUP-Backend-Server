@@ -16,6 +16,8 @@ class AccountService(
 
 ) {
     private val bCrypt = BCryptPasswordEncoder()
+    private val ORIGIN = 1000000
+    private val BOUND =  9999999
 
 
     fun sendEmailCode(email: String){
@@ -32,7 +34,7 @@ class AccountService(
 
     fun teacherSignup(request: TeacherSignupRequest){
 
-        request.toTeacher(idGene(), bCrypt.encode(request.password))
+        request.toTeacher(geneId(), bCrypt.encode(request.password))
 
     }
 
@@ -42,18 +44,19 @@ class AccountService(
     }
 
     private fun random(): String{
-        return ThreadLocalRandom.current().nextInt(1000000, 9999999).toString()
+        return ThreadLocalRandom.current().nextInt( ORIGIN, BOUND).toString()
     }
 
-    private fun idGene(): String{
+    private fun geneId(): String{
         var random = random()
-        return userRepository.findById(random).map {
+        random = userRepository.findById(random).map {
             userRepository.findById(random).map {
                 random()
             }.orElse(random)
         }.orElse(random)
+        return random
     }
 
-    
+
 
 }
