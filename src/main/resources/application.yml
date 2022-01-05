@@ -36,3 +36,7 @@ defined:
   email:
     account: ${email.account}
     password: ${email.password}
+  security:
+    secretKey: ${security.secretKey}
+    accessExpire: ${security.accessExpire}
+    refreshExpire: ${security.refreshExpire}
