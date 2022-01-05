@@ -26,7 +26,8 @@ class Student(
     lastName,
     gender,
     birth,
-    password
+    password,
+    Role.STUDENT
 
 ) {
 

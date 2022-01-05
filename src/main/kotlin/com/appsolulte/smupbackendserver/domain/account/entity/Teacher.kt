@@ -23,7 +23,8 @@ class Teacher(
     lastName,
     gender,
     birth,
-    password
+    password,
+    Role.TEACHER
 ) {
     private var teacherType = teacherType
 
