@@ -37,6 +37,8 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.9.1")
     implementation("com.google.guava:guava:18.0")
 
+    implementation(group = "org.springframework.boot", name="spring-boot-starter-validation")
+
 }
 
 tasks.withType<KotlinCompile> {
