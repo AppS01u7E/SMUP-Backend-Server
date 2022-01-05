@@ -12,7 +12,8 @@ abstract class User (
     lastName: String,
     gender: Gender,
     birth: String,
-    password: String
+    password: String,
+    role: Role
         ){
     @Id
     val id: String = id
@@ -27,14 +28,16 @@ abstract class User (
 
     private var birth = birth
 
-    private var password = password
+     var password = password
 
-
+    private var role = role
 
     fun getEmail(): String{
         return this.email
     }
 
-
+    fun getRole(): Role{
+        return this.role
+    }
 
 }
