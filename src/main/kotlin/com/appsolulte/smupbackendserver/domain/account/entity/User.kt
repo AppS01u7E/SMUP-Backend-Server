@@ -30,7 +30,13 @@ abstract class User (
 
     private var password = password
     
+    fun getId(): String{
+        return this.id
+    }
 
+    fun getEmail(): String{
+        return this.email
+    }
 
 
 

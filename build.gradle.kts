@@ -29,6 +29,9 @@ dependencies {
     runtimeOnly("mysql:mysql-connector-java")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
+
+    implementation("org.apache.logging.log4j:log4j-api:2.17.0")
+
 }
 
 tasks.withType<KotlinCompile> {
