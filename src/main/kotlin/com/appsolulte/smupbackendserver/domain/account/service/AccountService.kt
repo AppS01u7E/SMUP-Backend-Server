@@ -34,7 +34,7 @@ class AccountService(
 
     fun teacherSignup(request: TeacherSignupRequest){
 
-        request.toTeacher(idGene(), bCrypt.encode(request.password))
+        request.toTeacher(geneId(), bCrypt.encode(request.password))
 
     }
 
@@ -47,13 +47,14 @@ class AccountService(
         return ThreadLocalRandom.current().nextInt( ORIGIN, BOUND).toString()
     }
 
-    private fun idGene(): String{
+    private fun geneId(): String{
         var random = random()
-        return userRepository.findById(random).map {
+        random = userRepository.findById(random).map {
             userRepository.findById(random).map {
                 random()
             }.orElse(random)
         }.orElse(random)
+        return random
     }
 
 

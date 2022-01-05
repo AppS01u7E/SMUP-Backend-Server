@@ -17,8 +17,8 @@ class AccountController(
 ) {
 
     @GetMapping("/test")
-    fun test(): String{
-        return userRepository.findById("2223").isEmpty.toString()
+    fun test(): Unit{
+
     }
 
 
