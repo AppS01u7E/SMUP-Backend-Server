@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @ControllerAdvice
 @RestController
-class ExceptionHanlder(
+class ExceptionHandler(
     private val current: CurrentUser
 ) {
     private val log = LoggerFactory.getLogger(javaClass)
