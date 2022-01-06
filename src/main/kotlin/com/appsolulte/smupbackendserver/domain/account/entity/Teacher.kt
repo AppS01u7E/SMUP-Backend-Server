@@ -16,7 +16,8 @@ class Teacher(
     birth: String,
     password: String,
     teacherType: TeacherType,
-    major: String
+    major: String,
+    school: SchoolType
 ) : User(
     id,
     email,
@@ -25,7 +26,8 @@ class Teacher(
     gender,
     birth,
     password,
-    Role.TEACHER
+    Role.TEACHER,
+    school
 ) {
     private var teacherType = teacherType
 

@@ -18,7 +18,8 @@ class Student(
     grade: Int,
     classNum: Int,
     number: Int,
-    ent: Int
+    ent: Int,
+    school: SchoolType
 ) : User(
     id,
     email,
@@ -27,8 +28,8 @@ class Student(
     gender,
     birth,
     password,
-    Role.STUDENT
-
+    Role.STUDENT,
+    school
 ) {
 
     private var dept = dept

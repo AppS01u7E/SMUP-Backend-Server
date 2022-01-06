@@ -1,5 +1,10 @@
 package com.appsolulte.smupbackendserver.domain.account.entity
 
+import com.appsolulte.smupbackendserver.domain.account.dto.response.UserResponse
+import com.appsolulte.smupbackendserver.domain.soom.dto.response.GroupAuthType
+import com.appsolulte.smupbackendserver.domain.soom.entity.Group
+import com.appsolulte.smupbackendserver.domain.soom.entity.Post
+import java.time.LocalDateTime
 import javax.persistence.*
 
 
@@ -13,7 +18,8 @@ abstract class User (
     gender: Gender,
     birth: String,
     password: String,
-    role: Role
+    role: Role,
+    school: SchoolType
         ){
     @Id
     val id: String = id
@@ -33,6 +39,16 @@ abstract class User (
     private var role = role
 
     var profile: String? = null
+
+    var school: SchoolType = school
+    @OneToMany(fetch = FetchType.LAZY)
+    var groupInfo: MutableList<GroupInfo> = ArrayList<GroupInfo> ()
+
+    var createdAt = LocalDateTime.now()
+
+    @OneToMany(fetch = FetchType.LAZY)
+    var post: MutableList<Post> = ArrayList<Post>()
+
 
     fun getEmail(): String{
         return this.email
@@ -54,9 +70,25 @@ abstract class User (
         return this.gender
     }
 
+    fun joinGroup(group: Group): User{
+        this.groupInfo.add(GroupInfo(this, group, GroupAuthType.MEMBER))
+        return this
+    }
+
 
     fun settingProfile(profile: String){
         this.profile = profile
+    }
+
+    fun toUserResponse(): UserResponse{
+        return UserResponse(
+            this.id,
+            this.email,
+            this.firstName,
+            this.lastName,
+            this.gender,
+            this.role
+        )
     }
 
 }
