@@ -28,9 +28,11 @@ abstract class User (
 
     private var birth = birth
 
-     var password = password
+    var password = password
 
     private var role = role
+
+    var profile: String? = null
 
     fun getEmail(): String{
         return this.email
@@ -38,6 +40,23 @@ abstract class User (
 
     fun getRole(): Role{
         return this.role
+    }
+
+    fun getFirstName(): String{
+        return this.firstName
+    }
+
+    fun getLastName(): String{
+        return this.lastName
+    }
+
+    fun getGender(): Gender{
+        return this.gender
+    }
+
+
+    fun settingProfile(profile: String){
+        this.profile = profile
     }
 
 }

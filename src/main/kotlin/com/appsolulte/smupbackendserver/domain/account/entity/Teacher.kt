@@ -1,5 +1,6 @@
 package com.appsolulte.smupbackendserver.domain.account.entity
 
+import com.appsolulte.smupbackendserver.domain.account.dto.response.TeacherResponse
 import javax.persistence.DiscriminatorValue
 import javax.persistence.Entity
 
@@ -31,6 +32,16 @@ class Teacher(
     private var major = major
 
 
-
+    fun toTeacherResponse(): TeacherResponse{
+        return TeacherResponse(
+            this.id,
+            this.getEmail(),
+            this.getFirstName(),
+            this.getLastName(),
+            this.getGender(),
+            this.teacherType,
+            this.major
+        )
+    }
 
 }
