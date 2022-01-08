@@ -33,8 +33,11 @@ public class AuthController {
     //TODO [지인호] code validation 추가
     @GetMapping("/email/{code}") //이메일 인증 완료
     public ResponseEntity<AuthorizeEmailByCodeResponse> authorizeEmailByCode(@PathVariable String code) {
+        //코드를 통해 이메일을 가져온다.(인증)
         String email = emailAuthorizeService.getEmail(code);
+        //가져온 이메일을 통해 이메일 토큰을 생성한다.
         String emailToken = emailAuthorizeService.generateEmailToken(email);
+        //생성한 이메일 토큰을 Response 에 담아서 반환한다.
         AuthorizeEmailByCodeResponse response = new AuthorizeEmailByCodeResponse(emailToken);
         return ResponseEntity.ok(response);
     }
