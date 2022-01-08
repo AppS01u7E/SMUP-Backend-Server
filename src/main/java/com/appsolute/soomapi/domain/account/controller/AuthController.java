@@ -3,6 +3,7 @@ package com.appsolute.soomapi.domain.account.controller;
 import com.appsolute.soomapi.domain.account.data.response.AuthorizeEmailByCodeResponse;
 import com.appsolute.soomapi.domain.account.data.response.GenerateTeacherSignupCodeResponse;
 import com.appsolute.soomapi.domain.account.service.EmailAuthorizeService;
+import com.appsolute.soomapi.domain.account.service.TeacherAuthorizeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ import java.util.stream.IntStream;
 @RequestMapping("/api/v1/account/auth")
 public class AuthController {
     private final EmailAuthorizeService emailAuthorizeService;
+    private final TeacherAuthorizeService teacherAuthorizeService;
 
     //TODO [지인호] school email validation 추가
     @PostMapping("/email") //이메일 인증 수행
@@ -44,7 +46,9 @@ public class AuthController {
 
     @GetMapping("/code/teacher/{quantity}") //교사 회원가입 코드 생성
     public ResponseEntity<GenerateTeacherSignupCodeResponse> generateTeacherSignupCode(@PathVariable Integer quantity) {
-        List<String> codes = IntStream.range(0, quantity).mapToObj(i -> "it is code that idx is " + i).collect(Collectors.toList());
+        //quantity 만큼의 교사 회원가입 코드를 생성한다.
+        List<String> codes = teacherAuthorizeService.generateTeacherCode(quantity);
+        //생성한 교사 회원가입 코드를 Response 에 담아서 반환한다.
         GenerateTeacherSignupCodeResponse response = new GenerateTeacherSignupCodeResponse(codes);
         return ResponseEntity.ok(response);
     }
