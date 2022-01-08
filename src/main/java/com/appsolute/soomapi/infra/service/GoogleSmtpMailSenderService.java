@@ -1,5 +1,6 @@
 package com.appsolute.soomapi.infra.service;
 
+import com.appsolute.soomapi.infra.exception.MailSendingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -31,7 +32,7 @@ public class GoogleSmtpMailSenderService implements MailSenderService{
             helper.setTo(to);
             helper.setText(content, true);
         } catch (MessagingException e) {
-            throw new RuntimeException(e);
+            throw new MailSendingException("Google SMTP 를 통해 메일 발송중 오류가 발생하였습니다!", e);
         }
 
         jms.send(message);
