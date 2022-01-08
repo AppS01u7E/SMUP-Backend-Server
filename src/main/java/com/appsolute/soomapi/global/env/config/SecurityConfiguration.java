@@ -11,8 +11,8 @@ public class SecurityConfiguration  extends WebSecurityConfigurerAdapter {
     @Override //TODO [지인호] 2022 01 08 기준 아직 인증로직이 구현되지 않아, 인증 여부와 관계 없이 모든 자원에 대한 접근을 허용한다
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .cors().and()
-                .csrf().and()
+                .cors().disable()
+                .csrf().disable()
                 .sessionManagement().disable()
                 .authorizeRequests()
                 .antMatchers("/**").permitAll();
