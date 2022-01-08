@@ -3,6 +3,7 @@ package com.appsolute.soomapi.domain.account.controller;
 import com.appsolute.soomapi.domain.account.data.response.AuthorizeEmailByCodeResponse;
 import com.appsolute.soomapi.domain.account.data.response.GenerateTeacherSignupCodeResponse;
 import com.appsolute.soomapi.domain.account.service.EmailAuthorizeService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,10 +12,12 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 //계정 인증 관리 - 인증 API
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/account/auth")
 public class AuthController {
-    EmailAuthorizeService emailAuthorizeService;
+    private final EmailAuthorizeService emailAuthorizeService;
+
     @PostMapping("/email") //이메일 인증 수행
     public ResponseEntity<?> sendAuthorizeCodeToEmail(@RequestParam String email) {
         //랜덤한 6자리 숫자로 이루어진 인증코드를 생성한다 (이때, 인증코드는 문자열 형식으로 저장된다)
