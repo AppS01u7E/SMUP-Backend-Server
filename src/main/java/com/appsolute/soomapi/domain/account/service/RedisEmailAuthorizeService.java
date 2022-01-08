@@ -20,6 +20,7 @@ import java.util.Random;
 @Service
 @RequiredArgsConstructor
 public class RedisEmailAuthorizeService implements EmailAuthorizeService {
+    private static final String KEY_PREFIX = "email-authorize-code"; //다른 용도로 redis 가 쓰일 수 있으므로, prefix 로 key 값을 구분한다.
     private final RedisTemplate<String, String> redisTemplate;
     private final JavaMailSender jms; //TODO [지인호] MailSenderService 작성하기
     private final TemplateEngine templateEngine;
@@ -36,14 +37,14 @@ public class RedisEmailAuthorizeService implements EmailAuthorizeService {
     public void addAuthorizeData(String code, String email) {
         //redisTemplate 를 통해 Redis 에 데이터를 저장한다.
         //데이터의 key 는 code, value 는 email 이다.
-        redisTemplate.opsForValue().set(code, email);
+        redisTemplate.opsForValue().set(KEY_PREFIX + code, email);
     }
 
     @Override
     public String getEmail(String code) {
         //redisTemplate 를 통해 Redis 에서 데이터를 조회한다.
         //code 를 key 로 하는 value(email) 를 반환한다.
-        return redisTemplate.opsForValue().get(code);
+        return redisTemplate.opsForValue().get(KEY_PREFIX + code);
     }
 
     @Override //TODO [지인호] 나중에 MailSenderService 를 통해 관심사 분리 예정
