@@ -17,30 +17,36 @@ repositories {
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.boot:spring-boot-starter-mail")
-    implementation("org.springframework.boot:spring-boot-starter-security")
-    implementation("org.springframework.boot:spring-boot-starter-validation")
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    //spring boot
+    implementation("org.springframework.boot:spring-boot-starter-data-redis") //redis
+    implementation("org.springframework.boot:spring-boot-starter-validation") //validation
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa") //data jpa
+    implementation("org.springframework.boot:spring-boot-starter-mail") //mailing
+    implementation("org.springframework.boot:spring-boot-starter-security") //security
+    implementation("org.springframework.boot:spring-boot-starter-web") //web
+    developmentOnly("org.springframework.boot:spring-boot-devtools") //devtool
+    //kotlin
+    /*
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    developmentOnly("org.springframework.boot:spring-boot-devtools")
-    runtimeOnly("mysql:mysql-connector-java")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
-
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin") //jackson for kotilin
+     */
+    //driver
+    runtimeOnly("mysql:mysql-connector-java") //mysql
+    //logging
     implementation("org.apache.logging.log4j:log4j-api:2.17.0")
-
-    implementation("org.springframework.boot:spring-boot-starter-data-redis")
+    //firebase
     implementation("com.google.firebase:firebase-admin:6.8.1")
+    //utils
     implementation("com.squareup.okhttp3:okhttp:4.9.1")
     implementation("com.google.guava:guava:18.0")
-
-    implementation(group = "org.springframework.boot", name="spring-boot-starter-validation")
-
+    //jwt token
     implementation("io.jsonwebtoken:jjwt:0.9.1")
-
+    //lombok for java
+    implementation("org.projectlombok:lombok")
+    annotationProcessor("org.projectlombok:lombok")
 }
 
 tasks.withType<KotlinCompile> {
