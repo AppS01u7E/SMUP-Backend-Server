@@ -1,9 +1,10 @@
-
+### Meta Data ###
 .idea/
-
 .gradle
-
 build/
 
+### Firebase Secret ###
+firebase_develop_key.json
 
-src/main/resources/schoolnetworkservice-firebase-adminsdk-9pvlk-fda6977dec.json
+### Spring Boot ###
+application.yml
