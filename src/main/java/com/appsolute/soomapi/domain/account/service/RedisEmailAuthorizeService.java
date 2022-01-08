@@ -1,6 +1,10 @@
 package com.appsolute.soomapi.domain.account.service;
 
+import io.jsonwebtoken.Header;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
+import org.joda.time.LocalDateTime;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -35,6 +39,13 @@ public class RedisEmailAuthorizeService implements EmailAuthorizeService {
         redisTemplate.opsForValue().set(code, email);
     }
 
+    @Override
+    public String getEmail(String code) {
+        //redisTemplate 를 통해 Redis 에서 데이터를 조회한다.
+        //code 를 key 로 하는 value(email) 를 반환한다.
+        return redisTemplate.opsForValue().get(code);
+    }
+
     @Override //TODO [지인호] 나중에 MailSenderService 를 통해 관심사 분리 예정
     public void sendAuthorizeEmail(String code, String email) {
         MimeMessage message = jms.createMimeMessage();
@@ -52,6 +63,19 @@ public class RedisEmailAuthorizeService implements EmailAuthorizeService {
         }
 
         jms.send(message);
+    }
+
+    @Override
+    public String generateEmailToken(String email) {
+        LocalDateTime now = new LocalDateTime();
+        return Jwts.builder() //TODO [지인호] 나중에 JwtUtil 작성
+                .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
+                .setIssuer("SoomAPI")
+                .setIssuedAt(now.toDate())
+                .setExpiration(now.plusMinutes(30).toDate())
+                .claim("email", email)
+                .signWith(SignatureAlgorithm.HS256, "secret")
+                .compact();
     }
 }
 
