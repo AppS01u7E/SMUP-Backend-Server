@@ -18,13 +18,14 @@ repositories {
 
 dependencies {
     //spring boot
+    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor") //configuration
     implementation("org.springframework.boot:spring-boot-starter-web") //web
     implementation("org.springframework.boot:spring-boot-starter-data-jpa") //data jpa
     implementation("org.springframework.boot:spring-boot-starter-data-redis") //redis
     implementation("org.springframework.boot:spring-boot-starter-validation") //validation
     implementation("org.springframework.boot:spring-boot-starter-security") //security
     implementation("org.springframework.boot:spring-boot-starter-mail") //mailing
-    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+    implementation("org.springframework.boot:spring-boot-starter-thymeleaf") //thymeleaf
     developmentOnly("org.springframework.boot:spring-boot-devtools") //devtool
     //kotlin
     /*
