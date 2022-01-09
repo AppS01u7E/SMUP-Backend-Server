@@ -24,7 +24,6 @@ public class AuthController {
     private final EmailAuthorizeService emailAuthorizeService;
     private final TeacherAuthorizeService teacherAuthorizeService;
 
-    //TODO [지인호] school email validation 추가
     @PostMapping("/email") //이메일 인증 수행
     public ResponseEntity<?> sendAuthorizeCodeToEmail(@RequestParam @SchoolEmail final String email) {
         //랜덤한 6자리 숫자로 이루어진 인증코드를 생성한다 (이때, 인증코드는 문자열 형식으로 저장된다)
@@ -36,7 +35,6 @@ public class AuthController {
         return ResponseEntity.ok().build();
     }
 
-    //TODO [지인호] code validation 추가
     @GetMapping("/email/{code}") //이메일 인증 완료
     public ResponseEntity<AuthorizeEmailByCodeResponse> authorizeEmailByCode(@PathVariable @EmailCode String code) {
         //코드를 통해 이메일을 가져온다.(인증)
