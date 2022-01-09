@@ -10,8 +10,7 @@ import org.thymeleaf.context.Context;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.util.HashMap;
-import java.util.Objects;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -20,7 +19,7 @@ public class GoogleSmtpMailSenderService implements MailSenderService{
     private final TemplateEngine templateEngine;
 
     @Override
-    public void sendHtmlEmail(String to, String title, String templatePath, HashMap<String, Objects> models) {
+    public void sendHtmlEmail(String to, String title, String templatePath, Map<String, Object> models) {
         MimeMessage message = jms.createMimeMessage();
         Context context = new Context();
         models.forEach(context::setVariable);

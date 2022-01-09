@@ -26,6 +26,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security") //security
     implementation("org.springframework.boot:spring-boot-starter-mail") //mailing
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf") //thymeleaf
+    implementation("org.springframework.boot:spring-boot-starter-actuator") //actuator
     developmentOnly("org.springframework.boot:spring-boot-devtools") //devtool
     //kotlin
     /*

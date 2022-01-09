@@ -1,12 +1,12 @@
 package com.appsolute.soomapi.domain.account.validation.validator;
 
 import com.appsolute.soomapi.domain.account.policy.EmailCodePolicy;
-import com.appsolute.soomapi.global.school.validation.annotation.SchoolEmail;
+import com.appsolute.soomapi.domain.account.validation.annotation.EmailCode;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class EmailCodeValidator implements ConstraintValidator<SchoolEmail, String> {
+public class EmailCodeValidator implements ConstraintValidator<EmailCode, String> {
     private final EmailCodePolicy policy;
 
     public EmailCodeValidator() {
