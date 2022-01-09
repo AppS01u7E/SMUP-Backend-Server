@@ -1,4 +1,4 @@
-package com.appsolute.soomapi.global.school.type;
+package com.appsolute.soomapi.global.school.data.type;
 
 import com.appsolute.soomapi.global.school.policy.*;
 import com.appsolute.soomapi.global.school.policy.function.SchoolEmailPolicy;
