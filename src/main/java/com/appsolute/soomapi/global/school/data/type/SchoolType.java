@@ -1,6 +1,9 @@
 package com.appsolute.soomapi.global.school.data.type;
 
-import com.appsolute.soomapi.global.school.policy.*;
+import com.appsolute.soomapi.global.school.policy.BusanSchoolEmailPolicy;
+import com.appsolute.soomapi.global.school.policy.DaedeokSchoolEmailPolicy;
+import com.appsolute.soomapi.global.school.policy.DaeguSchoolEmailPolicy;
+import com.appsolute.soomapi.global.school.policy.GwangjuSchoolEmailPolicy;
 import com.appsolute.soomapi.global.school.policy.function.SchoolEmailPolicy;
 import lombok.RequiredArgsConstructor;
 
