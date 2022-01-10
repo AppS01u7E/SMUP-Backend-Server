@@ -18,7 +18,8 @@ enum class ErrorCode(
     REJECTED_USER_EXCEPTION("가입 거절 후 10일 지나지 않은 사용자입니다.", HttpStatus.BAD_REQUEST),
     TEACHER_ALREADY_EXISTS("담당 교사가 이미 존재합니다.", HttpStatus.BAD_REQUEST),
     LOW_AUTH("작업을 수행하기에 너무 낮은 권한입니다.", HttpStatus.FORBIDDEN),
-    POST_CANNOT_FOUND("게시물을 찾을 수 없습니다.", HttpStatus.NOT_FOUND)
+    POST_CANNOT_FOUND("게시물을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+
 
 
 }
