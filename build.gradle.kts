@@ -29,13 +29,11 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator") //actuator
     developmentOnly("org.springframework.boot:spring-boot-devtools") //devtool
     //kotlin
-    /*
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin") //jackson for kotilin
-     */
     //driver
     runtimeOnly("mysql:mysql-connector-java") //mysql
     //logging
