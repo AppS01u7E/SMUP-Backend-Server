@@ -14,3 +14,5 @@ application.*
 
 ### Firebase ###
 firebase_develop_key.json
+
+.DS_Store
