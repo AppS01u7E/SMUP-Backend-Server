@@ -1,7 +1,6 @@
 package com.appsolute.soomapi.domain.soom.data.entity
 
 import com.appsolute.soomapi.domain.soom.data.type.GroupType
-import com.appsolute.soomapi.domain.account.data.type.SchoolType
 import org.springframework.data.annotation.Id
 import org.springframework.data.redis.core.RedisHash
 import org.springframework.data.redis.core.index.Indexed

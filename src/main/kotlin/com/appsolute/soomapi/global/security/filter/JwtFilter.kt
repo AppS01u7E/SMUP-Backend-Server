@@ -1,7 +1,7 @@
 package com.appsolute.soomapi.global.security.filter
 
-import com.appsolute.soomapi.global.security.exception.ExpiredTokenException
 import com.appsolute.soomapi.global.security.util.TokenProvider
+import com.appsolute.soomapi.global.security.exception.ExpiredTokenException
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.filter.OncePerRequestFilter
 import java.io.IOException
