@@ -29,6 +29,18 @@ dependencies {
     runtimeOnly("mysql:mysql-connector-java")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
+
+    implementation("org.apache.logging.log4j:log4j-api:2.17.0")
+
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
+    implementation("com.google.firebase:firebase-admin:6.8.1")
+    implementation("com.squareup.okhttp3:okhttp:4.9.1")
+    implementation("com.google.guava:guava:18.0")
+
+    implementation(group = "org.springframework.boot", name="spring-boot-starter-validation")
+
+    implementation("io.jsonwebtoken:jjwt:0.9.1")
+
 }
 
 tasks.withType<KotlinCompile> {
