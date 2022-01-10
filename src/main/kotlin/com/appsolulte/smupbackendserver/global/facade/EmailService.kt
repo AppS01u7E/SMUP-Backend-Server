@@ -91,7 +91,7 @@ class EmailService(
         )
         val message = mailSender.createMimeMessage()
         val mimeMessageHelper = MimeMessageHelper(message, true, "UTF-8")
-        mimeMessageHelper.setFrom((FROM)!!, "SMUP_Information")
+        mimeMessageHelper.setFrom(FROM, "SMUP_Information")
         mimeMessageHelper.setTo((email)!!)
         mimeMessageHelper.setSubject("인증번호")
         mimeMessageHelper.setText(body.toString(), true)

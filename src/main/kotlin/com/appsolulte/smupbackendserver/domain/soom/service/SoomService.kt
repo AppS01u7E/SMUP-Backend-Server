@@ -34,7 +34,7 @@ class SoomService(
     private val postRepository: PostRepository,
     private val noticeRepository: NoticeRepository,
     private val replyRepository: ReplyRepository
-
+    // DI 받는 곳
 ) {
 
 
