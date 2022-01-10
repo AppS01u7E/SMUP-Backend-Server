@@ -1,10 +1,16 @@
-### Meta Data ###
-.idea/
 .gradle
-build/
+/build/
+!gradle/wrapper/gradle-wrapper.jar
 
-### Firebase Secret ###
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### SpringBoot ###
+application.*
+!application.templates.yml
+
+### Firebase ###
 firebase_develop_key.json
-
-### Spring Boot ###
-application.yml
