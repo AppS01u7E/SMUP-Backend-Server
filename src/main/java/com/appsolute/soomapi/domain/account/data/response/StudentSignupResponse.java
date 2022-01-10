@@ -1,7 +1,6 @@
 package com.appsolute.soomapi.domain.account.data.response;
 
-import com.appsolute.soomapi.global.data.type.GenderType;
-import com.appsolute.soomapi.global.school.data.type.DepartmentType;
+import com.appsolute.soomapi.global.school.data.type.GenderType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
