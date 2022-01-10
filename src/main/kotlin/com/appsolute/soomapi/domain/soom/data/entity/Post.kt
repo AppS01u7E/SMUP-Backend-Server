@@ -1,8 +1,8 @@
 package com.appsolute.soomapi.domain.soom.data.entity
 
+import com.appsolulte.smupbackendserver.domain.account.entity.User
 import com.appsolute.soomapi.domain.soom.data.response.ReplyResponse
 import com.appsolute.soomapi.domain.soom.data.type.PostType
-import com.appsolute.soomapi.domain.account.data.entity.User
 import java.time.LocalDateTime
 import javax.persistence.*
 

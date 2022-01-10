@@ -1,5 +1,6 @@
 package com.appsolulte.smupbackendserver.domain.account.entity
 
+import com.appsolute.soomapi.global.school.data.type.SchoolType
 import javax.persistence.DiscriminatorValue
 import javax.persistence.Entity
 

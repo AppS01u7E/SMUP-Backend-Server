@@ -1,6 +1,6 @@
 package com.appsolute.soomapi.infra.service
 
-import com.appsolute.soomapi.global.env.property.GlobalProperties
+
 import org.springframework.mail.javamail.JavaMailSenderImpl
 import org.springframework.mail.javamail.MimeMessageHelper
 import org.springframework.stereotype.Service
@@ -11,7 +11,6 @@ import javax.mail.MessagingException
 @Service
 @kotlin.Deprecated(message = "infra.service.MailSenderService 를 사용해주세요(해당인터페이스를 DI 받으면 됩니다)", level = DeprecationLevel.ERROR)
 class EmailService(
-    private val globalProperties: GlobalProperties,
     private val mailSender: JavaMailSenderImpl
 ) {
 

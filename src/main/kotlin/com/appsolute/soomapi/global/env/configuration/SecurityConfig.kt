@@ -1,7 +1,6 @@
 package com.appsolute.soomapi.global.env.configuration
 
 import com.appsolute.soomapi.global.security.filter.JwtFilter
-import com.appsolute.soomapi.global.security.util.TokenProvider
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity

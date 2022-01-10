@@ -1,7 +1,7 @@
 package com.appsolute.soomapi.domain.soom.data.entity
 
+import com.appsolulte.smupbackendserver.domain.account.entity.User
 import com.appsolute.soomapi.domain.soom.data.type.PostType
-import com.appsolute.soomapi.domain.account.data.entity.User
 
 class Reply(
     id: String,

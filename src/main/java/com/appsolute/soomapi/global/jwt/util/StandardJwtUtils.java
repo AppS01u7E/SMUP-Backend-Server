@@ -32,9 +32,11 @@ public abstract class StandardJwtUtils<T> implements JwtUtils<T> {
         return getDataFromClaims(claims);
     }
 
+
     protected abstract LocalDateTime getExpiredAt(LocalDateTime now);
     protected abstract Map<String, Object> getClaims(T data);
     protected abstract String getSecret();
 
     protected abstract T getDataFromClaims(Claims claims);
+    protected abstract T loadUserByUsername(String username);
 }

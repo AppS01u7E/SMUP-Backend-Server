@@ -1,10 +1,11 @@
 package com.appsolute.soomapi.global.security.data
 
-import com.appsolute.soomapi.domain.account.data.entity.User
+import com.appsolulte.smupbackendserver.domain.account.entity.User
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.stereotype.Component
 
-
+@Component
 class CustomUserDetails: UserDetails {
 
     private val user: User? = null

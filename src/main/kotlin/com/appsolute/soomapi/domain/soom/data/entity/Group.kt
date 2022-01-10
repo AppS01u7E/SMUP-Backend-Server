@@ -1,9 +1,9 @@
 package com.appsolute.soomapi.domain.soom.data.entity
 
-import com.appsolute.soomapi.domain.account.data.entity.GroupInfo
-import com.appsolute.soomapi.domain.account.data.entity.Student
-import com.appsolute.soomapi.domain.account.data.entity.Teacher
-import com.appsolute.soomapi.domain.account.data.entity.User
+import com.appsolulte.smupbackendserver.domain.account.entity.GroupInfo
+import com.appsolulte.smupbackendserver.domain.account.entity.Student
+import com.appsolulte.smupbackendserver.domain.account.entity.Teacher
+import com.appsolulte.smupbackendserver.domain.account.entity.User
 import com.appsolute.soomapi.domain.chatting.data.entity.ChattingRoom
 import com.appsolute.soomapi.domain.chatting.data.type.ChattingRoomType
 import com.appsolute.soomapi.domain.soom.data.request.EditGroupRequest

@@ -1,7 +1,8 @@
 package com.appsolulte.smupbackendserver.domain.account.entity
 
-import com.appsolulte.smupbackendserver.domain.soom.dto.response.GroupAuthType
-import com.appsolulte.smupbackendserver.domain.soom.entity.Group
+
+import com.appsolute.soomapi.domain.soom.data.entity.Group
+import com.appsolute.soomapi.domain.soom.data.type.GroupAuthType
 import java.time.LocalDateTime
 import java.util.*
 import javax.persistence.*
@@ -22,6 +23,7 @@ class GroupInfo(
     var joinedAt = LocalDateTime.now()
 
     var auth = auth
+
 
 
     fun changeAuth(auth: GroupAuthType): GroupInfo{

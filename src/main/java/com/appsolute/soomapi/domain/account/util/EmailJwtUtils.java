@@ -25,6 +25,7 @@ public class EmailJwtUtils extends StandardJwtUtils<String> {
         claims.put("email", email);
         return claims;
     }
+
     @Override
     protected String getSecret() {
         return jwtProperty.getSecret();
@@ -32,5 +33,10 @@ public class EmailJwtUtils extends StandardJwtUtils<String> {
     @Override
     protected String getDataFromClaims(final Claims claims) {
         return claims.get("email", String.class);
+    }
+
+    @Override
+    protected String loadUserByUsername(String username) {
+        return null;
     }
 }

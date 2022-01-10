@@ -1,9 +1,10 @@
 package com.appsolulte.smupbackendserver.domain.account.entity
 
 import com.appsolulte.smupbackendserver.domain.account.dto.response.UserResponse
-import com.appsolulte.smupbackendserver.domain.soom.dto.response.GroupAuthType
-import com.appsolulte.smupbackendserver.domain.soom.entity.Group
-import com.appsolulte.smupbackendserver.domain.soom.entity.Post
+import com.appsolute.soomapi.domain.soom.data.entity.Group
+import com.appsolute.soomapi.domain.soom.data.entity.Post
+import com.appsolute.soomapi.domain.soom.data.type.GroupAuthType
+import com.appsolute.soomapi.global.school.data.type.SchoolType
 import java.time.LocalDateTime
 import javax.persistence.*
 

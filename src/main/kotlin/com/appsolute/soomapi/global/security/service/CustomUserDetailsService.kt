@@ -1,17 +1,16 @@
 package com.appsolute.soomapi.global.security.service
 
+import com.appsolulte.smupbackendserver.domain.account.exception.UserNotFoundException
+import com.appsolulte.smupbackendserver.domain.account.repository.UserRepository
 import com.appsolute.soomapi.global.security.data.CustomUserDetails
-import com.appsolute.soomapi.domain.account.exception.UserNotFoundException
-import com.appsolute.soomapi.domain.account.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Service
 
-@Service
-class CustomUserDetailsService : UserDetailsService {
-    @Autowired
-    private lateinit var userRepository: UserRepository
+class CustomUserDetailsService(
+    private var userRepository: UserRepository
+) : UserDetailsService {
 
     @Throws(UsernameNotFoundException::class)
     override fun loadUserByUsername(username: String): CustomUserDetails {
