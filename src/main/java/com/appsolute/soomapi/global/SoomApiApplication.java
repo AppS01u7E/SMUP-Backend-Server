@@ -8,4 +8,5 @@ public class SoomApiApplication {
     public static void main(String[] args) {
         SpringApplication.run(SoomApiApplication.class, args);
     }
+
 }
