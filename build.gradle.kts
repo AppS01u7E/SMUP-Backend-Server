@@ -8,7 +8,7 @@ plugins {
     kotlin("plugin.jpa") version "1.6.10"
 }
 
-group = "com.Appsolulte"
+group = "com.appsolute"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
@@ -38,8 +38,6 @@ dependencies {
     runtimeOnly("mysql:mysql-connector-java") //mysql
     //logging
     implementation("org.apache.logging.log4j:log4j-api:2.17.0")
-    //firebase
-    implementation("com.google.firebase:firebase-admin:6.8.1")
     //utils
     implementation("com.squareup.okhttp3:okhttp:4.9.1")
     implementation("com.google.guava:guava:18.0")
@@ -50,6 +48,8 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok")
     //aws
     implementation("org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE")
+    //firebase
+    implementation("com.google.firebase:firebase-admin:7.1.0")
 
 
 }
