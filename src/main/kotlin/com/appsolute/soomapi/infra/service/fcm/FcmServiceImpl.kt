@@ -1,7 +1,7 @@
-package com.appsolute.soomapi.infra.service
+package com.appsolute.soomapi.infra.service.fcm
 
 import com.appsolulte.smupbackendserver.domain.account.repository.DeviceTokenRepository
-import com.appsolute.soomapi.global.env.property.FcmProperty
+import com.appsolute.soomapi.infra.env.property.FcmProperty
 import com.appsolute.soomapi.infra.fcm.FcmMessage
 import com.appsolute.soomapi.infra.fcm.Message
 import com.appsolute.soomapi.infra.fcm.Notification
