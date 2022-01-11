@@ -1,6 +1,7 @@
 package com.appsolute.soomapi.domain.account.data.entity.user
 
 import com.appsolulte.smupbackendserver.domain.account.dto.response.UserResponse
+import com.appsolute.soomapi.domain.account.data.dto.inner.MinimUserDto
 import com.appsolute.soomapi.domain.soom.data.entity.Group
 import com.appsolute.soomapi.domain.soom.data.entity.Post
 import com.appsolute.soomapi.domain.soom.data.type.GroupAuthType
@@ -88,6 +89,19 @@ abstract class User (
             this.firstName,
             this.lastName,
             this.gender,
+            this.role
+        )
+    }
+
+    fun toMinimUserDto(): MinimUserDto{
+        return MinimUserDto(
+            this.id,
+            this.email,
+            this.firstName,
+            this.lastName,
+            this.gender,
+            this.birth,
+            this.school,
             this.role
         )
     }

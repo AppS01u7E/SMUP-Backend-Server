@@ -1,6 +1,7 @@
 package com.appsolute.soomapi.domain.account.data.entity.user
 
 import com.appsolulte.smupbackendserver.domain.account.dto.response.TeacherResponse
+import com.appsolute.soomapi.domain.account.data.dto.inner.MinimTeacherDto
 import com.appsolute.soomapi.global.school.data.type.SchoolType
 import javax.persistence.DiscriminatorValue
 import javax.persistence.Entity
@@ -42,6 +43,14 @@ class Teacher(
             this.getFirstName(),
             this.getLastName(),
             this.getGender(),
+            this.teacherType,
+            this.major
+        )
+    }
+
+    fun toMinimTeacherDto(): MinimTeacherDto{
+        return MinimTeacherDto(
+            this.toMinimUserDto(),
             this.teacherType,
             this.major
         )

@@ -1,5 +1,6 @@
 package com.appsolute.soomapi.domain.account.data.entity.user
 
+import com.appsolute.soomapi.domain.account.data.dto.inner.MinimStudentDto
 import com.appsolute.soomapi.global.school.data.type.SchoolType
 import javax.persistence.DiscriminatorValue
 import javax.persistence.Entity
@@ -43,5 +44,15 @@ class Student(
 
     private var ent = ent
 
+    fun toMinimStudentDto(): MinimStudentDto{
+        return MinimStudentDto(
+            this.toMinimUserDto(),
+            this.dept,
+            this.grade,
+            this.classNum,
+            this.number,
+            this.ent
+        )
+    }
 
 }
