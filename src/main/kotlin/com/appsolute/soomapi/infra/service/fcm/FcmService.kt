@@ -1,4 +1,4 @@
-package com.appsolute.soomapi.infra.service
+package com.appsolute.soomapi.infra.service.fcm
 
 
 interface FcmService {
