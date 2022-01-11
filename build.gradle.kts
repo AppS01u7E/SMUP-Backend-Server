@@ -48,6 +48,10 @@ dependencies {
     //lombok for java
     implementation("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
+    //aws
+    implementation("org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE")
+
+
 }
 
 tasks.withType<KotlinCompile> {
