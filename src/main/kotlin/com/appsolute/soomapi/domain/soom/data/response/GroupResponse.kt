@@ -1,8 +1,8 @@
 package com.appsolute.soomapi.domain.soom.data.response
 
-import com.appsolute.soomapi.domain.account.data.deprecated.TeacherResponse
-import com.appsolute.soomapi.domain.account.data.deprecated.UserResponse
-import com.appsolute.soomapi.domain.account.data.entity.User
+import com.appsolute.soomapi.domain.account.data.dto.response.UserResponse
+import com.appsolute.soomapi.domain.account.data.dto.response.TeacherResponse
+import com.appsolute.soomapi.domain.account.data.entity.user.User
 import com.appsolute.soomapi.domain.soom.data.type.GroupType
 
 data class GroupResponse(

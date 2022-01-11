@@ -1,7 +1,9 @@
 package com.appsolute.soomapi.domain.account.data.entity.user
 
-import com.appsolulte.smupbackendserver.domain.account.dto.response.UserResponse
+import com.appsolute.soomapi.domain.account.data.dto.response.UserResponse
 import com.appsolute.soomapi.domain.account.data.dto.inner.MinimUserDto
+import com.appsolute.soomapi.domain.account.data.entity.user.type.Gender
+import com.appsolute.soomapi.domain.account.data.entity.user.type.Role
 import com.appsolute.soomapi.domain.soom.data.entity.Group
 import com.appsolute.soomapi.domain.soom.data.entity.Post
 import com.appsolute.soomapi.domain.soom.data.type.GroupAuthType
@@ -82,7 +84,7 @@ abstract class User (
         this.profile = profile
     }
 
-    fun toUserResponse(): UserResponse{
+    fun toUserResponse(): UserResponse {
         return UserResponse(
             this.id,
             this.email,

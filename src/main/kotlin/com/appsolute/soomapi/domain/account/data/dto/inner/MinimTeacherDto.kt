@@ -1,8 +1,8 @@
 package com.appsolute.soomapi.domain.account.data.dto.inner
 
-import com.appsolute.soomapi.domain.account.data.entity.user.Gender
-import com.appsolute.soomapi.domain.account.data.entity.user.TeacherType
-import com.appsolute.soomapi.global.school.data.type.SchoolType
+
+import com.appsolute.soomapi.domain.account.data.entity.user.type.TeacherType
+
 
 data class MinimTeacherDto (
     var user: MinimUserDto,

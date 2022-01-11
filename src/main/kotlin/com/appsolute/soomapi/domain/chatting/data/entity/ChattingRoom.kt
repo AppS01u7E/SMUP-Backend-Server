@@ -1,12 +1,9 @@
 package com.appsolute.soomapi.domain.chatting.data.entity
 
 import com.appsolute.soomapi.domain.chatting.data.type.ChattingRoomType
-import com.appsolute.soomapi.domain.account.data.entity.User
+import com.appsolute.soomapi.domain.account.data.entity.user.User
 import com.appsolute.soomapi.domain.soom.data.entity.Group
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.OneToMany
-import javax.persistence.OneToOne
+import javax.persistence.*
 
 
 @Entity
@@ -20,12 +17,12 @@ class ChattingRoom(
     var id = id
 
     var name = name
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     var memberList: MutableList<User> = ArrayList<User>()
 
     var type: ChattingRoomType = type
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     var group: Group? = null
 
     fun setMembers(memberList: MutableList<User>): ChattingRoom {

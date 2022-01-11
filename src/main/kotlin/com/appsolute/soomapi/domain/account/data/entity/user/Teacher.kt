@@ -1,7 +1,10 @@
 package com.appsolute.soomapi.domain.account.data.entity.user
 
-import com.appsolulte.smupbackendserver.domain.account.dto.response.TeacherResponse
+import com.appsolute.soomapi.domain.account.data.dto.response.TeacherResponse
 import com.appsolute.soomapi.domain.account.data.dto.inner.MinimTeacherDto
+import com.appsolute.soomapi.domain.account.data.entity.user.type.Gender
+import com.appsolute.soomapi.domain.account.data.entity.user.type.Role
+import com.appsolute.soomapi.domain.account.data.entity.user.type.TeacherType
 import com.appsolute.soomapi.global.school.data.type.SchoolType
 import javax.persistence.DiscriminatorValue
 import javax.persistence.Entity
@@ -36,7 +39,7 @@ class Teacher(
     private var major = major
 
 
-    fun toTeacherResponse(): TeacherResponse{
+    fun toTeacherResponse(): TeacherResponse {
         return TeacherResponse(
             this.id,
             this.getEmail(),

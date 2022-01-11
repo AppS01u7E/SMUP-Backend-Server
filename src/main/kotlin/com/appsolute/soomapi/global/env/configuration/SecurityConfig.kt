@@ -1,6 +1,8 @@
 package com.appsolute.soomapi.global.env.configuration
 
 import com.appsolute.soomapi.global.security.filter.JwtFilter
+import com.appsolute.soomapi.global.security.service.CustomUserDetailsService
+import com.appsolute.soomapi.global.security.util.SecurityJwtUtils
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -16,7 +18,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @Configuration
 class SecurityConfig(
-    private val tokenProvider: TokenProvider
+    private val jwtUtils: SecurityJwtUtils,
+    private val userDetailsService: CustomUserDetailsService
 ): WebSecurityConfigurerAdapter() {
 
 
@@ -49,7 +52,7 @@ class SecurityConfig(
             .antMatchers("/api/auth/code").hasRole("ADMIN")
             .anyRequest().permitAll()
             .and()
-            .addFilterBefore(JwtFilter(tokenProvider), UsernamePasswordAuthenticationFilter::class.java)
+            .addFilterBefore(JwtFilter(jwtUtils, userDetailsService), UsernamePasswordAuthenticationFilter::class.java)
     }
 
 }

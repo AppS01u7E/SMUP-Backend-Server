@@ -5,7 +5,7 @@ import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Component
 
-@Component
+
 class CustomUserDetails: UserDetails {
 
     private val user: User? = null

@@ -7,7 +7,6 @@ import javax.servlet.annotation.WebFilter
 @Component
 @WebFilter(
     description = "Soom 권한 필터",
-    urlPatterns = "/api/soom/",
     filterName = "SoomAuthFilter"
 )
 class AuthenticationFilter: Filter {

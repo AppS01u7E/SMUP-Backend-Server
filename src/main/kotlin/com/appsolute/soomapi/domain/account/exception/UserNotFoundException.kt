@@ -1,4 +1,4 @@
-package com.appsolulte.smupbackendserver.domain.account.exception
+package com.appsolute.soomapi.domain.account.exception
 
 
 import com.appsolute.soomapi.global.error.data.type.ErrorCode
