@@ -3,6 +3,7 @@ package com.appsolute.soomapi.global.security.filter
 import com.appsolute.soomapi.domain.account.util.EmailJwtUtils
 import com.appsolute.soomapi.global.security.exception.ExpiredTokenException
 import com.appsolute.soomapi.global.security.service.CustomUserDetailsService
+import com.appsolute.soomapi.global.security.util.SecurityJwtUtils
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.filter.OncePerRequestFilter
@@ -13,7 +14,7 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 class JwtFilter(
-    private val emailJwtUtils: EmailJwtUtils,
+    private val jwtUtils: SecurityJwtUtils,
     private val customUserDetailsService: CustomUserDetailsService
 ) : OncePerRequestFilter() {
 
@@ -26,7 +27,7 @@ class JwtFilter(
         filterChain: FilterChain
     ) {
         getToken(request)?.let {
-            val subject = emailJwtUtils.decodeToken(it)
+            val subject = jwtUtils.decodeToken(it)
             val userDetails = customUserDetailsService.loadUserByUsername(subject)
             SecurityContextHolder.getContext().authentication = UsernamePasswordAuthenticationToken(userDetails, subject, userDetails.authorities)
         }
