@@ -8,6 +8,6 @@ import java.beans.ConstructorProperties
 @ConstructorBinding
 @ConfigurationProperties("fcm")
 data class FcmProperty (
-    val url: String,
-    val configPath: String
+    val configPath: String,
+    val fireBaseCreateScoped: String
 )
