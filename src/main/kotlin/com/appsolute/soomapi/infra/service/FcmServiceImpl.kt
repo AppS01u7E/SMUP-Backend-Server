@@ -1,11 +1,11 @@
 package com.appsolute.soomapi.infra.service
 
 import com.appsolulte.smupbackendserver.domain.account.repository.DeviceTokenRepository
+import com.appsolute.soomapi.global.env.property.FcmProperty
 import com.appsolute.soomapi.infra.fcm.FcmMessage
 import com.appsolute.soomapi.infra.fcm.Message
 import com.appsolute.soomapi.infra.fcm.Notification
 import com.appsolute.soomapi.infra.exception.DeviceTokenNotFoundException
-import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.auth.oauth2.GoogleCredentials
 import okhttp3.MediaType.Companion.toMediaType
@@ -15,13 +15,12 @@ import okhttp3.RequestBody
 import org.springframework.core.io.ClassPathResource
 import org.springframework.http.HttpHeaders
 import org.springframework.stereotype.Service
-import java.io.IOException
 
 @Service
 class FcmServiceImpl(
-    private val deviceTokenRepository: DeviceTokenRepository
+    private val fcmProperty: FcmProperty
 ): FcmService {
-
+    private lateinit var deviceTokenRepository: DeviceTokenRepository
     private val objectMapper: ObjectMapper? = null
 
 
@@ -44,7 +43,7 @@ class FcmServiceImpl(
             run {
                 val requestBody = (RequestBody.create("application/json; charset=utf-8".toMediaType(), s))
                 val request: Request = Request.Builder()
-                    .url(globalProperties.fcm.url)
+                    .url(fcmProperty.url)
                     .post(requestBody)
                     .addHeader(HttpHeaders.AUTHORIZATION, "Bearer $accessToken")
                     .addHeader(HttpHeaders.CONTENT_TYPE, "application/json; UTF-8")
@@ -73,7 +72,7 @@ class FcmServiceImpl(
 
     private val accessToken: String
         get() {
-            val firebaseConfigPath = globalProperties.fcm.firebaseConfigPath
+            val firebaseConfigPath = fcmProperty.configPath
             val googleCredentials = GoogleCredentials
                 .fromStream(ClassPathResource(firebaseConfigPath).inputStream)
                 .createScoped(java.util.List.of("https://www.googleapis.com/auth/cloud-platform"))

@@ -1,10 +1,9 @@
 package com.appsolulte.smupbackendserver.domain.account.dto.request
 
-import com.appsolulte.smupbackendserver.domain.account.entity.Gender
-import com.appsolulte.smupbackendserver.domain.account.entity.Teacher
-import com.appsolulte.smupbackendserver.domain.account.entity.TeacherType
+import com.appsolute.soomapi.domain.account.data.entity.user.Gender
+import com.appsolute.soomapi.domain.account.data.entity.user.Teacher
+import com.appsolute.soomapi.domain.account.data.entity.user.TeacherType
 import com.appsolute.soomapi.global.school.data.type.SchoolType
-import net.bytebuddy.utility.RandomString
 
 data class TeacherSignupRequest(
     val email: String,
@@ -17,7 +16,7 @@ data class TeacherSignupRequest(
     val major: String
 
 ) {
-    fun toTeacher(id: String, password: String, schoolType: SchoolType): Teacher{
+    fun toTeacher(id: String, password: String, schoolType: SchoolType): Teacher {
         return Teacher(id, this.email, this.firstName, this.lastname, this.gender, this.birth, password, this.teacherType, this.major, schoolType)
 
     }

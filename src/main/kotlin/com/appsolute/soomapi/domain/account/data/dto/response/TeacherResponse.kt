@@ -1,8 +1,7 @@
 package com.appsolulte.smupbackendserver.domain.account.dto.response
 
-import com.appsolulte.smupbackendserver.domain.account.entity.Gender
-import com.appsolulte.smupbackendserver.domain.account.entity.Role
-import com.appsolulte.smupbackendserver.domain.account.entity.TeacherType
+import com.appsolute.soomapi.domain.account.data.entity.user.Gender
+import com.appsolute.soomapi.domain.account.data.entity.user.TeacherType
 
 data class TeacherResponse (
     val id: String,
