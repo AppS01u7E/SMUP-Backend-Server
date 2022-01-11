@@ -1,29 +1,10 @@
 package com.appsolute.soomapi.domain.soom.service
 
-import com.appsolulte.smupbackendserver.domain.account.dto.response.UserResponse
-import com.appsolulte.smupbackendserver.domain.account.exception.UserNotFoundException
-import com.appsolulte.smupbackendserver.domain.account.repository.StudentRepository
-import com.appsolulte.smupbackendserver.domain.account.repository.UserRepository
-import com.appsolute.soomapi.domain.account.data.entity.user.GroupInfo
-import com.appsolute.soomapi.domain.account.data.entity.user.Role
-import com.appsolute.soomapi.domain.account.data.entity.user.User
-import com.appsolute.soomapi.domain.soom.data.response.ReplyResponse
-import com.appsolute.soomapi.domain.soom.data.request.EditGroupRequest
-import com.appsolute.soomapi.domain.soom.data.request.GenerateGroupRequest
-import com.appsolute.soomapi.domain.soom.data.request.PostNoticeRequest
-import com.appsolute.soomapi.domain.soom.data.request.WriteReplyRequest
-import com.appsolute.soomapi.domain.soom.data.response.GroupResponse
-import com.appsolute.soomapi.domain.soom.data.response.GroupUserResponse
-import com.appsolute.soomapi.domain.soom.data.response.NoticeResponse
-import com.appsolute.soomapi.domain.soom.data.entity.*
-import com.appsolute.soomapi.domain.soom.data.type.GroupType
-import com.appsolute.soomapi.domain.soom.data.type.PostType
+import com.appsolute.soomapi.domain.account.exception.UserNotFoundException
+import com.appsolute.soomapi.domain.account.repository.UserRepository
 import com.appsolute.soomapi.domain.soom.exception.*
 import com.appsolute.soomapi.domain.soom.repository.*
 import com.appsolute.soomapi.global.security.CurrentUser
-import org.springframework.data.domain.PageRequest
-import java.util.*
-import kotlin.streams.toList
 
 
 class SoomAuthServiceImpl(

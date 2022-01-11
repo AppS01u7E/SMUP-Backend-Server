@@ -1,4 +1,4 @@
-package com.appsolulte.smupbackendserver.domain.account.repository
+package com.appsolute.soomapi.domain.account.repository
 
 import com.appsolute.soomapi.domain.account.data.entity.user.Student
 import org.springframework.data.jpa.repository.JpaRepository

@@ -1,13 +1,8 @@
-package com.appsolulte.smupbackendserver.domain.account.controller
+package com.appsolute.soomapi.domain.account.controller
 
-import com.appsolulte.smupbackendserver.domain.account.repository.StudentRepository
-import com.appsolulte.smupbackendserver.domain.account.repository.UserRepository
-import net.bytebuddy.utility.RandomString
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import java.util.concurrent.ThreadLocalRandom
-import kotlin.random.Random
 
 
 @RestController

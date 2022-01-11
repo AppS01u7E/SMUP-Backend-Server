@@ -1,5 +1,6 @@
 package com.appsolute.soomapi.global.jwt.util;
 
+import com.appsolute.soomapi.global.security.data.CustomUserDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -38,5 +39,5 @@ public abstract class StandardJwtUtils<T> implements JwtUtils<T> {
     protected abstract String getSecret();
 
     protected abstract T getDataFromClaims(Claims claims);
-    protected abstract T loadUserByUsername(String username);
+    protected abstract CustomUserDetails loadUserByUsername(String username);
 }

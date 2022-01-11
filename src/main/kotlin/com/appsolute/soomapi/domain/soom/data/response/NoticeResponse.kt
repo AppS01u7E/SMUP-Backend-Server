@@ -1,6 +1,6 @@
 package com.appsolute.soomapi.domain.soom.data.response
 
-import com.appsolute.soomapi.domain.account.data.deprecated.UserResponse
+import com.appsolute.soomapi.domain.account.data.dto.response.UserResponse
 import com.appsolute.soomapi.domain.soom.data.entity.File
 
 data class NoticeResponse (

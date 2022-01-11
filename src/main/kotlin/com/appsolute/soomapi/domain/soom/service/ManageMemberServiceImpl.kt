@@ -1,11 +1,11 @@
 package com.appsolute.soomapi.domain.soom.service
 
-import com.appsolulte.smupbackendserver.domain.account.dto.response.UserResponse
-import com.appsolulte.smupbackendserver.domain.account.exception.UserNotFoundException
-import com.appsolulte.smupbackendserver.domain.account.repository.StudentRepository
-import com.appsolulte.smupbackendserver.domain.account.repository.UserRepository
+import com.appsolute.soomapi.domain.account.data.dto.response.UserResponse
+import com.appsolute.soomapi.domain.account.exception.UserNotFoundException
+import com.appsolute.soomapi.domain.account.repository.StudentRepository
+import com.appsolute.soomapi.domain.account.repository.UserRepository
 import com.appsolute.soomapi.domain.account.data.entity.user.GroupInfo
-import com.appsolute.soomapi.domain.account.data.entity.user.Role
+import com.appsolute.soomapi.domain.account.data.entity.user.type.Role
 import com.appsolute.soomapi.domain.account.data.entity.user.User
 import com.appsolute.soomapi.domain.soom.data.entity.Group
 import com.appsolute.soomapi.domain.soom.data.entity.RejectedUser

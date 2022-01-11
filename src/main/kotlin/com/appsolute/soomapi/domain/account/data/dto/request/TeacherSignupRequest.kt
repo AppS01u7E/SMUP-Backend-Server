@@ -1,8 +1,8 @@
-package com.appsolulte.smupbackendserver.domain.account.dto.request
+package com.appsolute.soomapi.domain.account.dto.request
 
-import com.appsolute.soomapi.domain.account.data.entity.user.Gender
+import com.appsolute.soomapi.domain.account.data.entity.user.type.Gender
 import com.appsolute.soomapi.domain.account.data.entity.user.Teacher
-import com.appsolute.soomapi.domain.account.data.entity.user.TeacherType
+import com.appsolute.soomapi.domain.account.data.entity.user.type.TeacherType
 import com.appsolute.soomapi.global.school.data.type.SchoolType
 
 data class TeacherSignupRequest(

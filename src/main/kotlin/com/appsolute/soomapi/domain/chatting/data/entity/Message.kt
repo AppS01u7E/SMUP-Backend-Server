@@ -1,7 +1,7 @@
 package com.appsolute.soomapi.domain.chatting.data.entity
 
 import com.appsolute.soomapi.domain.chatting.data.type.MessageType
-import com.appsolute.soomapi.domain.account.data.entity.User
+import com.appsolute.soomapi.domain.account.data.entity.user.User
 import java.time.LocalDateTime
 import javax.persistence.*
 

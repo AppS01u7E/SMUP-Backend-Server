@@ -1,7 +1,7 @@
 package com.appsolute.soomapi.domain.soom.service
 
-import com.appsolulte.smupbackendserver.domain.account.dto.response.UserResponse
-import com.appsolulte.smupbackendserver.domain.account.repository.UserRepository
+import com.appsolute.soomapi.domain.account.data.dto.response.UserResponse
+import com.appsolute.soomapi.domain.account.repository.UserRepository
 import com.appsolute.soomapi.domain.soom.data.entity.GeneGroupRequest
 import com.appsolute.soomapi.domain.soom.data.entity.Group
 import com.appsolute.soomapi.domain.soom.data.request.EditGroupRequest
