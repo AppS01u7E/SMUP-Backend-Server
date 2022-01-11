@@ -1,4 +1,4 @@
-package com.appsolulte.smupbackendserver.domain.account.entity
+package com.appsolute.soomapi.domain.account.data.entity.user
 
 import com.appsolulte.smupbackendserver.domain.account.dto.response.UserResponse
 import com.appsolute.soomapi.domain.soom.data.entity.Group
@@ -55,7 +55,7 @@ abstract class User (
         return this.email
     }
 
-    fun getRole(): Role{
+    fun getRole(): Role {
         return this.role
     }
 
@@ -67,11 +67,11 @@ abstract class User (
         return this.lastName
     }
 
-    fun getGender(): Gender{
+    fun getGender(): Gender {
         return this.gender
     }
 
-    fun joinGroup(group: Group): User{
+    fun joinGroup(group: Group): User {
         this.groupInfo.add(GroupInfo(this, group, GroupAuthType.MEMBER))
         return this
     }

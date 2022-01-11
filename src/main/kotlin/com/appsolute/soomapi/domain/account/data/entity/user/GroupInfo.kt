@@ -1,4 +1,4 @@
-package com.appsolulte.smupbackendserver.domain.account.entity
+package com.appsolute.soomapi.domain.account.data.entity.user
 
 
 import com.appsolute.soomapi.domain.soom.data.entity.Group
@@ -26,12 +26,12 @@ class GroupInfo(
 
 
 
-    fun changeAuth(auth: GroupAuthType): GroupInfo{
+    fun changeAuth(auth: GroupAuthType): GroupInfo {
         this.auth = auth
         return this
     }
 
-    fun removeAuth(): GroupInfo{
+    fun removeAuth(): GroupInfo {
         this.auth = GroupAuthType.MEMBER
         return this
     }

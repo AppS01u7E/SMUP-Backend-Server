@@ -1,4 +1,4 @@
-package com.appsolulte.smupbackendserver.domain.account.entity
+package com.appsolute.soomapi.domain.account.data.entity.user
 
 import com.appsolute.soomapi.global.school.data.type.SchoolType
 import javax.persistence.DiscriminatorValue

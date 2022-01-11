@@ -1,6 +1,6 @@
 package com.appsolulte.smupbackendserver.domain.account.repository
 
-import com.appsolulte.smupbackendserver.domain.account.entity.Teacher
+import com.appsolute.soomapi.domain.account.data.entity.user.Teacher
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface TeacherRepository: JpaRepository<Teacher, String> {

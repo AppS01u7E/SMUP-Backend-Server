@@ -1,4 +1,4 @@
-package com.appsolulte.smupbackendserver.domain.account.entity
+package com.appsolute.soomapi.domain.account.data.entity.user
 
 import com.appsolulte.smupbackendserver.domain.account.dto.response.TeacherResponse
 import com.appsolute.soomapi.global.school.data.type.SchoolType

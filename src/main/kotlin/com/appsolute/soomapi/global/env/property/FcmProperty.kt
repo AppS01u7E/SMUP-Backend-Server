@@ -1,4 +1,4 @@
-package com.appsolute.soomapi.global.property
+package com.appsolute.soomapi.global.env.property
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding

@@ -1,4 +1,4 @@
-package com.appsolulte.smupbackendserver.domain.account.entity
+package com.appsolute.soomapi.domain.account.data.entity.token
 
 import org.springframework.data.annotation.Id
 import org.springframework.data.redis.core.RedisHash

@@ -1,6 +1,6 @@
 package com.appsolute.soomapi.domain.soom.data.entity
 
-import com.appsolulte.smupbackendserver.domain.account.entity.User
+import com.appsolute.soomapi.domain.account.data.entity.user.User
 import com.appsolute.soomapi.domain.soom.data.response.ReplyResponse
 import com.appsolute.soomapi.domain.soom.data.type.PostType
 import java.time.LocalDateTime
@@ -105,7 +105,7 @@ abstract class Post(
         return this
     }
 
-    fun getWriter(): User{
+    fun getWriter(): User {
         return this.writer
     }
 
