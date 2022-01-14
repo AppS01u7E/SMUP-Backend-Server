@@ -10,7 +10,7 @@ import com.appsolute.soomapi.domain.soom.data.request.EditGroupRequest
 import com.appsolute.soomapi.domain.soom.data.response.GroupResponse
 import com.appsolute.soomapi.domain.soom.data.type.GroupAuthPolicyType
 import com.appsolute.soomapi.domain.soom.data.type.GroupType
-import com.appsolute.soomapi.domain.soom.repository.GroupInfoRepository
+import com.appsolute.soomapi.domain.soom.repository.group.GroupInfoRepository
 import org.springframework.beans.factory.annotation.Autowired
 import java.util.*
 import javax.persistence.*

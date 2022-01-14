@@ -12,10 +12,10 @@ import com.appsolute.soomapi.domain.soom.data.entity.RejectedUser
 import com.appsolute.soomapi.domain.soom.data.response.GroupUserResponse
 import com.appsolute.soomapi.domain.soom.data.type.PostType
 import com.appsolute.soomapi.domain.soom.exception.*
-import com.appsolute.soomapi.domain.soom.repository.GroupInfoRepository
-import com.appsolute.soomapi.domain.soom.repository.GroupRepository
-import com.appsolute.soomapi.domain.soom.repository.PostRepository
-import com.appsolute.soomapi.domain.soom.repository.RejectedUserRepository
+import com.appsolute.soomapi.domain.soom.repository.group.GroupInfoRepository
+import com.appsolute.soomapi.domain.soom.repository.group.GroupRepository
+import com.appsolute.soomapi.domain.soom.repository.post.PostRepository
+import com.appsolute.soomapi.domain.soom.repository.group.RejectedUserRepository
 import com.appsolute.soomapi.global.security.CurrentUser
 import org.springframework.data.domain.PageRequest
 

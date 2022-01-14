@@ -13,7 +13,7 @@ class DeviceToken(
     memberId: String
 ) {
     @Id
-    private val id: String = memberId
+    private val id: String = memberId + "deviceToken"
     @Indexed
     @ElementCollection
     private var tokenList: MutableList<String> = ArrayList<String>()

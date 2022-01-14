@@ -6,9 +6,9 @@ import com.google.firebase.messaging.MulticastMessage
 
 
 interface FcmService {
-    fun sendTargetMessage(targetToken: String, title: String, body: String)
+    fun sendTargetMessage(memberId: String, title: String, body: String)
 
-    fun sendTargetMessage(targetToken: String, title: String, body: String, image: String?)
+    fun sendTargetMessage(memberId: String, title: String, body: String, image: String?)
 
     fun sendTopicMessage(topic: String, title: String, body: String)
 

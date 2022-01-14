@@ -11,6 +11,7 @@ import com.appsolute.soomapi.domain.soom.data.type.PostType
 import com.appsolute.soomapi.domain.soom.exception.GroupCannotFoundException
 import com.appsolute.soomapi.domain.soom.exception.PostCannotFoundException
 import org.springframework.data.domain.PageRequest
+import org.springframework.web.multipart.MultipartFile
 import java.util.*
 
 interface NoticeService {
@@ -27,9 +28,9 @@ interface NoticeService {
 
     fun deleteNotice(noticeId: String)
 
-    fun attachFileWithNotice()
+    fun attachFileToPost(file: MultipartFile, postId: String)
 
-    fun patchNoticeFile()
+    fun patchNoticeFile(idx: Int, file: MultipartFile, postId: String)
 
     fun likeToNotice(postId: String)
 
@@ -43,15 +44,17 @@ interface NoticeService {
 
     fun deleteReply(replyId: String)
 
-    fun getReportListWithNotice()
+    fun getReportById(replyId: String): ReplyResponse
 
-    fun getReportListWithMember()
+    fun getReportListWithNotice(noticeId: String): List<Reply>
 
-    fun submitReportToNotice()
+    fun getReportListWithMemberIdAndGroupId(memberId: String, groupId: String): List<ReplyResponse>
 
-    fun editReport()
+    fun submitReportToNotice(file: MultipartFile, reportId: String)
 
-    fun deleteReport()
+    fun changeReportFile(fileIdx: Int, file: MultipartFile, reportId: String)
+
+    fun deleteReport(fileIdx: Int, reportId: String)
 
 
 }

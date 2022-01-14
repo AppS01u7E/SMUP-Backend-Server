@@ -3,7 +3,7 @@ package com.appsolute.soomapi.domain.soom.service
 import com.appsolute.soomapi.domain.account.exception.UserNotFoundException
 import com.appsolute.soomapi.domain.account.repository.UserRepository
 import com.appsolute.soomapi.domain.soom.exception.*
-import com.appsolute.soomapi.domain.soom.repository.*
+import com.appsolute.soomapi.domain.soom.repository.group.GroupRepository
 import com.appsolute.soomapi.global.security.CurrentUser
 
 

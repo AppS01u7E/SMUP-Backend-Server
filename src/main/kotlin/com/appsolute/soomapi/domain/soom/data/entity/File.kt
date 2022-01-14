@@ -1,20 +1,27 @@
 package com.appsolute.soomapi.domain.soom.data.entity
 
+import com.appsolute.soomapi.domain.soom.data.type.FileStatus
 import com.appsolute.soomapi.domain.soom.data.type.FileType
 import javax.persistence.Embeddable
 
 
 @Embeddable
 class File(
-    fileUrl: String,
+    fileKey: String,
     type: FileType,
     extends: String
 ) {
-    var fileUrl = fileUrl
+    var fileKey: String = fileKey
 
-    var type = type
+    var type: FileType = type
 
-    var extends = extends
+    var extends: String = extends
+
+    var fileStatus: FileStatus = FileStatus.ALIVE
+
+    fun changeFileStatus(status: FileStatus){
+        this.fileStatus = status
+    }
 
 
 }

@@ -1,10 +1,12 @@
 package com.appsolute.soomapi.domain.soom.data.response
 
 import com.appsolute.soomapi.domain.account.data.dto.response.UserResponse
+import com.appsolute.soomapi.domain.soom.data.type.ReplyType
 
 data class ReplyResponse (
-    var id: String,
-    var content: String,
-    var writer: UserResponse,
-    var sendToId: String
+    val id: String,
+    val content: String,
+    val writer: UserResponse,
+    val sendToId: String,
+    val type: ReplyType
 )

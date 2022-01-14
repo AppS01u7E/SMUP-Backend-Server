@@ -3,7 +3,7 @@ package com.appsolute.soomapi.domain.soom.service
 import com.appsolute.soomapi.domain.soom.data.entity.Group
 import com.appsolute.soomapi.domain.soom.data.response.GroupResponse
 import com.appsolute.soomapi.domain.soom.exception.GroupCannotFoundException
-import com.appsolute.soomapi.domain.soom.repository.GroupRepository
+import com.appsolute.soomapi.domain.soom.repository.group.GroupRepository
 import org.springframework.data.domain.PageRequest
 
 class SearchServiceImpl(

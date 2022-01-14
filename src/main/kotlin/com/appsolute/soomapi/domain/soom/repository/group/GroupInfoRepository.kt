@@ -1,4 +1,4 @@
-package com.appsolute.soomapi.domain.soom.repository
+package com.appsolute.soomapi.domain.soom.repository.group
 
 
 import com.appsolute.soomapi.domain.account.data.entity.user.GroupInfo

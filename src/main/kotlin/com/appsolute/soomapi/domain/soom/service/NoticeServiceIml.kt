@@ -1,21 +1,27 @@
 package com.appsolute.soomapi.domain.soom.service
 
-import com.appsolute.soomapi.domain.soom.data.entity.Notice
-import com.appsolute.soomapi.domain.soom.data.entity.Post
-import com.appsolute.soomapi.domain.soom.data.entity.Reply
+import com.appsolute.soomapi.domain.account.data.entity.user.User
+import com.appsolute.soomapi.domain.account.exception.UserNotFoundException
+import com.appsolute.soomapi.domain.account.repository.UserRepository
+import com.appsolute.soomapi.domain.soom.data.entity.*
 import com.appsolute.soomapi.domain.soom.data.request.PostNoticeRequest
 import com.appsolute.soomapi.domain.soom.data.request.WriteReplyRequest
 import com.appsolute.soomapi.domain.soom.data.response.NoticeResponse
 import com.appsolute.soomapi.domain.soom.data.response.ReplyResponse
+import com.appsolute.soomapi.domain.soom.data.type.FileType
 import com.appsolute.soomapi.domain.soom.data.type.PostType
+import com.appsolute.soomapi.domain.soom.data.type.ReplyType
 import com.appsolute.soomapi.domain.soom.exception.GroupCannotFoundException
 import com.appsolute.soomapi.domain.soom.exception.PostCannotFoundException
-import com.appsolute.soomapi.domain.soom.repository.GroupRepository
-import com.appsolute.soomapi.domain.soom.repository.NoticeRepository
-import com.appsolute.soomapi.domain.soom.repository.PostRepository
-import com.appsolute.soomapi.domain.soom.repository.ReplyRepository
+import com.appsolute.soomapi.domain.soom.repository.group.GroupRepository
+import com.appsolute.soomapi.domain.soom.repository.post.NoticeRepository
+import com.appsolute.soomapi.domain.soom.repository.post.PostRepository
+import com.appsolute.soomapi.domain.soom.repository.post.ReplyRepository
 import com.appsolute.soomapi.global.security.CurrentUser
+import com.appsolute.soomapi.global.security.util.FileInspectionUtil
+import com.appsolute.soomapi.infra.service.s3.S3Util
 import org.springframework.data.domain.PageRequest
+import org.springframework.web.multipart.MultipartFile
 import java.util.*
 
 class NoticeServiceIml(
@@ -23,7 +29,10 @@ class NoticeServiceIml(
     private val noticeRepository: NoticeRepository,
     private val groupRepository: GroupRepository,
     private val current: CurrentUser,
-    private val replyRepository: ReplyRepository
+    private val replyRepository: ReplyRepository,
+    private val s3util: S3Util,
+    private val userRepository: UserRepository,
+    private val inspectionUtil: FileInspectionUtil
 
 ): NoticeService {
 
@@ -38,8 +47,8 @@ class NoticeServiceIml(
     }
 
     override fun getNoticeWithId(groupId: String, postId: String): NoticeResponse {
-        var group = groupRepository.findById(groupId).orElse(null)?: throw GroupCannotFoundException()
-        var notice = noticeRepository.findById(postId).orElse(null)?: throw PostCannotFoundException()
+        val group = groupRepository.findById(groupId).orElse(null)?: throw GroupCannotFoundException()
+        val notice = noticeRepository.findById(postId).orElse(null)?: throw PostCannotFoundException()
         if (group.postList.contains(notice)) throw PostCannotFoundException()
         return (notice).toNoticeResponse()
     }
@@ -75,12 +84,26 @@ class NoticeServiceIml(
         if (notice.getWriter().equals(current.getUser())) noticeRepository.delete(notice)
     }
 
-    override fun attachFileWithNotice(){
-
+    override fun attachFileToPost(file: MultipartFile, postId: String){
+        val notice: Notice = noticeRepository.findByIdAndWriter(postId, current.getUser()).orElse(null)?: throw PostCannotFoundException()
+        val fileKey: String = s3util.upload(file, "notice/${notice.getGroup().type}/${notice.getGroup().name}/$postId")
+        notice.attachFile(File(
+            fileKey,
+            FileType.DOCS,
+            file.originalFilename!!.substring(file.originalFilename!!.indexOf(".") + 1)
+        ))
+        noticeRepository.save(notice)
     }
 
-    override fun patchNoticeFile(){
-
+    override fun patchNoticeFile(idx: Int, file: MultipartFile, postId: String){
+        val notice: Notice = noticeRepository.findByIdAndWriter(postId, current.getUser()).orElse(null)?: throw PostCannotFoundException()
+        val fileKey: String = s3util.upload(file, "notice/${notice.getGroup().type}/${notice.getGroup().name}/$postId")
+        notice.changeFile(File(
+            fileKey,
+            FileType.DOCS,
+            file.originalFilename!!.substring(file.originalFilename!!.indexOf(".") + 1)
+        ), idx)
+        noticeRepository.save(notice)
     }
 
     override fun likeToNotice(postId: String){
@@ -99,8 +122,10 @@ class NoticeServiceIml(
 
     override fun getRepliesWithNotice(noticeId: String): List<ReplyResponse>{
         return noticeRepository.findById(noticeId).map {
-            it.getAimingAtThisPostList().stream().map {
-                it.toReplyResponse()
+            it.getAimingAtThisPostList().filter {
+                reply -> reply.getReplyType().equals(ReplyType.COMMENT)
+            }.map {
+                reply -> reply.toReplyResponse()
             }.toList()
         }.orElse(null)?: throw PostCannotFoundException()
     }
@@ -113,7 +138,8 @@ class NoticeServiceIml(
                 writeReplyRequest.content,
                 current.getUser(),
                 notice,
-                notice.getGroup()
+                notice.getGroup(),
+                ReplyType.COMMENT
             )
         )
     }
@@ -130,24 +156,50 @@ class NoticeServiceIml(
         }.orElse(null)?: throw PostCannotFoundException()
     }
 
-    override fun getReportListWithNotice(){
-
+    override fun getReportById(replyId: String): ReplyResponse{
+        return (replyRepository.findByIdAndWriter(replyId, current.getUser()).orElse(null)?: throw PostCannotFoundException()).toReportResponse()
     }
 
-    override fun getReportListWithMember(){
-
+    override fun getReportListWithNotice(noticeId: String): List<Reply>{
+        val notice: Notice = noticeRepository.findById(noticeId).orElse(null)?: throw PostCannotFoundException()
+        return notice.getAimingAtThisPostList().filter { reply -> reply.getReplyType().equals(ReplyType.REPORT) }
     }
 
-    override fun submitReportToNotice(){
-
+    override fun getReportListWithMemberIdAndGroupId(memberId: String, groupId: String): List<ReplyResponse> {
+        val targetUser: User = userRepository.findById(memberId).orElse(null) ?: throw UserNotFoundException()
+        val targetGroup: Group = groupRepository.findByIdAndHeader(groupId, current.getUser()).orElse(null)
+            ?: throw GroupCannotFoundException()
+        return replyRepository.findAllByReplyTypeAndWriterAndGroup(ReplyType.REPORT, targetUser, targetGroup).map {
+            it.toReportResponse()
+        }
     }
 
-    override fun editReport(){
-
+    override fun submitReportToNotice(file: MultipartFile, reportId: String){
+        val report: Reply = replyRepository.findByIdAndWriter(reportId, current.getUser()).orElse(null)?: throw UserNotFoundException()
+        val fileKey: String = s3util.upload(file, "report/${report.getGroup().type}/${report.getGroup().name}/$reportId")
+        report.attachFile(File(
+            fileKey,
+            FileType.DOCS,
+            file.originalFilename!!.substring(file.originalFilename!!.indexOf(".") + 1)
+        ))
+        replyRepository.save(report)
     }
 
-    override fun deleteReport(){
+    override fun changeReportFile(fileIdx: Int, file: MultipartFile, reportId: String) {
+        val report: Reply = replyRepository.findByIdAndWriter(reportId, current.getUser()).orElse(null)?: throw UserNotFoundException()
+        val fileKey: String = s3util.upload(file, "report/${report.getGroup().type}/${report.getGroup().name}/$reportId")
+        report.changeFile(File(
+            fileKey,
+            FileType.DOCS,
+            file.originalFilename!!.substring(file.originalFilename!!.indexOf(".") + 1)
+        ), fileIdx)
+        replyRepository.save(report)
+    }
 
+    override fun deleteReport(fileIdx: Int, reportId: String){
+        val report: Reply = replyRepository.findByIdAndWriter(reportId, current.getUser()).orElse(null)?: throw PostCannotFoundException()
+        report.deleteFile(fileIdx)
+        replyRepository.save(report)
     }
 
 

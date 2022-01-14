@@ -27,11 +27,12 @@ class Notice(
     group
 ) {
 
+    private var content: String = content
+
+
     @Autowired
     @Transient
     private lateinit var current: CurrentUser
-
-    private var content = content
 
     fun toNoticeResponse(): NoticeResponse{
         return NoticeResponse(

@@ -10,8 +10,8 @@ import com.appsolute.soomapi.domain.soom.data.type.GroupType
 import com.appsolute.soomapi.domain.soom.exception.GeneGroupRequestNotFoundException
 import com.appsolute.soomapi.domain.soom.exception.GroupCannotFoundException
 import com.appsolute.soomapi.domain.soom.exception.IsNotGroupMemberException
-import com.appsolute.soomapi.domain.soom.repository.GeneGroupRequestRepository
-import com.appsolute.soomapi.domain.soom.repository.GroupRepository
+import com.appsolute.soomapi.domain.soom.repository.group.GeneGroupRequestRepository
+import com.appsolute.soomapi.domain.soom.repository.group.GroupRepository
 import com.appsolute.soomapi.global.security.CurrentUser
 import java.util.*
 

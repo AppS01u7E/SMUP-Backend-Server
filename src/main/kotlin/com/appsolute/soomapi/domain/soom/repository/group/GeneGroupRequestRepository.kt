@@ -1,4 +1,4 @@
-package com.appsolute.soomapi.domain.soom.repository
+package com.appsolute.soomapi.domain.soom.repository.group
 
 import com.appsolute.soomapi.domain.soom.data.entity.GeneGroupRequest
 import com.appsolute.soomapi.domain.soom.data.type.GroupType

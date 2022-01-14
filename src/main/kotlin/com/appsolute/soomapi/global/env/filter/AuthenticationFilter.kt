@@ -1,4 +1,4 @@
-package com.appsolute.soomapi.domain.soom.filter
+package com.appsolute.soomapi.global.env.filter
 
 import org.springframework.stereotype.Component
 import javax.servlet.*

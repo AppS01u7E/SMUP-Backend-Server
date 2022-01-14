@@ -2,7 +2,9 @@ package com.appsolute.soomapi.domain.soom.data.entity
 
 import com.appsolute.soomapi.domain.account.data.entity.user.User
 import com.appsolute.soomapi.domain.soom.data.response.ReplyResponse
+import com.appsolute.soomapi.domain.soom.data.type.FileStatus
 import com.appsolute.soomapi.domain.soom.data.type.PostType
+import com.appsolute.soomapi.domain.soom.data.type.ReplyType
 import java.time.LocalDateTime
 import javax.persistence.*
 
@@ -48,11 +50,12 @@ abstract class Post(
     private var likedMemberList: MutableList<User> = ArrayList<User>()
 
     @OneToMany(fetch = FetchType.LAZY)
-    private var aimingThisPostList: MutableList<Post> = ArrayList<Post>()
+    private var aimingThisPostList: MutableList<Reply> = ArrayList<Reply>()
+
+    private var openness: Boolean = true
 
 
-
-    fun getAimingAtThisPostList(): List<Post> {
+    fun getAimingAtThisPostList(): List<Reply> {
         return this.aimingThisPostList
     }
 
@@ -61,7 +64,8 @@ abstract class Post(
             this.id,
             this.title,
             this.writer.toUserResponse(),
-            this.sendTo?.id!!
+            this.sendTo?.id!!,
+            ReplyType.COMMENT
         )
     }
 
@@ -86,6 +90,15 @@ abstract class Post(
     fun attachFile(file: File): Post{
         this.files.add(file)
         return this
+    }
+
+    fun changeFile(file: File, idx: Int): Post{
+        this.files[idx] = file
+        return this
+    }
+
+    fun deleteFile(idx: Int){
+        this.files[idx].changeFileStatus(FileStatus.DELETED)
     }
 
     fun getGroup(): Group{
@@ -113,5 +126,8 @@ abstract class Post(
         return this.files
     }
 
+    fun getSendTo(): Post{
+        return this.sendTo!!
+    }
 
 }
