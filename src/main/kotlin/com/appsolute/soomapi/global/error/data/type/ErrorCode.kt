@@ -20,7 +20,8 @@ enum class ErrorCode(
     LOW_AUTH("작업을 수행하기에 너무 낮은 권한입니다.", HttpStatus.FORBIDDEN),
     POST_CANNOT_FOUND("게시물을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
     EXTEND_NOT_ALLOWED("허용되지 않은 확장자 타입입니다.", HttpStatus.BAD_REQUEST),
-    SERIOUS_SECURITY_THREAT_EXISTS("심각한 보안적 위협이 감지되었습니다.", HttpStatus.BAD_REQUEST)
+    SERIOUS_SECURITY_THREAT_EXISTS("보안 위협이 감지되었습니다.", HttpStatus.BAD_REQUEST),
+    FILE_CONVERT_ERROR("파일 변환 작업 중 오류가 발생했습니다.", HttpStatus.BAD_REQUEST)
 
 
 
