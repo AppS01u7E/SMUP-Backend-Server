@@ -11,6 +11,7 @@ data class S3Property (
     val secretKey: String,
     val region: String,
     val bucket: String,
-    val expired: Long
+    val expired: Long,
+    val managerEmail: String
 )
 
