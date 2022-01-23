@@ -18,7 +18,6 @@ import com.appsolute.soomapi.domain.soom.repository.post.NoticeRepository
 import com.appsolute.soomapi.domain.soom.repository.post.PostRepository
 import com.appsolute.soomapi.domain.soom.repository.post.ReplyRepository
 import com.appsolute.soomapi.global.security.CurrentUser
-import com.appsolute.soomapi.global.security.util.FileInspectionUtil
 import com.appsolute.soomapi.infra.service.s3.S3Util
 import org.springframework.data.domain.PageRequest
 import org.springframework.web.multipart.MultipartFile
@@ -92,6 +91,7 @@ class NoticeServiceIml(
             FileType.DOCS,
             file.originalFilename!!.substring(file.originalFilename!!.indexOf(".") + 1)
         ))
+
         noticeRepository.save(notice)
     }
 

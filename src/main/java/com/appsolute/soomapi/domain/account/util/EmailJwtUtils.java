@@ -24,6 +24,7 @@ public class EmailJwtUtils extends StandardJwtUtils<String> {
     protected LocalDateTime getExpiredAt(final LocalDateTime now) {
         return now.plusSeconds(jwtProperty.getAccessExpiredAt());
     }
+
     @Override
     protected Map<String, Object> getClaims(final String email) {
         Map<String, Object> claims = new HashMap<>();

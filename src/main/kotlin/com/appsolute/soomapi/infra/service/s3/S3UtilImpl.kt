@@ -83,6 +83,7 @@ class S3UtilImpl(
             log.info("${target.name} delete success")
             return;
         }
+        target.deleteOnExit()
         log.warn("${target.name} delete Failed")
     }
 

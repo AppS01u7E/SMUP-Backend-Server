@@ -20,9 +20,9 @@ class SecurityJwtUtils(
         return now.plusSeconds(jwtProperty.accessExpiredAt)
     }
 
-    override fun getClaims(email: String): Map<String, Any> {
+    override fun getClaims(userPk: String): Map<String, Any> {
         val claims: MutableMap<String, Any> = HashMap()
-        claims["email"] = email
+        claims["userPk"] = userPk
         return claims
     }
 
@@ -31,7 +31,7 @@ class SecurityJwtUtils(
     }
 
     override fun getDataFromClaims(claims: Claims): String {
-        return claims.get("email", String::class.java)
+        return claims.get("userPk", String::class.java)
     }
 
     override fun loadUserByUsername(username: String): CustomUserDetails {
