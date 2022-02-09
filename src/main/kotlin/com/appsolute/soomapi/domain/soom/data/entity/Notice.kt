@@ -17,32 +17,28 @@ class Notice(
     title: String,
     content: String,
     writer: User,
-    group: Group
+    soom: Soom
 ):  Post(
     id,
     title,
     PostType.NOTICE,
     writer,
     null,
-    group
+    soom
 ) {
 
     private var content: String = content
 
 
-    @Autowired
-    @Transient
-    private lateinit var current: CurrentUser
-
-    fun toNoticeResponse(): NoticeResponse{
+    fun toNoticeResponse(user: User): NoticeResponse{
         return NoticeResponse(
-            this.getGroup().toGroupResponse(),
-            this.getId(),
+            this.getGroup().toGroupResponse(user),
+            this.id,
             this.getTitle(),
             content,
             this.getWriter().toUserResponse(),
             this.getFileList(),
-            this.getLikedMemberList().contains(current.getUser()),
+            this.getLikedMemberList().contains(user),
             this.getLike(),
             this.getAimingAtThisPostList().stream().map {
                 it.toReplyResponse()

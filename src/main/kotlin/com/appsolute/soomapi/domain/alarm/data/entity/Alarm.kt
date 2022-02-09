@@ -29,12 +29,19 @@ class Alarm(
     @Indexed
     private val receiver: User = receiver
 
+    private var isRead: Boolean = false
+
     fun toToMeAlarmResponse(): ToMeAlarmResponse{
         return ToMeAlarmResponse(
+            this.id,
             this.title,
             this.message,
             this.sender.toUserResponse()
         )
+    }
+
+    fun makeRead() {
+        this.isRead = true
     }
 
 }

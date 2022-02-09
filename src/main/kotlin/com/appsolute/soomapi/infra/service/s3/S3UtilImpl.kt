@@ -7,13 +7,14 @@ import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest
 import com.amazonaws.services.s3.model.PutObjectRequest
 import com.appsolute.soomapi.global.security.CurrentUser
 import com.appsolute.soomapi.infra.env.property.S3Property
-import com.appsolute.soomapi.infra.exception.FileConvertFailExceptoin
+import com.appsolute.soomapi.infra.exception.FileConvertFailException
 import com.appsolute.soomapi.infra.exception.FileSecurityDetectedException
 import com.appsolute.soomapi.infra.service.MailSenderService
 import org.apache.juli.logging.LogFactory
 import org.apache.tika.metadata.Metadata
 import org.apache.tika.parser.AutoDetectParser
 import org.apache.tika.sax.BodyContentHandler
+import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 import java.io.File
 import java.io.FileInputStream
@@ -21,13 +22,14 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.util.*
 
+
+@Service
 class S3UtilImpl(
-    private val amazonS3Client: AmazonS3Client,
     private val s3Property: S3Property,
     private val current: CurrentUser,
     private val email: MailSenderService
 ): S3Util {
-
+    private val amazonS3Client = AmazonS3Client()
     private val log = LogFactory.getLog(javaClass)
 
     override fun upload(input: MultipartFile, dirName: String): String{
@@ -60,14 +62,14 @@ class S3UtilImpl(
         try {
             parser.parse(FileInputStream(file), handler, metadata)
         } catch (e: IOException){
-            throw FileConvertFailExceptoin()
+            throw FileConvertFailException(file.name)
         } catch (e: Exception){
             log.error("threat has detected on scanning file!!\n" +
                     " Uploader: ${current.getUser().id} / ${current.getUser().getLastName()}")
 
             file.delete()
             email.sendHtmlEmail(s3Property.managerEmail, "보안 위협 감지", null, null)
-            throw FileSecurityDetectedException()
+            throw FileSecurityDetectedException(file.name)
         }
     }
 
@@ -98,7 +100,7 @@ class S3UtilImpl(
 
             return convertFile
         }
-        else throw FileConvertFailExceptoin()
+        else throw FileConvertFailException(file.name)
     }
 
 }

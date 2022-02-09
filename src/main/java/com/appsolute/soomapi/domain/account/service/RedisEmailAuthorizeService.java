@@ -41,7 +41,7 @@ public class RedisEmailAuthorizeService implements EmailAuthorizeService {
         return redisTemplate.opsForValue().get(KEY_PREFIX + code);
     }
 
-    private static final String AUTHORIZE_MAIL_TITLE = "[SOOM] 인증번호가 도착했어요!";
+    private static final String AUTHORIZE_MAIL_TITLE = "[SMUP] 인증번호가 도착했어요!";
     @Override
     public void sendAuthorizeEmail(final String code, final String email) {
         Map<String, Object> model = new HashMap<>();

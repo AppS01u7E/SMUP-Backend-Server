@@ -1,7 +1,9 @@
 package com.appsolute.soomapi.domain.account.service;
 
+import com.appsolute.soomapi.domain.account.env.EmailProperty;
 import com.appsolute.soomapi.domain.account.strategy.TeacherSignupCodeExpiredStrategy;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +17,7 @@ import java.util.stream.IntStream;
 @RequiredArgsConstructor
 //Redis 로  교사 회원가입 코드를 저장하는 교사 인증 서비스
 public class RedisTeacherAuthorizeService implements TeacherAuthorizeService{
-    private static final String KEY_PREFIX = "teacher-signup-code"; //다른 용도로 redis 가 쓰일 수 있으므로, prefix 로 key 값을 구분한다.
+    private EmailProperty emailProperty;  //다른 용도로 redis 가 쓰일 수 있으므로, prefix 로 key 값을 구분한다.
     private final RedisTemplate<String, String> redisTemplate;
     private final TeacherSignupCodeExpiredStrategy expiredStrategy;
 
@@ -26,7 +28,7 @@ public class RedisTeacherAuthorizeService implements TeacherAuthorizeService{
         long expiredAt = expiredStrategy.getExpiredDateToLong(LocalDateTime.now()); //해당 코드의 유효기간을 구한다.
         return IntStream.range(0, quantity).mapToObj(i -> {
             String code = generateTeacherCode();
-            redisTemplate.opsForValue().set(KEY_PREFIX + code, String.valueOf(expiredAt)); //유효기간을 value 로 하는 코드를 저장한다 (사실 value 에 쓸게 없어요)
+            redisTemplate.opsForValue().set(emailProperty.getPrefix() + code, String.valueOf(expiredAt)); //유효기간을 value 로 하는 코드를 저장한다 (사실 value 에 쓸게 없어요)
             return code;
         }).collect(Collectors.toList());
     }
@@ -39,4 +41,10 @@ public class RedisTeacherAuthorizeService implements TeacherAuthorizeService{
                 .map(c -> Character.toString(c))
                 .collect(Collectors.joining(""));
     }
+
+    public Boolean checkTeacherCode(String key) {
+        return redisTemplate.hasKey(emailProperty.getPrefix() + key);
+    }
+
+
 }

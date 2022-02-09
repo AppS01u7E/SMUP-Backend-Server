@@ -25,19 +25,19 @@ class CurrentUser(
     fun getUser(): User {
         return userRepository.findById(getPk()).map{
             it
-        }.orElse(null)?: throw UserNotFoundException()
+        }.orElse(null)?: throw UserNotFoundException(getPk())
     }
 
-    fun getStudent(): Student{
+    fun getStudent(): Student? {
         return studentRepository.findById(getPk()).map {
             it
-        }.orElse(null)?: throw UserNotFoundException()
+        }.orElse(null)
     }
 
-    fun getTeacher(): Teacher {
+    fun getTeacher(): Teacher? {
         return teacherRepository.findById(getPk()).map {
             it
-        }.orElse(null)?: throw UserNotFoundException()
+        }.orElse(null)
     }
 
 }

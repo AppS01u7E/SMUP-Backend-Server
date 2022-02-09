@@ -1,6 +1,7 @@
 package com.appsolute.soomapi.domain.account.data.entity.user
 
 import com.appsolute.soomapi.domain.account.data.dto.inner.MinimStudentDto
+import com.appsolute.soomapi.domain.account.data.dto.response.StudentResponse
 import com.appsolute.soomapi.domain.account.data.entity.user.type.Dept
 import com.appsolute.soomapi.domain.account.data.entity.user.type.Gender
 import com.appsolute.soomapi.domain.account.data.entity.user.type.Role
@@ -55,6 +56,23 @@ class Student(
             this.classNum,
             this.number,
             this.ent
+        )
+    }
+
+    fun toStudentResponse(): StudentResponse{
+        return StudentResponse(
+            this.id,
+            this.profile,
+            this.school,
+            this.getBirth(),
+            this.createdAt,
+            this.getEmail(),
+            this.getLastName() + this.getFirstName(),
+            this.getGender(),
+            this.classNum,
+            this.number,
+            this.ent,
+            this.dept
         )
     }
 

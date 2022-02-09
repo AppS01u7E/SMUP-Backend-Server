@@ -50,11 +50,13 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE")
     //firebase
     implementation("com.google.firebase:firebase-admin:7.1.0")
-    //tika parser
+    //tika parsersou
     implementation("org.apache.tika:tika-parsers:2.2.1")
     implementation("org.apache.tika:tika-core:2.2.1")
-
-
+    //neisAPI
+    implementation("io.github.leeseojune53:neis-api:1.0.3")
+    //socket
+    implementation("com.corundumstudio.socketio:netty-socketio:1.7.19")
 
 }
 

@@ -5,6 +5,8 @@ import com.appsolute.soomapi.domain.alarm.data.response.ToMeAlarmResponse
 interface HistoryService {
 
     fun getMyHistory(): List<ToMeAlarmResponse>
+    fun readAlarm(alarmId: String)
+
 
 
 }

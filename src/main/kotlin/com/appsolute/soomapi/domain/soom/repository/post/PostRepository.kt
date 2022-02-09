@@ -1,7 +1,7 @@
 package com.appsolute.soomapi.domain.soom.repository.post
 
 import com.appsolute.soomapi.domain.account.data.entity.user.User
-import com.appsolute.soomapi.domain.soom.data.entity.Group
+import com.appsolute.soomapi.domain.soom.data.entity.Soom
 import com.appsolute.soomapi.domain.soom.data.entity.Notice
 import com.appsolute.soomapi.domain.soom.data.entity.Post
 import com.appsolute.soomapi.domain.soom.data.type.PostType
@@ -12,8 +12,9 @@ import java.util.*
 
 interface PostRepository: JpaRepository<Post, String> {
 
-    fun findAllByGroupAndPostType(group: Group, type: PostType, pageable: Pageable): Page<Post>
-    fun findByGroupAndIdAndPostType(group: Group, id: String, type: PostType): Optional<Post>
+    fun findAllByGroupAndPostType(soom: Soom, type: PostType, pageable: Pageable): Page<Post>
+    fun findByGroupAndIdAndPostType(soom: Soom, id: String, type: PostType): Optional<Post>
     fun findAllByReceiverListContainsAndPostType(user: User, pageable: Pageable, postType: PostType): Page<Notice>
+    fun findAllByGroup(group: Soom): List<Post>
 
 }

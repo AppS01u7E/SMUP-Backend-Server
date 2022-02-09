@@ -2,6 +2,7 @@ package com.appsolute.soomapi.domain.soom.data.entity
 
 import com.appsolute.soomapi.domain.account.data.entity.user.User
 import com.appsolute.soomapi.domain.soom.data.response.ReplyResponse
+import com.appsolute.soomapi.domain.soom.data.response.ReportResponse
 import com.appsolute.soomapi.domain.soom.data.type.PostType
 import com.appsolute.soomapi.domain.soom.data.type.ReplyType
 import javax.persistence.DiscriminatorValue
@@ -15,7 +16,7 @@ class Reply(
     title: String,
     writer: User,
     sendTo: Post,
-    group: Group,
+    soom: Soom,
     replyType: ReplyType
 ):Post(
     id,
@@ -23,7 +24,7 @@ class Reply(
     PostType.REPLY,
     writer,
     sendTo,
-    group
+    soom
 ) {
 
     private var replyType: ReplyType = replyType
@@ -32,13 +33,14 @@ class Reply(
         return this.replyType
     }
 
-    fun toReportResponse(): ReplyResponse{
-        return ReplyResponse(
-            this.getId(),
+    fun toReportResponse(): ReportResponse{
+        return ReportResponse(
+            this.id,
             this.getTitle(),
             this.getWriter().toUserResponse(),
-            this.getSendTo().getId(),
-            this.replyType
+            this.getSendTo().id,
+            this.getFileList()
         )
     }
+
 }

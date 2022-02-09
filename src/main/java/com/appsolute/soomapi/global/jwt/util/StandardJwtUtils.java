@@ -1,6 +1,7 @@
 package com.appsolute.soomapi.global.jwt.util;
 
 import com.appsolute.soomapi.global.security.data.CustomUserDetails;
+import com.appsolute.soomapi.global.security.exception.InvalidTokenException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -26,10 +27,15 @@ public abstract class StandardJwtUtils<T> implements JwtUtils<T> {
 
     @Override
     public T decodeToken(String token) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(getSecret())
-                .parseClaimsJws(token)
-                .getBody();
+        Claims claims = null;
+        try {
+            claims = Jwts.parser()
+                    .setSigningKey(getSecret())
+                    .parseClaimsJws(token)
+                    .getBody();
+        } catch (Exception e){
+            throw new InvalidTokenException(token);
+        }
         return getDataFromClaims(claims);
     }
 

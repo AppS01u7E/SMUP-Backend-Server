@@ -17,6 +17,6 @@ class CustomUserDetailsService(
 
     override fun loadUserByUsername(username: String): CustomUserDetails {
         return userRepository.findById(username).map { CustomUserDetails() }
-            .orElse(null)?:throw UserNotFoundException()
+            .orElse(null)?:throw UserNotFoundException(username)
     }
 }

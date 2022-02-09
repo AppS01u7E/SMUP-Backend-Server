@@ -17,11 +17,11 @@ abstract class Post(
     postType: PostType,
     writer: User,
     sendTo: Post?,
-    group: Group
+    soom: Soom
 ) {
 
     @Id
-    private var id = id
+    var id = id
 
     private var title = title
 
@@ -39,7 +39,7 @@ abstract class Post(
     private var sendTo: Post? = sendTo
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private var group = group
+    private var group = soom
 
     @OneToMany(fetch = FetchType.LAZY)
     private var receiverList: MutableList<User> = ArrayList<User>()
@@ -64,8 +64,7 @@ abstract class Post(
             this.id,
             this.title,
             this.writer.toUserResponse(),
-            this.sendTo?.id!!,
-            ReplyType.COMMENT
+            this.sendTo?.id!!
         )
     }
 
@@ -101,12 +100,8 @@ abstract class Post(
         this.files[idx].changeFileStatus(FileStatus.DELETED)
     }
 
-    fun getGroup(): Group{
+    fun getGroup(): Soom{
         return this.group
-    }
-
-    fun getId(): String{
-        return this.id
     }
 
     fun getTitle(): String{
@@ -121,6 +116,7 @@ abstract class Post(
     fun getWriter(): User {
         return this.writer
     }
+
 
     fun getFileList(): List<File>{
         return this.files

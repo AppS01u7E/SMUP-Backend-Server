@@ -8,4 +8,6 @@ import java.util.*
 interface UserRepository: JpaRepository<User, String> {
 
     fun findByIdAndGroupInfo(id: String, groupInfo: GroupInfo): Optional<User>
+    fun findByEmail(email: String): Optional<User>
+    fun existsByEmail(email: String): Boolean
 }

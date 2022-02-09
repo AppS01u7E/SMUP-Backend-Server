@@ -7,6 +7,5 @@ data class ReplyResponse (
     val id: String,
     val content: String,
     val writer: UserResponse,
-    val sendToId: String,
-    val type: ReplyType
+    val sendToId: String
 )

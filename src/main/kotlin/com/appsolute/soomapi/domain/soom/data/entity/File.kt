@@ -2,6 +2,7 @@ package com.appsolute.soomapi.domain.soom.data.entity
 
 import com.appsolute.soomapi.domain.soom.data.type.FileStatus
 import com.appsolute.soomapi.domain.soom.data.type.FileType
+import java.time.LocalDateTime
 import javax.persistence.Embeddable
 
 
@@ -18,6 +19,8 @@ class File(
     var extends: String = extends
 
     var fileStatus: FileStatus = FileStatus.ALIVE
+
+    var createdAt: LocalDateTime = LocalDateTime.now()
 
     fun changeFileStatus(status: FileStatus){
         this.fileStatus = status

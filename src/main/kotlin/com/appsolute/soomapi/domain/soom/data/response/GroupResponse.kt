@@ -13,7 +13,10 @@ data class GroupResponse(
     val header: User,
     val subHeaderList: List<UserResponse>?,
     val profile: String?,
+    val profileBanner: String?,
     val memberCount: Int,
     val memberList: List<UserResponse>,
-    val teacher: TeacherResponse?
+    val teacher: TeacherResponse?,
+    val isJoin: Boolean,
+    val sentJoinRequest: Boolean
 )

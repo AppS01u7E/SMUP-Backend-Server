@@ -1,7 +1,7 @@
 package com.appsolute.soomapi.domain.account.data.entity.user
 
 
-import com.appsolute.soomapi.domain.soom.data.entity.Group
+import com.appsolute.soomapi.domain.soom.data.entity.Soom
 import com.appsolute.soomapi.domain.soom.data.type.GroupAuthType
 import java.time.LocalDateTime
 import java.util.*
@@ -10,30 +10,31 @@ import javax.persistence.*
 @Entity
 class GroupInfo(
     user: User,
-    group: Group,
-    auth: GroupAuthType
+    soom: Soom,
+    auth: MutableList<GroupAuthType>
 ) {
     @Id
-    var id = UUID.randomUUID().toString()
+    var id = user.id + soom.id + "groupInfo"
     @ManyToOne
     var user = user
     @OneToOne
-    var group = group
+    var group = soom
 
     var joinedAt = LocalDateTime.now()
 
-    var auth = auth
+    @ElementCollection
+    var auth: MutableList<GroupAuthType> = auth
 
-
-
-    fun changeAuth(auth: GroupAuthType): GroupInfo {
-        this.auth = auth
-        return this
+    fun addAuth(groupAuthType: GroupAuthType){
+        if (!this.auth.contains(groupAuthType)) {
+            this.auth.add(groupAuthType)
+        }
     }
 
-    fun removeAuth(): GroupInfo {
-        this.auth = GroupAuthType.MEMBER
-        return this
+    fun removeAuth(groupAuthType: GroupAuthType) {
+        if (this.auth.contains(groupAuthType)){
+            this.auth.remove(groupAuthType)
+        }
     }
 
 

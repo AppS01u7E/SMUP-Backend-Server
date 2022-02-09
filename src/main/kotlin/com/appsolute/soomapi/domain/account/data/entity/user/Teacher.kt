@@ -42,12 +42,16 @@ class Teacher(
     fun toTeacherResponse(): TeacherResponse {
         return TeacherResponse(
             this.id,
+            this.profile,
+            this.school,
+            this.getBirth(),
+            this.createdAt,
             this.getEmail(),
-            this.getFirstName(),
-            this.getLastName(),
+            this.getLastName() + this.getFirstName(),
             this.getGender(),
-            this.teacherType,
-            this.major
+            this.major,
+            this.teacherType
+
         )
     }
 

@@ -10,6 +10,6 @@ data class GroupUserResponse(
     var joinedAt: LocalDateTime,
     var last10Notice: List<Post>,
     var last10Replies: List<Post>,
-    var auth: GroupAuthType
+    var auth: List<GroupAuthType>
 
 )

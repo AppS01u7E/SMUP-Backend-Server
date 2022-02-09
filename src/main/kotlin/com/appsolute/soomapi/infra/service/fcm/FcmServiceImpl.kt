@@ -6,6 +6,7 @@ import com.appsolute.soomapi.domain.account.repository.DeviceTokenRepository
 import com.appsolute.soomapi.domain.account.repository.UserRepository
 import com.appsolute.soomapi.domain.alarm.data.entity.Alarm
 import com.appsolute.soomapi.domain.alarm.repository.AlarmRepository
+import com.appsolute.soomapi.domain.chat.data.entity.ChatRoom
 import com.appsolute.soomapi.global.security.CurrentUser
 import com.appsolute.soomapi.infra.env.property.FcmProperty
 import com.appsolute.soomapi.infra.exception.DeviceTokenNotFoundException
@@ -34,6 +35,33 @@ class FcmServiceImpl(
     private val objectMapper: ObjectMapper? = null
     private lateinit var instance: FirebaseMessaging
 
+    override fun sendChatRoomAlarm(chatRoom: ChatRoom, onlineUserList: List<User>?, title: String, body: String) {
+        val alarmList = chatRoom.alarmReceiverList
+        if (onlineUserList != null) {
+            alarmList.removeAll(onlineUserList)
+        }
+
+        var tokenList: MutableList<String> = ArrayList<String>()
+        alarmList.forEach {
+            tokenList.addAll(deviceTokenRepository.findById(it.id + "deviceToken").get().getToken())
+        }
+
+        val notification = Notification.builder()
+            .setTitle(title)
+            .setBody(body)
+            .build()
+
+        val message = MulticastMessage.builder()
+            .addAllTokens(tokenList)
+            .setNotification(notification)
+            .build()
+//
+//        alarmList.forEach {
+//            recordAlarm(title, body, getDataUtil.findUser(client), it)
+//        }
+
+        sendMessage(message)
+    }
 
     override fun sendTargetMessage(memberId: String, title: String, body: String) {
         this.sendTargetMessage(memberId, title, body, null)
@@ -41,17 +69,21 @@ class FcmServiceImpl(
 
     override fun sendTargetMessage(memberId: String, title: String, body: String, image: String?) {
         val deviceToken: List<String> = (deviceTokenRepository.findById(memberId + "deviceToken")
-            .orElse(null)?: throw DeviceTokenNotFoundException()).getToken()
-        val notificatoin: Notification = Notification.builder()
+            .orElse(null)?: throw DeviceTokenNotFoundException(memberId)).getToken()
+        val notification: Notification = Notification.builder()
             .setTitle(title)
             .setBody(body)
             .setImage(image)
             .build()
+
         val message = MulticastMessage.builder()
             .addAllTokens(deviceToken)
-            .setNotification(notificatoin)
+            .setNotification(notification)
             .build()
-        recordAlarm(title, body, userRepository.findById(memberId).orElse(null)?: throw UserNotFoundException())
+        recordAlarm(title, body, current.getUser(),
+            userRepository.findById(memberId).orElse(null)
+            ?: throw UserNotFoundException(memberId))
+
         sendMessage(message)
     }
 
@@ -82,12 +114,12 @@ class FcmServiceImpl(
         return this.instance.sendMulticast(message)
     }
 
-    private fun recordAlarm(title: String, message: String, receiver: User){
+    private fun recordAlarm(title: String, message: String, sender: User, receiver: User){
         alarmRepository.save(
             Alarm(
                 title,
                 message,
-                current.getUser(),
+                sender,
                 receiver
             )
         )
