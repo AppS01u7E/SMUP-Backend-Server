@@ -159,9 +159,5 @@ abstract class User (
         return group
     }
 
-    @JvmName("getUuid1")
-    fun getUuid(): String{
-        return this.uuid
-    }
 
 }
