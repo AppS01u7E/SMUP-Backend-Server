@@ -56,7 +56,7 @@ public class StudyController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping ("/list")//당일 기숙사 자습 예약열을 조회한다.
+    @GetMapping("/list") //당일 기숙사 자습 예약열을 조회한다.
     public ResponseEntity<GetReserveListResponse> getReserveList(@RequestParam SchoolType school, @RequestParam Integer roomNum) {
         //모든 예약정보를 조회한다.
         List<ReserveResponse> list = studyReserveService.getAllAccountUUIDAtReserve(school, roomNum);

@@ -29,7 +29,7 @@ abstract class User (
     school: SchoolType
         ){
     @Id
-    val id: String = id
+    val uuid: String = id
 
     private val email: String = email
 
@@ -104,7 +104,7 @@ abstract class User (
 
     fun toUserResponse(): UserResponse {
         return UserResponse(
-            this.id,
+            this.uuid,
             this.profile,
             this.school,
             this.birth,
@@ -117,7 +117,7 @@ abstract class User (
 
     fun toShortnessUserResponse(): ShortnessUserResponse{
         return ShortnessUserResponse(
-            this.id,
+            this.uuid,
             this.lastName + this.firstName,
             this.profile
         )
@@ -126,7 +126,7 @@ abstract class User (
 
     fun toMinimUserDto(): MinimUserDto{
         return MinimUserDto(
-            this.id,
+            this.uuid,
             this.email,
             this.firstName,
             this.lastName,
@@ -157,6 +157,11 @@ abstract class User (
             group.deleteVoterList.remove(this)
         } else throw AlreadyAcceptedRequestException("Don't vote for deletion")
         return group
+    }
+
+    @JvmName("getUuid1")
+    fun getUuid(): String{
+        return this.uuid
     }
 
 }

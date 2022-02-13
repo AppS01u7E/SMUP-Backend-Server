@@ -33,7 +33,7 @@ class Notice(
     fun toNoticeResponse(user: User): NoticeResponse{
         return NoticeResponse(
             this.getGroup().toGroupResponse(user),
-            this.id,
+            this.uuid,
             this.getTitle(),
             content,
             this.getWriter().toUserResponse(),

@@ -35,10 +35,10 @@ class Reply(
 
     fun toReportResponse(): ReportResponse{
         return ReportResponse(
-            this.id,
+            this.uuid,
             this.getTitle(),
             this.getWriter().toUserResponse(),
-            this.getSendTo().id,
+            this.getSendTo().uuid,
             this.getFileList()
         )
     }

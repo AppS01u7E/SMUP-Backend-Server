@@ -21,7 +21,7 @@ abstract class Post(
 ) {
 
     @Id
-    var id = id
+    var uuid = id
 
     private var title = title
 
@@ -61,10 +61,10 @@ abstract class Post(
 
     fun toReplyResponse(): ReplyResponse {
         return ReplyResponse(
-            this.id,
+            this.uuid,
             this.title,
             this.writer.toUserResponse(),
-            this.sendTo?.id!!
+            this.sendTo?.uuid!!
         )
     }
 

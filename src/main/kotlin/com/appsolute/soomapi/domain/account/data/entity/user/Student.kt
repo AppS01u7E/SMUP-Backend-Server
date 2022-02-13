@@ -70,7 +70,7 @@ class Student(
 
     fun toStudentResponse(): StudentResponse{
         return StudentResponse(
-            this.id,
+            this.uuid,
             this.profile,
             this.school,
             this.getBirth(),

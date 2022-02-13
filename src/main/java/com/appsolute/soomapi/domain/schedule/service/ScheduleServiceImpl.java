@@ -50,7 +50,7 @@ public class ScheduleServiceImpl implements ScheduleService{
         List<String> taskListenerList = new ArrayList<>();
 
         taskListenerList.addAll(
-                group.getMemberList().stream().map(User::getId).toList()
+                group.getMemberList().stream().map(User::getUuid1).toList()
         );
 
         return taskRepository.save(

@@ -80,8 +80,8 @@ class ManageMemberServiceImpl(
                     group.teacher = user as Teacher
                 }
             }
-        } else if (rejectedUserRepository.findById(groupId + user.id).isPresent) throw RejectedUserException(
-            user.id
+        } else if (rejectedUserRepository.findById(groupId + user.uuid).isPresent) throw RejectedUserException(
+            user.uuid
         )
         else {
             group.addJoinRequestMemberList(user!! as Student)
@@ -122,7 +122,7 @@ class ManageMemberServiceImpl(
         val group: Soom = check.checkIsGroupHeader(groupId).soom
         var rejectedUserList: MutableList<RejectedUser> = ArrayList<RejectedUser>()
         group.rejectAllJoinRequest().stream().map {
-            rejectedUserList.add(RejectedUser(groupId, it.id ))
+            rejectedUserList.add(RejectedUser(groupId, it.uuid ))
         }
         rejectedUserRepository.saveAll(rejectedUserList)
     }
@@ -185,7 +185,7 @@ class ManageMemberServiceImpl(
     @Transactional
     override fun getOutGroup(groupId: String): List<ShortnessGroupResponse> {
         val user = current.getUser()
-        kickGroupMember(groupId, user.id)
+        kickGroupMember(groupId, user.uuid)
         return user.groupInfo.stream().map {
             it.group.toShortnessGroupResponse()
         }.toList()

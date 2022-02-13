@@ -95,8 +95,8 @@ class NoticeServiceIml(
 
     @Transactional
     override fun attachFileToPost(file: MultipartFile, postId: String){
-        val notice: Notice = noticeRepository.findByIdAndWriter(postId, current.getUser()).orElse(null)?: throw PostCannotFoundException(postId)
-        val fileKey: String = s3util.upload(file, "${notice.getGroup().id}/notice/${notice.id}")
+        val notice: Notice = noticeRepository.findByUuidAndWriter(postId, current.getUser()).orElse(null)?: throw PostCannotFoundException(postId)
+        val fileKey: String = s3util.upload(file, "${notice.getGroup().id}/notice/${notice.uuid}")
         notice.attachFile(File(
             fileKey,
             FileType.DOCS,
@@ -108,8 +108,8 @@ class NoticeServiceIml(
 
     @Transactional
     override fun patchNoticeFile(idx: Int, file: MultipartFile, postId: String){
-        val notice: Notice = noticeRepository.findByIdAndWriter(postId, current.getUser()).orElse(null)?: throw PostCannotFoundException(postId)
-        val fileKey: String = s3util.upload(file, "${notice.getGroup().id}/notice/${notice.id}")
+        val notice: Notice = noticeRepository.findByUuidAndWriter(postId, current.getUser()).orElse(null)?: throw PostCannotFoundException(postId)
+        val fileKey: String = s3util.upload(file, "${notice.getGroup().id}/notice/${notice.uuid}")
         notice.changeFile(File(
             fileKey,
             FileType.DOCS,
@@ -162,21 +162,21 @@ class NoticeServiceIml(
 
     @Transactional
     override fun editReply(replyId: String, content: String){
-        replyRepository.findByIdAndWriter(replyId, current.getUser()).map {
+        replyRepository.findByUuidAndWriter(replyId, current.getUser()).map {
             it.setTitle(content)
         }.orElse(null)?: throw PostCannotFoundException(replyId)
     }
 
     @Transactional
     override fun deleteReply(replyId: String){
-        replyRepository.findByIdAndWriter(replyId, current.getUser()).map {
+        replyRepository.findByUuidAndWriter(replyId, current.getUser()).map {
             replyRepository.delete(it)
         }.orElse(null)?: throw PostCannotFoundException(replyId)
     }
 
     @Transactional
     override fun getReportById(replyId: String): ReportResponse{
-        return (replyRepository.findByIdAndWriter(replyId, current.getUser()).orElse(null)?: throw PostCannotFoundException(replyId)).toReportResponse()
+        return (replyRepository.findByUuidAndWriter(replyId, current.getUser()).orElse(null)?: throw PostCannotFoundException(replyId)).toReportResponse()
     }
 
     @Transactional
@@ -197,7 +197,7 @@ class NoticeServiceIml(
 
     @Transactional
     override fun submitReportToNotice(file: MultipartFile, reportId: String){
-        val report: Reply = replyRepository.findByIdAndWriter(reportId, current.getUser()).orElse(null)?: throw PostCannotFoundException(reportId)
+        val report: Reply = replyRepository.findByUuidAndWriter(reportId, current.getUser()).orElse(null)?: throw PostCannotFoundException(reportId)
         val fileKey: String = s3util.upload(file, "${report.getGroup().id}/report/${reportId}")
         report.attachFile(File(
             fileKey,
@@ -209,7 +209,7 @@ class NoticeServiceIml(
 
     @Transactional
     override fun changeReportFile(fileIdx: Int, file: MultipartFile, reportId: String) {
-        val report: Reply = replyRepository.findByIdAndWriter(reportId, current.getUser()).orElse(null)?: throw PostCannotFoundException(reportId)
+        val report: Reply = replyRepository.findByUuidAndWriter(reportId, current.getUser()).orElse(null)?: throw PostCannotFoundException(reportId)
         val fileKey: String = s3util.upload(file, "${report.getGroup().id}/report/${reportId}")
         report.changeFile(File(
             fileKey,
@@ -221,7 +221,7 @@ class NoticeServiceIml(
 
     @Transactional
     override fun deleteReport(fileIdx: Int, reportId: String){
-        val report: Reply = replyRepository.findByIdAndWriter(reportId, current.getUser()).orElse(null)?: throw PostCannotFoundException(reportId)
+        val report: Reply = replyRepository.findByUuidAndWriter(reportId, current.getUser()).orElse(null)?: throw PostCannotFoundException(reportId)
         report.deleteFile(fileIdx)
         replyRepository.save(report)
     }

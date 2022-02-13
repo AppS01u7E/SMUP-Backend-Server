@@ -37,7 +37,7 @@ class InterviewServiceImpl(
         val roomMembers: MutableList<User> = ArrayList<User>()
         roomMembers.addAll(group.memberList)
         roomMembers.add(current.getUser())
-        val chatRoomId: String = current.getUser().id + group.id
+        val chatRoomId: String = current.getUser().uuid + group.id
         val chatRoom = ChatRoom(
             chatRoomId,
             group.name + "Interview",
@@ -73,7 +73,7 @@ class InterviewServiceImpl(
     override fun concludeInterview(request: ConcludeInterviewRequest) {
 
         val group = groupRepository.findById(request.groupId).orElse(null)?: throw GroupCannotFoundException(request.groupId)
-        val chatRoom = chatRoomRepository.findById(current.getUser().id + group.id).orElse(null)?: throw ChatRoomCannotFounException("사용자와 그룹 사이에 생성된 채팅방이 존재하지 않음.")
+        val chatRoom = chatRoomRepository.findById(current.getUser().uuid + group.id).orElse(null)?: throw ChatRoomCannotFounException("사용자와 그룹 사이에 생성된 채팅방이 존재하지 않음.")
 
 
         messageRepository.save(

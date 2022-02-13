@@ -13,7 +13,7 @@ import java.util.*
 interface PostRepository: JpaRepository<Post, String> {
 
     fun findAllByGroupAndPostType(soom: Soom, type: PostType, pageable: Pageable): Page<Post>
-    fun findByGroupAndIdAndPostType(soom: Soom, id: String, type: PostType): Optional<Post>
+    fun findByGroupAndUuidAndPostType(soom: Soom, id: String, type: PostType): Optional<Post>
     fun findAllByReceiverListContainsAndPostType(user: User, pageable: Pageable, postType: PostType): Page<Notice>
     fun findAllByGroup(group: Soom): List<Post>
 

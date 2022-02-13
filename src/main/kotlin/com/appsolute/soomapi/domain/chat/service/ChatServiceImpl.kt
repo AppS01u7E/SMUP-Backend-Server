@@ -56,7 +56,7 @@ class ChatServiceImpl(
                 )
             )
         } catch (e: DataException){
-            return chatExceptionHandler.errorAndDisconnected(client, user.id, ChatExceptionResponse(
+            return chatExceptionHandler.errorAndDisconnected(client, user.uuid, ChatExceptionResponse(
                 ChatErrorCode.IMPORTING_DATA_ERROR
             ))
         }
@@ -64,7 +64,7 @@ class ChatServiceImpl(
         try{
             chatRoom = checkChatRoomUtil.checkIsChatRoomMember(request.chatRoomId).chatRoom
         } catch (e: Exception){
-            chatExceptionHandler.errorAndDisconnected(client, user.id, ChatExceptionResponse(
+            chatExceptionHandler.errorAndDisconnected(client, user.uuid, ChatExceptionResponse(
                 ChatErrorCode.CHAT_ROOM_NOT_EXISTS
             ))
             return
@@ -131,7 +131,7 @@ class ChatServiceImpl(
             user.getChatRoomList().size,
             user.getChatRoomList().stream().map {
                 it.toChatRoomResponse(messageCountRepository.findById(
-                    user.id + it.id + "messageCount"
+                    user.uuid + it.id + "messageCount"
                 ).orElse(null)?: throw InternalError())
             }.toList()
         )

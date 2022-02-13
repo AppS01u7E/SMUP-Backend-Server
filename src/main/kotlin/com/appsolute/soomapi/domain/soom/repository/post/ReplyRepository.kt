@@ -9,7 +9,7 @@ import java.util.*
 
 interface ReplyRepository: JpaRepository<Reply, String> {
 
-    fun findByIdAndWriter(id: String, writer: User): Optional<Reply>
+    fun findByUuidAndWriter(id: String, writer: User): Optional<Reply>
     fun findAllByReplyTypeAndWriterAndGroup(replyType: ReplyType, member: User, soom: Soom): List<Reply>
 
 }

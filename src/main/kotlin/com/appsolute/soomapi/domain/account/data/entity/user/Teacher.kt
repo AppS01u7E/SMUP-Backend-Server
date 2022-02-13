@@ -41,7 +41,7 @@ class Teacher(
 
     fun toTeacherResponse(): TeacherResponse {
         return TeacherResponse(
-            this.id,
+            this.uuid,
             this.profile,
             this.school,
             this.getBirth(),

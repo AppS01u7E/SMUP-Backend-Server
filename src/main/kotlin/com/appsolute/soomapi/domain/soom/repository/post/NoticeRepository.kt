@@ -7,5 +7,5 @@ import java.util.*
 
 interface NoticeRepository: JpaRepository<Notice, String> {
 
-    fun findByIdAndWriter(noticeId: String, wirter: User): Optional<Notice>
+    fun findByUuidAndWriter(noticeId: String, wirter: User): Optional<Notice>
 }

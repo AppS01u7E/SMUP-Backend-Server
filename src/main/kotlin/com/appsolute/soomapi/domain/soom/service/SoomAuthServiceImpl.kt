@@ -50,7 +50,7 @@ class SoomAuthServiceImpl(
         val receiver = userRepository.findById(userId).orElse(null)?: throw UserNotFoundException(userId)
         val dto = check.checkIsGroupHeader(groupId)
         if (dto.soom.memberList.contains(receiver)) {
-            val groupInfo = groupInfoRepository.findById(receiver.id + dto.soom.id + "groupInfo").get()
+            val groupInfo = groupInfoRepository.findById(receiver.uuid + dto.soom.id + "groupInfo").get()
             groupInfo.removeAuth(auth)
         }
     }
@@ -60,7 +60,7 @@ class SoomAuthServiceImpl(
         val receiver = userRepository.findById(userId).orElse(null)?: throw UserNotFoundException(userId)
         val dto = check.checkIsGroupHeader(groupId)
         if (dto.soom.memberList.contains(receiver)) {
-            val groupInfo = groupInfoRepository.findById(receiver.id + dto.soom.id + "groupInfo").get()
+            val groupInfo = groupInfoRepository.findById(receiver.uuid + dto.soom.id + "groupInfo").get()
             groupInfo.addAuth(auth)
         }
     }
@@ -68,7 +68,7 @@ class SoomAuthServiceImpl(
     @Transactional
     override fun checkMyAuth(groupId: String): CheckGroupAuthResponse {
         val dto = check.checkIsGroupMember(groupId)
-        val groupInfo = groupInfoRepository.findById(dto.user.id + dto.soom.id + "groupInfo").get()
+        val groupInfo = groupInfoRepository.findById(dto.user.uuid + dto.soom.id + "groupInfo").get()
         return CheckGroupAuthResponse(
             dto.soom.toShortnessGroupResponse(),
             groupInfo.auth

@@ -28,7 +28,7 @@ class ExceptionHandler(
         var user: User
         try {
             user = current.getUser()
-            log.info("user: ${user.id}(${user.getEmail()})/errorMessage: ${e.errorCode.message}")
+            log.info("user: ${user.uuid}(${user.getEmail()})/errorMessage: ${e.errorCode.message}")
         } catch (err: Exception){
             log.info("user: null/errorMessage: ${e.errorCode.message}")
         }

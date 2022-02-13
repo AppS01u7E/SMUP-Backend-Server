@@ -42,8 +42,8 @@ class AuthServiceImpl(
 
         if (encoder.encode(request.password).equals(user.password)){
             return TokenResponse(
-                accessTokenUtil.encodeToken(user.id),
-                refreshTokenUtil.encodeToken(user.id)
+                accessTokenUtil.encodeToken(user.uuid),
+                refreshTokenUtil.encodeToken(user.uuid)
             )
         } else throw IncorrectPasswordException(request.password)
     }
@@ -67,7 +67,7 @@ class AuthServiceImpl(
         val student: Student = request.toStudent(randomId, encoder.encode(request.password))
         studentRepository.save(student)
 
-        return makeTokenResponse(student.id)
+        return makeTokenResponse(student.uuid)
     }
 
 
@@ -79,7 +79,7 @@ class AuthServiceImpl(
         val teacher: Teacher = request.toTeacher(randomId, encoder.encode(request.password))
         teacherRepository.save(teacher)
 
-        return makeTokenResponse(teacher.id)
+        return makeTokenResponse(teacher.uuid)
     }
 
 

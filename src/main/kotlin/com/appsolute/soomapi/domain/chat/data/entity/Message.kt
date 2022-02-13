@@ -45,14 +45,14 @@ class Message(
             sender?.let {
                 MessageResponse.Sender(
                     it.getLastName(),
-                    sender.id
+                    sender.uuid
                 )
             },
             this.content,
             this.sentAt,
             this.chatRoom.id,
             this.type,
-            user.id == sender?.id,
+            user.uuid == sender?.uuid,
             this.isDelete
         )
     }
@@ -63,7 +63,7 @@ class Message(
             sender?.let {
                 MessageResponse.Sender(
                     it.getLastName(),
-                    sender.id
+                    sender.uuid
                 )
             },
             this.content,

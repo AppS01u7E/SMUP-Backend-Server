@@ -68,7 +68,7 @@ class ConnectServiceImpl(
             val user = getDataUtil.findUser(client)
 
             user.getChatRoomList().forEach {
-                messageCountRepository.findById(user.id + it.id).get().messageCount = it.chatCount
+                messageCountRepository.findById(user.uuid + it.id).get().messageCount = it.chatCount
             }
         } catch (e: Exception) {
             client.disconnect()

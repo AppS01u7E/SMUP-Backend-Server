@@ -43,7 +43,7 @@ class FcmServiceImpl(
 
         var tokenList: MutableList<String> = ArrayList<String>()
         alarmList.forEach {
-            tokenList.addAll(deviceTokenRepository.findById(it.id + "deviceToken").get().getToken())
+            tokenList.addAll(deviceTokenRepository.findById(it.uuid + "deviceToken").get().getToken())
         }
 
         val notification = Notification.builder()

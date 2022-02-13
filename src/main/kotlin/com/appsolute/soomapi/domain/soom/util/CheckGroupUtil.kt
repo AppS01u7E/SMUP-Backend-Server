@@ -34,7 +34,7 @@ class CheckGroupUtil(
                     user,
                     it
                 )
-            } else throw IsNotGroupMemberException(user.id)
+            } else throw IsNotGroupMemberException(user.uuid)
         }?: throw GroupCannotFoundException(groupId)
     }
 
@@ -52,7 +52,7 @@ class CheckGroupUtil(
                     user,
                     it
                 )
-            } else throw IsAlreadyGroupMmeberException(user.id)
+            } else throw IsAlreadyGroupMmeberException(user.uuid)
         }?: throw GroupCannotFoundException(groupId)
 
     }
@@ -71,7 +71,7 @@ class CheckGroupUtil(
                     user,
                     it
                 )
-            } else throw IsNotGroupMemberException(user.id)
+            } else throw IsNotGroupMemberException(user.uuid)
         }?: throw GroupCannotFoundException(groupId)
 
     }

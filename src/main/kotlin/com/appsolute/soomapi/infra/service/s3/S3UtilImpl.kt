@@ -65,7 +65,7 @@ class S3UtilImpl(
             throw FileConvertFailException(file.name)
         } catch (e: Exception){
             log.error("threat has detected on scanning file!!\n" +
-                    " Uploader: ${current.getUser().id} / ${current.getUser().getLastName()}")
+                    " Uploader: ${current.getUser().uuid} / ${current.getUser().getLastName()}")
 
             file.delete()
             email.sendHtmlEmail(s3Property.managerEmail, "보안 위협 감지", null, null)

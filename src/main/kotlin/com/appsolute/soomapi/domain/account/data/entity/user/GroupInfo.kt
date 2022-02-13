@@ -14,7 +14,7 @@ class GroupInfo(
     auth: MutableList<GroupAuthType>
 ) {
     @Id
-    var id = user.id + soom.id + "groupInfo"
+    var id = user.uuid + soom.id + "groupInfo"
     @ManyToOne
     var user = user
     @OneToOne
