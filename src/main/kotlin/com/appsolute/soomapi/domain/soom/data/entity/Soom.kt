@@ -9,14 +9,9 @@ import com.appsolute.soomapi.domain.account.data.entity.user.User
 import com.appsolute.soomapi.domain.soom.data.request.EditGroupRequest
 import com.appsolute.soomapi.domain.soom.data.response.GroupResponse
 import com.appsolute.soomapi.domain.soom.data.response.ShortnessGroupResponse
-import com.appsolute.soomapi.domain.soom.data.type.GroupAuthPolicyType
 import com.appsolute.soomapi.domain.soom.data.type.GroupType
-import com.appsolute.soomapi.domain.soom.repository.group.GroupInfoRepository
-import com.appsolute.soomapi.global.security.CurrentUser
-import org.springframework.beans.factory.annotation.Autowired
 import javax.persistence.*
 import kotlin.collections.ArrayList
-import kotlin.jvm.Transient
 
 
 @Entity
@@ -41,8 +36,6 @@ class Soom(
     var profile: String? = null
     var profileBanner: String? = null
 
-    @ElementCollection
-    var subHeaderAuthPolicy: MutableList<GroupAuthPolicyType> = ArrayList<GroupAuthPolicyType>()
     @ManyToOne(fetch = FetchType.LAZY)
     var teacher: Teacher? = null
 
@@ -155,13 +148,29 @@ class Soom(
         return this
     }
 
+    fun acceptJoinRequest(user: User) {
+        if (this.joinRequestMemberList.contains(user)) {
+            this.joinRequestMemberList.remove(user)
+            this.memberList.add(user)
+        }
+    }
+
     fun acceptAllJoinRequest() {
         this.memberList.addAll(this.joinRequestMemberList)
         this.joinRequestMemberList.removeAll(this.joinRequestMemberList)
     }
 
-    fun rejectAllJoinRequest() {
-        this.joinRequestMemberList.removeAll(this.joinRequestMemberList)
+    fun rejectJoinRequest(user: User) {
+        if (this.joinRequestMemberList.contains(user)) {
+            this.joinRequestMemberList.remove(user)
+        }
     }
+
+    fun rejectAllJoinRequest(): List<User>{
+        val list = this.joinRequestMemberList
+        this.joinRequestMemberList.removeAll(this.joinRequestMemberList)
+        return list
+    }
+
 
 }

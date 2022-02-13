@@ -59,6 +59,15 @@ class Student(
         )
     }
 
+    fun getGrade(): Int{
+        return this.grade
+    }
+
+    fun getClass(): Int{
+        return this.classNum
+    }
+
+
     fun toStudentResponse(): StudentResponse{
         return StudentResponse(
             this.id,

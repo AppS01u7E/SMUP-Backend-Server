@@ -7,6 +7,7 @@ import com.appsolute.soomapi.domain.soom.repository.group.GroupRepository
 import com.appsolute.soomapi.global.security.CurrentUser
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
+import javax.transaction.Transactional
 
 
 @Service
@@ -15,6 +16,7 @@ class SearchServiceImpl(
     private val current: CurrentUser
 ): SearchService {
 
+    @Transactional
     override fun searchGroupByTitle(query: String): List<GroupResponse>{
 
         return groupRepository.findAllByNameContaining(query)?.let{
@@ -22,6 +24,7 @@ class SearchServiceImpl(
         }?: throw GroupCannotFoundException(query)
     }
 
+    @Transactional
     override fun searchGroupById(id: String): GroupResponse {
         return groupRepository.findById(id).map {
             it.toGroupResponse(current.getUser())
@@ -29,6 +32,7 @@ class SearchServiceImpl(
 
     }
 
+    @Transactional
     override fun getGroupList(idx: Int, size: Int): List<GroupResponse> {
         return groupRepository.findAll(PageRequest.of(idx, size)).let {
             toGroupResponse(it.toList())

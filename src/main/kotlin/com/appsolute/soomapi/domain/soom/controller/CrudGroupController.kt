@@ -35,8 +35,8 @@ class CrudGroupController(
     }
     //그룹 설명 수정 요청
     @PostMapping("/profile/info")
-    fun editGroupInfo(@RequestParam @NotNull groupId: String, @RequestBody @NotNull request: EditGroupRequest){
-        return crudGroupService.editGroupInfo(groupId, request)
+    fun editGroupInfo(@RequestParam @NotNull groupId: String, @RequestBody @NotNull description: String){
+        return crudGroupService.editGroupInfo(groupId, description)
     }
     //그룹 타입 변경 요청
     @PostMapping("/profile/type")

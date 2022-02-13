@@ -83,7 +83,7 @@ abstract class User (
 
     fun joinGroup(soom: Soom): User {
         var groupAuth = ArrayList<GroupAuthType>()
-        groupAuth.add(GroupAuthType.BASE)
+        groupAuth.add(GroupAuthType.NONE)
         this.groupInfo.add(GroupInfo(this, soom, groupAuth))
         return this
     }

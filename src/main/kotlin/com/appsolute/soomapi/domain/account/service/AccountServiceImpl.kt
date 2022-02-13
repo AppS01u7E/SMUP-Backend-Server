@@ -5,6 +5,7 @@ import com.appsolute.soomapi.domain.account.exception.UserNotFoundException
 import com.appsolute.soomapi.domain.account.repository.StudentRepository
 import com.appsolute.soomapi.domain.account.repository.TeacherRepository
 import com.appsolute.soomapi.domain.account.repository.UserRepository
+import com.appsolute.soomapi.global.school.data.type.SchoolType
 import com.appsolute.soomapi.global.security.CurrentUser
 import com.appsolute.soomapi.infra.service.s3.S3Util
 import org.springframework.stereotype.Service
@@ -44,6 +45,12 @@ class AccountServiceImpl(
         val user = current.getUser()
         user.settingProfile(null)
         userRepository.save(user)
+    }
+
+    override fun getDepartmentByAccountUUID(accountUUID: String): SchoolType {
+        val user = userRepository.findById(accountUUID).orElse(null)?: throw UserNotFoundException(accountUUID)
+
+        return user.school
     }
 
 

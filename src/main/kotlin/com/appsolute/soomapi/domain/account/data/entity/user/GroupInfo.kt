@@ -37,5 +37,10 @@ class GroupInfo(
         }
     }
 
+    fun changeAuth(groupInfo: GroupInfo) {
+        val auth = this.auth
+        this.auth = groupInfo.auth
+        groupInfo.auth = auth
+    }
 
 }

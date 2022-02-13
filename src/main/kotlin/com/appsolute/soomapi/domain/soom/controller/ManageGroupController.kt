@@ -65,8 +65,8 @@ class ManageGroupController(
         return manageMemberService.getDeleteRequestUser(groupId)
     }
 
-    @DeleteMapping("/out")
-    fun getOutGroup(@RequestParam soomId: String): List<ShortnessGroupResponse> {
+    @DeleteMapping("/{soomId}")
+    fun getOutGroup(@PathVariable soomId: String): List<ShortnessGroupResponse> {
         return manageMemberService.getOutGroup(soomId)
     }
 

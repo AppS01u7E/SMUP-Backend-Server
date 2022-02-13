@@ -35,6 +35,7 @@ class CrudGroupServiceImpl(
     private val chatService: ChatService
 ): CrudGroupService {
 
+    @Transactional
     override fun geneGroupRequest(r: GenerateGroupRequest){
 
         if (r.type == GroupType.TEAM) {
@@ -52,6 +53,7 @@ class CrudGroupServiceImpl(
         }
     }
 
+    @Transactional
     override fun getGroupGeneRequestListByGroupType(groupType: GroupType?): List<GeneGroupRequest>{
         groupType?.let{
             return geneGroupRequestRepository.findAllBySchoolAndGroupType(current.getUser().school, groupType)
@@ -59,6 +61,7 @@ class CrudGroupServiceImpl(
 
     }
 
+    @Transactional
     override fun approveGeneGroupRequest(memberId: String, name: String){
         geneGroupRequestRepository.findById(memberId+name).map {
             geneGroup(GenerateGroupRequest(name, it.des, it.groupType))
@@ -66,17 +69,21 @@ class CrudGroupServiceImpl(
         }.orElse(null)?: throw GeneGroupRequestNotFoundException(name)
     }
 
-    override fun editGroupInfo(groupId: String, r: EditGroupRequest){
-        groupRepository.findById(groupId).map{
-            groupRepository.save(it.editGroup(r))
-        }.orElse(null)?: throw GroupCannotFoundException(groupId)
-
+    @Transactional
+    override fun editGroupInfo(groupId: String, description: String){
+        val dto = check.checkIsGroupHeader(groupId)
+        dto.soom.description = description
     }
 
-    override fun changeGroupType(groupId: String, type: GroupType){
-        groupRepository.findById(groupId).map{
-            groupRepository.save(it.setType(type))
-        }.orElse(null)?: throw GroupCannotFoundException(groupId)
+    @Transactional
+    override fun changeGroupType(groupId: String, type: GroupType) {
+        current.getTeacher()?.let {
+            (groupRepository.findById(groupId).orElse(null)?: throw GroupCannotFoundException(groupId))
+                .type = type
+        } ?: let {
+            (check.checkIsGroupHeader(groupId).soom)
+                .type = type
+        }
     }
 
     @Transactional

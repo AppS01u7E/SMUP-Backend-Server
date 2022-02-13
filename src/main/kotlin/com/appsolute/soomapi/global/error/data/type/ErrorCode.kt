@@ -27,7 +27,11 @@ enum class ErrorCode(
     CHAT_ROOM_NOT_FOUND("채팅방을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
     ALARM_NOT_FOUND("해당 알림을 찾지 못하였습니다.", HttpStatus.NOT_FOUND),
     MESSAGE_NOT_FOUND("해당 메시지를 찾지 못하였습니다.", HttpStatus.NOT_FOUND),
-    ALREADY_ACCEPTED_REQUEST("이미 처리된 요청입니다.", HttpStatus.BAD_REQUEST)
+    ALREADY_ACCEPTED_REQUEST("이미 처리된 요청입니다.", HttpStatus.BAD_REQUEST),
+    SOMEONE_RESERVED_SEAT("이미 누군가 예약한 자리입니다.", HttpStatus.BAD_REQUEST),
+    RESERVE_REQUEST_NOT_FOUND("예약 요청을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+    TIMETABLE_IMPORTING_EXCEPTION("시간표를 가져오는 데에 실패했습니다.", HttpStatus.BAD_GATEWAY),
+    TASK_NOT_FOUND("작업을 찾지 못했습니다", HttpStatus.NOT_FOUND)
 
 
 

@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot") version "2.6.2"
+    id("org.springframework.boot") version "2.5.8"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
     kotlin("jvm") version "1.6.10"
     kotlin("plugin.spring") version "1.6.10"
@@ -10,10 +10,12 @@ plugins {
 
 group = "com.appsolute"
 version = "0.0.1-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_11
+java.sourceCompatibility = JavaVersion.VERSION_16
 
 repositories {
     mavenCentral()
+
+    maven { url = uri("https://www.jitpack.io" ) }
 }
 
 dependencies {
@@ -55,8 +57,13 @@ dependencies {
     implementation("org.apache.tika:tika-core:2.2.1")
     //neisAPI
     implementation("io.github.leeseojune53:neis-api:1.0.3")
+    implementation("com.github.AppS01u7E:NeisApi:0.04.00")
+
     //socket
     implementation("com.corundumstudio.socketio:netty-socketio:1.7.19")
+    //swagger
+    implementation("io.springfox:springfox-swagger2:2.6.1")
+    implementation("io.springfox:springfox-swagger-ui:2.6.1")
 
 }
 
