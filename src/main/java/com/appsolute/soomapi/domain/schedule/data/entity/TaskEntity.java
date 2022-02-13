@@ -29,6 +29,7 @@ public class TaskEntity {
     @Length(max = 50)
     private String message;
     @ElementCollection
+    @Builder.Default
     private List<String> listenerList = new ArrayList<>();
 
     //TODO 그룹 탈퇴시 listener에서 없어지는 로직 구현
