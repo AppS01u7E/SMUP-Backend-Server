@@ -31,7 +31,9 @@ enum class ErrorCode(
     SOMEONE_RESERVED_SEAT("이미 누군가 예약한 자리입니다.", HttpStatus.BAD_REQUEST),
     RESERVE_REQUEST_NOT_FOUND("예약 요청을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
     TIMETABLE_IMPORTING_EXCEPTION("시간표를 가져오는 데에 실패했습니다.", HttpStatus.BAD_GATEWAY),
-    TASK_NOT_FOUND("작업을 찾지 못했습니다", HttpStatus.NOT_FOUND)
+    TASK_NOT_FOUND("작업을 찾지 못했습니다", HttpStatus.NOT_FOUND),
+    SAME_NAME_ALREADY_EXISTS("같은 이름의 그룹이 존재합니다.", HttpStatus.BAD_REQUEST),
+    GENE_GROUP_REQUEST_BANNED("그룹 생성 요청 금지 리스트에 포함되어 요청을 진행할 수 업습니다.", HttpStatus.BAD_REQUEST)
 
 
 

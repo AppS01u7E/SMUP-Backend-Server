@@ -46,5 +46,10 @@ public class RedisTeacherAuthorizeService implements TeacherAuthorizeService{
         return redisTemplate.hasKey(emailProperty.getPrefix() + key);
     }
 
+    public void deleteTeacherCode(String key) {
+        redisTemplate.delete(emailProperty.getPrefix() + key);
+    }
+
+
 
 }

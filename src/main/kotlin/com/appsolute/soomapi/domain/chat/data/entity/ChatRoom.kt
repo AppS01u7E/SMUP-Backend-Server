@@ -65,6 +65,10 @@ class ChatRoom(
         return this.file
     }
 
+    fun getType(): ChatRoomType{
+        return this.type
+    }
+
     fun changeAlarmListenStatus(current: User): Boolean{
         if (alarmReceiverList.contains(current)) this.alarmReceiverList.remove(current)
         else this.alarmReceiverList.add(current)

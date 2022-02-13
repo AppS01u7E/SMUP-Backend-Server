@@ -5,6 +5,8 @@ import com.appsolute.soomapi.domain.account.exception.UserNotFoundException
 import com.appsolute.soomapi.domain.account.service.AccountService
 import com.appsolute.soomapi.global.error.data.type.ErrorCode
 import com.appsolute.soomapi.global.error.exception.GlobalException
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
@@ -15,15 +17,6 @@ import org.springframework.web.multipart.MultipartFile
 class AccountController(
     private val accountService: AccountService
 ) {
-
-    @GetMapping("/test")
-    fun test(): String{
-        println("ddsfsa")
-
-        throw UserNotFoundException("dd")
-        return "hello"
-    }
-
 
     // 내 프로필 가져오기
     /* 포함된 정보:
@@ -49,14 +42,16 @@ class AccountController(
 
     //본인 프로필 사진 등록하기
     @PostMapping("/profile")
-    fun uploadProfilePhoto(@ModelAttribute profile: MultipartFile){
-        return accountService.editMyProfilePhoto(profile)
+    fun uploadProfilePhoto(@ModelAttribute profile: MultipartFile): ResponseEntity.BodyBuilder {
+        accountService.editMyProfilePhoto(profile)
+        return ResponseEntity.status(HttpStatus.CREATED)
     }
 
     //본인 프로필 사진 삭제하기
     @DeleteMapping("/profile")
-    fun deleteMyProfilePhoto(){
-        return accountService.deleteMyProfilePhoto()
+    fun deleteMyProfilePhoto(): ResponseEntity.BodyBuilder{
+        accountService.deleteMyProfilePhoto()
+        return ResponseEntity.status(HttpStatus.NO_CONTENT)
     }
 
 

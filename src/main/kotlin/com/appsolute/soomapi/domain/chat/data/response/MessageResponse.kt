@@ -8,7 +8,6 @@ abstract class MessageResponse (
     val sender: Sender?,
     val content: String,
     val sentAt: LocalDateTime,
-    val chatRoomId: String,
     val messageType: MessageType
 
 ){

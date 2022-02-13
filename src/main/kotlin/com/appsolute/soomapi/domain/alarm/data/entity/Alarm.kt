@@ -36,7 +36,7 @@ class Alarm(
             this.id,
             this.title,
             this.message,
-            this.sender.toUserResponse()
+            this.sender.toShortnessUserResponse()
         )
     }
 

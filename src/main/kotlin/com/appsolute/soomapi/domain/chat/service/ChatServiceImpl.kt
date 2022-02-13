@@ -10,12 +10,13 @@ import com.appsolute.soomapi.domain.chat.error.handler.ChatExceptionHandler
 import com.appsolute.soomapi.domain.chat.repository.MessageRepository
 import com.appsolute.soomapi.domain.chat.util.GetDataUtil
 import com.appsolute.soomapi.domain.account.data.entity.user.User
-import com.appsolute.soomapi.domain.chat.data.entity.MessageCount
+import com.appsolute.soomapi.domain.chat.data.inner.MessageAndSenderDto
 import com.appsolute.soomapi.domain.chat.data.response.ChatRoomListResponse
-import com.appsolute.soomapi.domain.chat.data.response.MessageResponse
 import com.appsolute.soomapi.domain.chat.data.response.OneChatRoomResponse
 import com.appsolute.soomapi.domain.chat.data.response.SocketMessageResponse
+import com.appsolute.soomapi.domain.chat.data.type.ChatRoomType
 import com.appsolute.soomapi.domain.chat.exception.ChatRoomCannotFounException
+import com.appsolute.soomapi.domain.chat.exception.MessageCannotFound
 import com.appsolute.soomapi.domain.chat.repository.ChatRoomRepository
 import com.appsolute.soomapi.domain.chat.repository.MessageCountRepository
 import com.appsolute.soomapi.domain.chat.util.CheckChatRoomUtil
@@ -38,7 +39,8 @@ class ChatServiceImpl(
     private val fcmService: FcmService,
     private val checkChatRoomUtil: CheckChatRoomUtil,
     private val current: CurrentUser,
-    private val messageCountRepository: MessageCountRepository
+    private val messageCountRepository: MessageCountRepository,
+    private val chatRoomRepository: ChatRoomRepository
 
 ): ChatService {
 
@@ -117,9 +119,18 @@ class ChatServiceImpl(
         return OneChatRoomResponse(
             idx,
             size,
-            messageRepository.findAll(PageRequest.of(idx, size)).stream().map {
-                it.toHttpMessageResponse(user)
-            }.toList()
+            if (chatRoom.getType().equals(ChatRoomType.INTERVIEW)) {
+                messageRepository.findAllByChatRoom(chatRoom, PageRequest.of(idx, size))
+                    .stream().map {
+                        it.toHttpMessageResponse(user)
+                    }.toList()
+            } else {
+                messageRepository.findAllByChatRoom(chatRoom, PageRequest.of(idx, size))
+                    .stream().map {
+                        it.toGroupHttpMessageResponse(chatRoom.group!!)
+                    }.toList()
+                   },
+            chatRoomId
         )
 
     }
@@ -137,6 +148,19 @@ class ChatServiceImpl(
         )
     }
 
+    @Transactional
+    override fun deleteMessage(messageId: String) {
+        val dto = checkIsMessageSender(messageId)
+        dto.message.makeDelete()
+
+    }
+
+    @Transactional
+    override fun editMessage(messageId: String, content: String) {
+        val dto = checkIsMessageSender(messageId)
+        dto.message.editContent(content)
+    }
+
     private fun send(chatRoomId: String, response: SocketMessageResponse){
         var event: String = "message"
         if (response.messageType.equals(MessageType.SYSTEM)) event = "info"
@@ -145,5 +169,16 @@ class ChatServiceImpl(
             response
         )
     }
+
+    private fun checkIsMessageSender(messageId: String): MessageAndSenderDto{
+        val sender = current.getUser()
+        val message = messageRepository.findByIdAndSender(messageId.toInt(), sender).orElse(null)?: throw MessageCannotFound(messageId)
+
+        return MessageAndSenderDto(
+            sender,
+            message
+        )
+    }
+
 
 }

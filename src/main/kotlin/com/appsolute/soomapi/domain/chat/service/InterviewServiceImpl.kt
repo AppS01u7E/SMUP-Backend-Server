@@ -7,10 +7,8 @@ import com.appsolute.soomapi.domain.chat.data.request.ApplyInterviewRequest
 import com.appsolute.soomapi.domain.chat.data.request.ConcludeInterviewRequest
 import com.appsolute.soomapi.domain.chat.data.type.ChatRoomType
 import com.appsolute.soomapi.domain.chat.data.type.MessageType
-import com.appsolute.soomapi.domain.chat.exception.ChatRoomCannotFounException
 import com.appsolute.soomapi.domain.chat.repository.ChatRoomRepository
 import com.appsolute.soomapi.domain.chat.repository.MessageRepository
-import com.appsolute.soomapi.domain.soom.exception.GroupCannotFoundException
 import com.appsolute.soomapi.domain.soom.repository.group.GroupRepository
 import com.appsolute.soomapi.global.security.CurrentUser
 import com.appsolute.soomapi.infra.service.fcm.FcmService
@@ -30,13 +28,12 @@ class InterviewServiceImpl(
 ): InterviewService {
 
     override fun applyInterview(request: ApplyInterviewRequest) {
-        val group = groupRepository.findById(request.groupId).orElse(null)?: throw GroupCannotFoundException(request.groupId)
-
-
+        val group = request.group
 
         val roomMembers: MutableList<User> = ArrayList<User>()
         roomMembers.addAll(group.memberList)
         roomMembers.add(current.getUser())
+
         val chatRoomId: String = current.getUser().uuid + group.id
         val chatRoom = ChatRoom(
             chatRoomId,
@@ -46,7 +43,7 @@ class InterviewServiceImpl(
             roomMembers,
             group.header,
             group
-        )
+        ) //TODO interview 타입 chatRoom이면 GetMessage 할 때 같은 그룹원일 시 isMine = true로 해야됨
 
         chatRoomRepository.save(chatRoom)
         messageRepository.save(
@@ -72,8 +69,8 @@ class InterviewServiceImpl(
 
     override fun concludeInterview(request: ConcludeInterviewRequest) {
 
-        val group = groupRepository.findById(request.groupId).orElse(null)?: throw GroupCannotFoundException(request.groupId)
-        val chatRoom = chatRoomRepository.findById(current.getUser().uuid + group.id).orElse(null)?: throw ChatRoomCannotFounException("사용자와 그룹 사이에 생성된 채팅방이 존재하지 않음.")
+        val group = request.group
+        val chatRoom = request.group.chattingRoom
 
 
         messageRepository.save(

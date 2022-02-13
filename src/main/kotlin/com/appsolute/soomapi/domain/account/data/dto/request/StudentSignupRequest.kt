@@ -58,7 +58,7 @@ class StudentSignupRequest(
     val number = number
     val ent = ent
 
-    fun toStudent(randomId: String, encodedPassword: String): Student{
+    fun toStudent(randomId: String, email: String, encodedPassword: String): Student{
         return Student(
             randomId,
             email,

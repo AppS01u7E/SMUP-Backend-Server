@@ -8,6 +8,8 @@ import com.appsolute.soomapi.domain.soom.data.request.EditGroupRequest
 import com.appsolute.soomapi.domain.soom.data.request.GenerateGroupRequest
 import com.appsolute.soomapi.domain.soom.data.type.GroupType
 import com.appsolute.soomapi.domain.soom.service.CrudGroupService
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import javax.validation.constraints.NotNull
@@ -20,11 +22,12 @@ class CrudGroupController(
 ) {
     //그룹 생성 요청
     @PostMapping
-    fun generateGroupRequest(@RequestBody @NotNull request: GenerateGroupRequest){
+    fun generateGroupRequest(@RequestBody @NotNull request: GenerateGroupRequest): ResponseEntity.BodyBuilder{
         crudGroupService.geneGroupRequest(request)
+        return ResponseEntity.status(HttpStatus.CREATED)
     }
     //그룹 생성 요청 리스트 확인
-    @GetMapping("/request")
+    @GetMapping("/request/list")
     fun getGroupGeneRequestList(@RequestParam type: GroupType): List<GeneGroupRequest>{
         return crudGroupService.getGroupGeneRequestListByGroupType(type)
     }
@@ -32,6 +35,12 @@ class CrudGroupController(
     @PostMapping("/request")
     fun approveGeneGroupRequest(@RequestBody request: ApproveGeneGroupRequest){
         return crudGroupService.approveGeneGroupRequest(request.memberId, request.name)
+    }
+    //그룹 생성 요청 거절
+    @DeleteMapping("/request")
+    fun rejectGeneGroupRequest(@RequestBody request: ApproveGeneGroupRequest, @RequestParam ban: Boolean): ResponseEntity.BodyBuilder{
+        crudGroupService.rejectGeneGroupReequest(request.memberId, request.name, ban)
+        return ResponseEntity.status(HttpStatus.NO_CONTENT)
     }
     //그룹 설명 수정 요청
     @PostMapping("/profile/info")
@@ -45,8 +54,9 @@ class CrudGroupController(
     }
     //그룹 프로필 사진 변경
     @PostMapping("/profile/photo")
-    fun changeProfilePhoto(@ModelAttribute profile: MultipartFile, @RequestParam type: ChangeProfileType, @RequestParam groupId: String){
-        return crudGroupService.setGroupProfile(profile, groupId, type)
+    fun changeProfilePhoto(@ModelAttribute profile: MultipartFile, @RequestParam type: ChangeProfileType, @RequestParam groupId: String): ResponseEntity.BodyBuilder{
+        crudGroupService.setGroupProfile(profile, groupId, type)
+        return ResponseEntity.status(HttpStatus.CREATED)
     }
     //그룹 삭제 요청
     @DeleteMapping

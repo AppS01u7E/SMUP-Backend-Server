@@ -1,5 +1,6 @@
 package com.appsolute.soomapi.infra.service;
 
+import com.appsolute.soomapi.domain.account.env.EmailProperty;
 import com.appsolute.soomapi.infra.exception.MailSendingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -17,6 +18,7 @@ import java.util.Map;
 public class GoogleSmtpMailSenderService implements MailSenderService{
     private final JavaMailSender jms;
     private final TemplateEngine templateEngine;
+
 
     @Override
     public void sendHtmlEmail(String to, String title, String templatePath, Map<String, Object> models) {

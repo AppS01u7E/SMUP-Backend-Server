@@ -2,6 +2,8 @@ package com.appsolute.soomapi.domain.alarm.controller
 
 import com.appsolute.soomapi.domain.alarm.data.response.ToMeAlarmResponse
 import com.appsolute.soomapi.domain.alarm.service.HistoryService
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 
@@ -18,8 +20,9 @@ class HistoryController(
     }
 
     @DeleteMapping
-    fun readAlarm(@RequestParam alarmId: String) {
-        return historyService.readAlarm(alarmId)
+    fun readAlarm(@RequestParam alarmId: String): ResponseEntity.BodyBuilder {
+        historyService.readAlarm(alarmId)
+        return ResponseEntity.status(HttpStatus.NO_CONTENT)
     }
 
 

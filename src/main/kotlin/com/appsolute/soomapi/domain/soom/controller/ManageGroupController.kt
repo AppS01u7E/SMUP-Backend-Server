@@ -27,22 +27,22 @@ class ManageGroupController(
     //가입 요청 받기
     @PostMapping("/join/receive")
     fun receiveJoinRequest(@RequestBody request: ReceiveJoinRequest) {
-        return manageMemberService.receiveJoinRequest(request.groupId, request.receiverId)
+        return manageMemberService.receiveJoinRequest(request.groupId, request.receiverId, request.message)
     }
     //가입 요청 모두 받기
     @PostMapping("/join/receive/all")
-    fun receiveJoinRequest(@RequestParam groupId: String) {
-        return manageMemberService.receiveEveryJoinRequest(groupId)
+    fun receiveJoinRequest(@RequestParam groupId: String, @RequestBody message: String) {
+        return manageMemberService.receiveEveryJoinRequest(groupId, message)
     }
     //가입 요청 거절하기
     @PostMapping("/join/reject")
-    fun rejectJoinRequest(@RequestParam groupId: String, @RequestParam userId: String) {
-        return manageMemberService.rejectJoinRequest(groupId, userId)
+    fun rejectJoinRequest(@RequestBody reqeust: ReceiveJoinRequest) {
+        return manageMemberService.rejectJoinRequest(reqeust.groupId, reqeust.receiverId, reqeust.message)
     }
     //가입 요청 모두 거절하기
     @PostMapping("/join/reject/all")
-    fun rejectJoinRequest(@RequestParam groupId: String) {
-        return manageMemberService.rejectAllJoinRequest(groupId)
+    fun rejectJoinRequest(@RequestParam groupId: String, @RequestBody message: String) {
+        return manageMemberService.rejectAllJoinRequest(groupId, message)
     }
     //그룹 멤버 리스트 가져오기
     @GetMapping("/member")

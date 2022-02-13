@@ -41,7 +41,7 @@ class TeacherSignupRequest(
     val major: String = major
     val teacherCode = teacherCode
 
-    fun toTeacher(id: String, encodedPassword: String): Teacher{
+    fun toTeacher(id: String, email: String, encodedPassword: String): Teacher{
         return Teacher(
             id,
             email,

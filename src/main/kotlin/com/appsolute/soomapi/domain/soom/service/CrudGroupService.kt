@@ -16,6 +16,8 @@ interface CrudGroupService {
     fun getGroupGeneRequestListByGroupType(groupType: GroupType?): List<GeneGroupRequest>
     //그룹 생성 요청 승인 => 선생
     fun approveGeneGroupRequest(memberId: String, name: String)
+
+    fun rejectGeneGroupReequest(memberId: String, name: String, ban: Boolean)
     //그룹 설명 수정
     fun editGroupInfo(groupId: String, description: String)
     //그룹 타입 변경

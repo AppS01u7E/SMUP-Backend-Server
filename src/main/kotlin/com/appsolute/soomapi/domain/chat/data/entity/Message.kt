@@ -6,6 +6,7 @@ import com.appsolute.soomapi.domain.chat.util.GetDataUtil
 import com.appsolute.soomapi.domain.account.data.entity.user.User
 import com.appsolute.soomapi.domain.chat.data.response.MessageResponse
 import com.appsolute.soomapi.domain.chat.data.response.SocketMessageResponse
+import com.appsolute.soomapi.domain.soom.data.entity.Soom
 import java.time.LocalDateTime
 import javax.persistence.*
 import kotlin.jvm.Transient
@@ -24,7 +25,7 @@ class Message(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private val id: Int? = null
 
-    private val content: String = content
+    private var content: String = content
     @ManyToOne(cascade = arrayOf(CascadeType.REMOVE), fetch = FetchType.LAZY)
     private val sender: User? = sender
     @ManyToOne(cascade = arrayOf(CascadeType.REMOVE), fetch = FetchType.LAZY)
@@ -34,7 +35,7 @@ class Message(
 
     private val sentAt: LocalDateTime = LocalDateTime.now()
 
-    private val isDelete: Boolean = false
+    private var isDelete: Boolean = false
 
     @Transient
     private lateinit var getDataUtil: GetDataUtil
@@ -48,13 +49,48 @@ class Message(
                     sender.uuid
                 )
             },
-            this.content,
+            if (this.isDelete) {
+                "삭제됨"
+            } else {
+                this.content
+            },
             this.sentAt,
-            this.chatRoom.id,
             this.type,
             user.uuid == sender?.uuid,
             this.isDelete
         )
+    }
+
+    fun toGroupHttpMessageResponse(group: Soom): HttpMessageResponse {
+        return HttpMessageResponse(
+            this.id.toString(),
+            sender?.let {
+                MessageResponse.Sender(
+                    it.getLastName(),
+                    sender.uuid
+                )
+            },
+            if (this.isDelete) {
+                "삭제됨"
+            } else {
+                this.content
+            },
+            this.sentAt,
+            this.type,
+            group.memberList.contains(sender),
+            this.isDelete
+        )
+    }
+
+
+    fun makeDelete(): Message {
+        this.isDelete = true
+        return this
+    }
+
+    fun editContent(content: String): Message{
+        this.content = content
+        return this
     }
 
     fun toSocketMessageResponse(): SocketMessageResponse{
@@ -68,7 +104,6 @@ class Message(
             },
             this.content,
             this.sentAt,
-            this.chatRoom.id,
             this.type
         )
     }

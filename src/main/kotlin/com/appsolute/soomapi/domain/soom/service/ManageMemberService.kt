@@ -14,13 +14,13 @@ interface ManageMemberService {
     //가입 요청 보내기
     fun sendJoinRequest(groupId: String)
     //가입 요청 받기 => Group Header
-    fun receiveJoinRequest(groupId: String, receiverId: String)
+    fun receiveJoinRequest(groupId: String, receiverId: String, message: String)
     //모든 가입 요청 받기 => Group Header
-    fun receiveEveryJoinRequest(groupId: String)
+    fun receiveEveryJoinRequest(groupId: String, message: String)
     //가입 요청 거절하기 => Group Header
-    fun rejectJoinRequest(groupId: String, studentId: String)
+    fun rejectJoinRequest(groupId: String, studentId: String, message: String)
     //모든 가입 요청 거절하기 => Group Header
-    fun rejectAllJoinRequest(groupId: String)
+    fun rejectAllJoinRequest(groupId: String, message: String)
     //그룹 멤버 리스트 가져오기 => Group Member
     fun getGroupMemberList(groupId: String): List<UserResponse>
     //그룹 멤버 userId로 조회하기 => Group Member

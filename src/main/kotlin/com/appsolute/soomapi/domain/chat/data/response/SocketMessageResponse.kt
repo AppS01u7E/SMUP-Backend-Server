@@ -8,7 +8,6 @@ class SocketMessageResponse(
     sender: Sender?,
     content: String,
     sentAt: LocalDateTime,
-    chatRoomId: String,
     messageType: MessageType
 
 ): MessageResponse(
@@ -16,7 +15,6 @@ class SocketMessageResponse(
     sender,
     content,
     sentAt,
-    chatRoomId,
     messageType
 ) {
 

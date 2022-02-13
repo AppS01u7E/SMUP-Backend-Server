@@ -1,6 +1,7 @@
 package com.appsolute.soomapi.domain.soom.service
 
 import com.appsolute.soomapi.domain.account.data.dto.response.UserResponse
+import com.appsolute.soomapi.domain.account.data.entity.user.type.Role
 import com.appsolute.soomapi.domain.account.repository.UserRepository
 import com.appsolute.soomapi.domain.chat.service.ChatService
 import com.appsolute.soomapi.domain.soom.data.request.type.ChangeProfileType
@@ -9,12 +10,12 @@ import com.appsolute.soomapi.domain.soom.data.entity.Soom
 import com.appsolute.soomapi.domain.soom.data.request.EditGroupRequest
 import com.appsolute.soomapi.domain.soom.data.request.GenerateGroupRequest
 import com.appsolute.soomapi.domain.soom.data.type.GroupType
-import com.appsolute.soomapi.domain.soom.exception.GeneGroupRequestNotFoundException
-import com.appsolute.soomapi.domain.soom.exception.GroupCannotFoundException
-import com.appsolute.soomapi.domain.soom.exception.IsNotGroupMemberException
+import com.appsolute.soomapi.domain.soom.exception.*
 import com.appsolute.soomapi.domain.soom.repository.group.GeneGroupRequestRepository
 import com.appsolute.soomapi.domain.soom.repository.group.GroupRepository
 import com.appsolute.soomapi.domain.soom.util.CheckGroupUtil
+import com.appsolute.soomapi.global.env.property.GroupProperty
+import com.appsolute.soomapi.global.school.data.type.SchoolType
 import com.appsolute.soomapi.global.security.CurrentUser
 import com.appsolute.soomapi.infra.service.fcm.FcmService
 import com.appsolute.soomapi.infra.service.s3.S3Util
@@ -32,11 +33,14 @@ class CrudGroupServiceImpl(
     private val s3Util: S3Util,
     private val check: CheckGroupUtil,
     private val fcmService: FcmService,
-    private val chatService: ChatService
+    private val chatService: ChatService,
+    private val groupProperty: GroupProperty
 ): CrudGroupService {
 
     @Transactional
     override fun geneGroupRequest(r: GenerateGroupRequest){
+        if (geneGroupRequestRepository.existsById(current.getPk()+r.name)) throw SameNameGroupAlreadyExsitsException(r.name)
+        if (geneGroupRequestRepository.existsById(current.getPk()+groupProperty.ban)) throw GeneGroupRequestBannedUserException(current.getPk())
 
         if (r.type == GroupType.TEAM) {
             geneGroup(r)
@@ -64,10 +68,32 @@ class CrudGroupServiceImpl(
     @Transactional
     override fun approveGeneGroupRequest(memberId: String, name: String){
         geneGroupRequestRepository.findById(memberId+name).map {
-            geneGroup(GenerateGroupRequest(name, it.des, it.groupType))
+            geneGroup(GenerateGroupRequest(name, it.des, it.type))
             geneGroupRequestRepository.delete(it)
         }.orElse(null)?: throw GeneGroupRequestNotFoundException(name)
     }
+
+    @Transactional
+    override fun rejectGeneGroupReequest(memberId: String, name: String, ban: Boolean) {
+        geneGroupRequestRepository.findById(memberId+name).map {
+            if (ban) banGeneGroup(memberId, it)
+            else geneGroupRequestRepository.delete(it)
+        }.orElse(null)?: throw GeneGroupRequestNotFoundException(memberId+name)
+    }
+
+    private fun banGeneGroup(memberId: String, request: GeneGroupRequest) {
+        geneGroupRequestRepository.save(
+            GeneGroupRequest(
+                memberId+groupProperty.ban,
+                memberId,
+                GroupType.CLUB_ETC,
+                SchoolType.ELSE,
+                "Banned"
+            )
+        )
+        geneGroupRequestRepository.delete(request)
+    }
+
 
     @Transactional
     override fun editGroupInfo(groupId: String, description: String){
@@ -80,10 +106,7 @@ class CrudGroupServiceImpl(
         current.getTeacher()?.let {
             (groupRepository.findById(groupId).orElse(null)?: throw GroupCannotFoundException(groupId))
                 .type = type
-        } ?: let {
-            (check.checkIsGroupHeader(groupId).soom)
-                .type = type
-        }
+        } ?: throw LowerAuthException(current.getUser().getRole().toString())
     }
 
     @Transactional

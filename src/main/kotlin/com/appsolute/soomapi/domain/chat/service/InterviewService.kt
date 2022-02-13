@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service
 
 interface InterviewService {
 
-    fun applyInterview(applyInterviewRequest: ApplyInterviewRequest)
+    fun applyInterview(group: ApplyInterviewRequest)
     fun concludeInterview(concludeInterviewRequest: ConcludeInterviewRequest)
 
 

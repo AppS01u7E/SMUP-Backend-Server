@@ -8,7 +8,6 @@ class HttpMessageResponse (
     sender: Sender?,
     content: String,
     sentAt: LocalDateTime,
-    chatRoomId: String,
     messageType: MessageType,
     isMine: Boolean,
     isDeleted: Boolean
@@ -18,7 +17,6 @@ class HttpMessageResponse (
     sender,
     content,
     sentAt,
-    chatRoomId,
     messageType
 ){
     val isMine: Boolean = isMine

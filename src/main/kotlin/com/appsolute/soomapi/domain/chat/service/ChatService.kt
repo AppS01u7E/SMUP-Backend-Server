@@ -10,7 +10,11 @@ interface ChatService {
 
     fun sendMessage(client: SocketIOClient, json: String)
     fun deleteChatRoom(chatRoom: ChatRoom)
+
     fun getMessage(chatRoomId: String, idx: Int, size: Int): OneChatRoomResponse
     fun getChatRoomList(): ChatRoomListResponse
+    fun deleteMessage(messageId: String)
+    fun editMessage(messageId: String, content: String)
+
 
 }

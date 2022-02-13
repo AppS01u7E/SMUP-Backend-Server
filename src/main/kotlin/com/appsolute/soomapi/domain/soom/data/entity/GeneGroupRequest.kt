@@ -9,16 +9,17 @@ import java.time.LocalDateTime
 
 
 
-@RedisHash(timeToLive = 51840000)
+@RedisHash(timeToLive = 604800)
 class GeneGroupRequest(
-    var name: String,
-    var memberId: String,
-    var groupType: GroupType,
-    val schoolType: SchoolType,
-    var description: String
+    name: String,
+    memberId: String,
+    groupType: GroupType,
+    schoolType: SchoolType,
+    description: String
 ) {
     @Id
     val id = memberId+name
+    var name: String = name
     val requestAt = LocalDateTime.now()
     @Indexed
     val type = groupType

@@ -1,9 +1,9 @@
 package com.appsolute.soomapi.domain.chat.data.request
 
+import com.appsolute.soomapi.domain.soom.data.entity.Soom
 import com.fasterxml.jackson.annotation.JsonProperty
 
 data class ApplyInterviewRequest (
-    @get:JsonProperty("groupId")
-    val groupId: String
+    val group: Soom
 
 )

@@ -2,16 +2,19 @@ package com.appsolute.soomapi.domain.soom.service
 
 import com.appsolute.soomapi.domain.account.data.dto.response.UserResponse
 import com.appsolute.soomapi.domain.account.exception.UserNotFoundException
-import com.appsolute.soomapi.domain.account.repository.StudentRepository
 import com.appsolute.soomapi.domain.account.repository.UserRepository
 import com.appsolute.soomapi.domain.account.data.entity.user.GroupInfo
 import com.appsolute.soomapi.domain.account.data.entity.user.Student
 import com.appsolute.soomapi.domain.account.data.entity.user.Teacher
 import com.appsolute.soomapi.domain.account.data.entity.user.type.Role
 import com.appsolute.soomapi.domain.account.data.entity.user.User
+import com.appsolute.soomapi.domain.chat.data.request.ApplyInterviewRequest
+import com.appsolute.soomapi.domain.chat.data.request.ConcludeInterviewRequest
+import com.appsolute.soomapi.domain.chat.data.type.InterviewResultType
 import com.appsolute.soomapi.domain.chat.repository.MessageCountRepository
+import com.appsolute.soomapi.domain.chat.service.InterviewService
 import com.appsolute.soomapi.domain.soom.data.entity.Soom
-import com.appsolute.soomapi.domain.soom.data.entity.RejectedUser
+import com.appsolute.soomapi.domain.soom.data.entity.JoinRejectedUser
 import com.appsolute.soomapi.domain.soom.data.response.GroupUserResponse
 import com.appsolute.soomapi.domain.soom.data.response.ShortnessGroupResponse
 import com.appsolute.soomapi.domain.soom.data.type.GroupType
@@ -25,7 +28,6 @@ import com.appsolute.soomapi.domain.soom.util.CheckGroupUtil
 import com.appsolute.soomapi.global.security.CurrentUser
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
-import javax.swing.GroupLayout
 import javax.transaction.Transactional
 
 
@@ -34,7 +36,7 @@ class ManageMemberServiceImpl(
     private val groupRepository: GroupRepository,
     private val current: CurrentUser,
     private val rejectedUserRepository: RejectedUserRepository,
-    private val studentRepository: StudentRepository,
+    private val interviewService: InterviewService,
     private val userRepository: UserRepository,
     private val groupInfoRepository: GroupInfoRepository,
     private val postRepository: PostRepository,
@@ -84,6 +86,7 @@ class ManageMemberServiceImpl(
             user.uuid
         )
         else {
+            if (!group.type.equals(GroupType.CLASS)||!group.type.equals(GroupType.COUNSIL)) interviewService.applyInterview(ApplyInterviewRequest(group))
             group.addJoinRequestMemberList(user!! as Student)
         }
 
@@ -91,26 +94,57 @@ class ManageMemberServiceImpl(
     }
 
     @Transactional
-    override fun receiveJoinRequest(groupId: String, receiverId: String){
+    override fun receiveJoinRequest(groupId: String, receiverId: String, message: String){
         val dto = check.checkIsNotGroupMember(groupId, receiverId)
         val accepted = dto.user
-
+        if (!dto.soom.type.equals(GroupType.CLASS)||!dto.soom.type.equals(GroupType.COUNSIL)) {
+            interviewService.concludeInterview(
+                ConcludeInterviewRequest(
+                    message,
+                    InterviewResultType.ACCEPT,
+                    dto.soom,
+                    accepted
+                )
+            )
+        }
         dto.soom.acceptJoinRequest(accepted)
     }
 
     @Transactional
-    override fun receiveEveryJoinRequest(groupId: String){
+    override fun receiveEveryJoinRequest(groupId: String, message: String){
         val group = check.checkIsGroupHeader(groupId).soom
+        if (!group.type.equals(GroupType.CLASS)||!group.type.equals(GroupType.COUNSIL)) {
+            group.joinRequestMemberList.stream().map {
+                interviewService.concludeInterview(
+                    ConcludeInterviewRequest(
+                        message,
+                        InterviewResultType.ACCEPT,
+                        group,
+                        it
+                    )
+                )
+            }
+        }
         group.acceptAllJoinRequest()
     }
 
     @Transactional
-    override fun rejectJoinRequest(groupId: String, studentId: String){
+    override fun rejectJoinRequest(groupId: String, studentId: String, message: String){
         val group = check.checkIsGroupHeader(groupId).soom
         val student = userRepository.findById(studentId).orElse(null)?: throw UserNotFoundException(studentId)
+        if (!group.type.equals(GroupType.CLASS)||!group.type.equals(GroupType.COUNSIL)) {
+            interviewService.concludeInterview(
+                ConcludeInterviewRequest(
+                    message,
+                    InterviewResultType.REJECT,
+                    group,
+                    student
+                )
+            )
+        }
         group.rejectJoinRequest(student)
         rejectedUserRepository.save(
-            RejectedUser(
+            JoinRejectedUser(
                 groupId,
                 studentId
             )
@@ -118,13 +152,25 @@ class ManageMemberServiceImpl(
     }
 
     @Transactional
-    override fun rejectAllJoinRequest(groupId: String){
+    override fun rejectAllJoinRequest(groupId: String, message: String){
         val group: Soom = check.checkIsGroupHeader(groupId).soom
-        var rejectedUserList: MutableList<RejectedUser> = ArrayList<RejectedUser>()
-        group.rejectAllJoinRequest().stream().map {
-            rejectedUserList.add(RejectedUser(groupId, it.uuid ))
+        if (!group.type.equals(GroupType.CLASS)||!group.type.equals(GroupType.COUNSIL)) {
+            group.joinRequestMemberList.stream().map {
+                interviewService.concludeInterview(
+                    ConcludeInterviewRequest(
+                        message,
+                        InterviewResultType.REJECT,
+                        group,
+                        it
+                    )
+                )
+            }
         }
-        rejectedUserRepository.saveAll(rejectedUserList)
+        val joinRejectedUserLists: MutableList<JoinRejectedUser> = ArrayList<JoinRejectedUser>()
+        group.rejectAllJoinRequest().stream().map {
+            joinRejectedUserLists.add(JoinRejectedUser(groupId, it.uuid ))
+        }
+        rejectedUserRepository.saveAll(joinRejectedUserLists)
     }
 
     @Transactional

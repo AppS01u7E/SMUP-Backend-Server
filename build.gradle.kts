@@ -62,8 +62,7 @@ dependencies {
     //socket
     implementation("com.corundumstudio.socketio:netty-socketio:1.7.19")
     //swagger
-    implementation("io.springfox:springfox-swagger2:2.6.1")
-    implementation("io.springfox:springfox-swagger-ui:2.6.1")
+    implementation("io.springfox:springfox-boot-starter:3.0.0")
 
 }
 

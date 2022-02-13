@@ -5,7 +5,7 @@ import org.springframework.data.redis.core.RedisHash
 import org.springframework.data.redis.core.index.Indexed
 
 @RedisHash(timeToLive = 604800) // 7일
-class RejectedUser(
+class JoinRejectedUser(
     groupId: String,
     userId: String
 ) {

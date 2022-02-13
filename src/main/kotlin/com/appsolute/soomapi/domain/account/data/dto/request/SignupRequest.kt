@@ -25,7 +25,7 @@ abstract class SignupRequest(
     school: SchoolType,
 
 ){
-    val email: String = emailToken
+    val emailToken: String = emailToken
     val firstName: String = firstName
     val lastName: String = lastName
     val gender: Gender = gender
