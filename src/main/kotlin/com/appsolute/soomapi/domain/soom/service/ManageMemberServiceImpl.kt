@@ -24,6 +24,8 @@ import com.appsolute.soomapi.domain.soom.repository.group.GroupInfoRepository
 import com.appsolute.soomapi.domain.soom.repository.group.GroupRepository
 import com.appsolute.soomapi.domain.soom.repository.post.PostRepository
 import com.appsolute.soomapi.domain.soom.repository.group.RejectedUserRepository
+import com.appsolute.soomapi.domain.soom.repository.post.NoticeRepository
+import com.appsolute.soomapi.domain.soom.repository.post.ReplyRepository
 import com.appsolute.soomapi.domain.soom.util.CheckGroupUtil
 import com.appsolute.soomapi.global.security.CurrentUser
 import org.springframework.data.domain.PageRequest
@@ -39,9 +41,10 @@ class ManageMemberServiceImpl(
     private val interviewService: InterviewService,
     private val userRepository: UserRepository,
     private val groupInfoRepository: GroupInfoRepository,
-    private val postRepository: PostRepository,
+    private val replyRepository: ReplyRepository,
     private val check: CheckGroupUtil,
-    private val messageCountRepository: MessageCountRepository
+    private val messageCountRepository: MessageCountRepository,
+    private val noticeRepository: NoticeRepository
 
 ): ManageMemberService {
 
@@ -194,8 +197,12 @@ class ManageMemberServiceImpl(
         return GroupUserResponse(
             user.toUserResponse(),
             groupInfo.joinedAt ,
-            postRepository.findAllByGroupAndPostType(group, PostType.NOTICE, PageRequest.of(1, 10)).toList(),
-            postRepository.findAllByGroupAndPostType(group, PostType.REPLY, PageRequest.of(1, 10)).toList(),
+            noticeRepository.findAllByGroupAndWriter(group, user, PageRequest.of(1, 10)).stream().map {
+                it.toShortnessNoticeResponse()
+            }.toList(),
+            replyRepository.findAllByGroupAndWriter(group, user, PageRequest.of(1, 10)).stream().map {
+                it.toShortnessReplyResponse()
+            }.toList(),
             groupInfo.auth
         )
     }

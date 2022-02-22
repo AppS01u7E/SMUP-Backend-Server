@@ -19,12 +19,12 @@ class MealServiceImpl(
 
 
     override fun getTodayMeal(): Meal {
-        return getMeal(LocalDate.now())
+        return getMeal(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")))
     }
 
-    override fun getMeal(date: LocalDate): Meal {
+    override fun getMeal(date: String): Meal {
 
-        return neisApi.getMealsByAbsoluteDay(date.format(DateTimeFormatter.ofPattern("yyyyMMdd"))
+        return neisApi.getMealsByAbsoluteDay(date
             , current.getUser().school.atpT_OFCDC_SC_CODE,
             current.getUser().school.sD_SCHUL_CODE)
     }

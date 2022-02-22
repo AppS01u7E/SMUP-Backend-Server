@@ -8,6 +8,8 @@ import com.appsolute.soomapi.domain.account.data.entity.user.type.Role
 import com.appsolute.soomapi.global.school.data.type.SchoolType
 import javax.persistence.DiscriminatorValue
 import javax.persistence.Entity
+import javax.persistence.EnumType
+import javax.persistence.Enumerated
 
 
 @Entity
@@ -37,8 +39,8 @@ class Student(
     Role.STUDENT,
     school
 ) {
-
-    private var dept = dept
+    @Enumerated(EnumType.STRING)
+    private var dept: Dept = dept
 
     private var grade = grade
 

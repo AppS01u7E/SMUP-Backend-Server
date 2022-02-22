@@ -21,8 +21,6 @@ abstract class SignupRequest(
     birth: String,
     @NotBlank(message = "비밀번호는 공백일 수 없습니다.")
     password: String,
-    @NotBlank(message = "재학중인 학교를 선택해주십시오.") // BUSAN, DAEDEOK, DAEGU, GWANGJU
-    school: SchoolType,
 
 ){
     val emailToken: String = emailToken
@@ -31,5 +29,4 @@ abstract class SignupRequest(
     val gender: Gender = gender
     val birth: String = birth
     val password: String = password
-    val school: SchoolType = school
 }

@@ -15,6 +15,7 @@ import com.appsolute.soomapi.domain.chat.data.response.ChatRoomListResponse
 import com.appsolute.soomapi.domain.chat.data.response.OneChatRoomResponse
 import com.appsolute.soomapi.domain.chat.data.response.SocketMessageResponse
 import com.appsolute.soomapi.domain.chat.data.type.ChatRoomType
+import com.appsolute.soomapi.domain.chat.data.type.ContentType
 import com.appsolute.soomapi.domain.chat.exception.ChatRoomCannotFounException
 import com.appsolute.soomapi.domain.chat.exception.MessageCannotFound
 import com.appsolute.soomapi.domain.chat.repository.ChatRoomRepository
@@ -39,8 +40,7 @@ class ChatServiceImpl(
     private val fcmService: FcmService,
     private val checkChatRoomUtil: CheckChatRoomUtil,
     private val current: CurrentUser,
-    private val messageCountRepository: MessageCountRepository,
-    private val chatRoomRepository: ChatRoomRepository
+    private val messageCountRepository: MessageCountRepository
 
 ): ChatService {
 
@@ -53,10 +53,6 @@ class ChatServiceImpl(
 
         try{
             request = objectMapper.readValue(json, SendMessageRequest::class.java)
-            request.checkIsNotSystemMessage()?: return chatExceptionHandler.errorAndDisconnected(client, null, ChatExceptionResponse(
-                    ChatErrorCode.LOW_AUTHENTICATION
-                )
-            )
         } catch (e: DataException){
             return chatExceptionHandler.errorAndDisconnected(client, user.uuid, ChatExceptionResponse(
                 ChatErrorCode.IMPORTING_DATA_ERROR
@@ -76,7 +72,8 @@ class ChatServiceImpl(
             request.message,
             user,
             chatRoom,
-            request.messageType
+            MessageType.USER,
+            request.contentType
         )
         messageRepository.save(
             message
@@ -100,7 +97,8 @@ class ChatServiceImpl(
             "${chatRoom.getName()}이 삭제되었습니다.",
             null,
             chatRoom,
-            MessageType.SYSTEM
+            MessageType.SYSTEM,
+            ContentType.TEXT
         )
         messageRepository.save(message)
 

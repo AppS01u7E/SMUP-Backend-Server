@@ -1,5 +1,6 @@
 package com.appsolute.soomapi.domain.account.data.dto.request
 
+import javax.annotation.Nullable
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotBlank
 
@@ -8,6 +9,6 @@ data class LoginRequest (
     val email: String,
     @NotBlank
     val password: String,
-    @NotBlank(message = "deviceToken이 비어서는 안됩니다.")
-    val deviceToken: String
+    @Nullable
+    val deviceToken: String?
 )

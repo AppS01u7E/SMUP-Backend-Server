@@ -1,23 +1,18 @@
 package com.appsolute.soomapi.domain.schedule.controller;
 
 import com.appsolute.soomapi.domain.schedule.data.dto.TaskDto;
-import com.appsolute.soomapi.domain.schedule.data.request.AddScheduleRequest;
 import com.appsolute.soomapi.domain.schedule.data.request.AddTaskRequest;
 import com.appsolute.soomapi.domain.schedule.data.request.UpdateTaskRequest;
 import com.appsolute.soomapi.domain.schedule.data.response.*;
-import com.appsolute.soomapi.domain.schedule.data.type.PeriodType;
 import com.appsolute.soomapi.domain.schedule.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/schedule")
 @RequiredArgsConstructor
-public class ScheduleController {
+public class TaskController {
     private final ScheduleService scheduleService;
 
     @PostMapping

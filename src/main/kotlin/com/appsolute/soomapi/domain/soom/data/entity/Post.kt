@@ -126,4 +126,8 @@ abstract class Post(
         return this.sendTo!!
     }
 
+    fun getWriteAt(): LocalDateTime{
+        return this.writeAt
+    }
+
 }

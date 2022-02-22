@@ -33,7 +33,9 @@ enum class ErrorCode(
     TIMETABLE_IMPORTING_EXCEPTION("시간표를 가져오는 데에 실패했습니다.", HttpStatus.BAD_GATEWAY),
     TASK_NOT_FOUND("작업을 찾지 못했습니다", HttpStatus.NOT_FOUND),
     SAME_NAME_ALREADY_EXISTS("같은 이름의 그룹이 존재합니다.", HttpStatus.BAD_REQUEST),
-    GENE_GROUP_REQUEST_BANNED("그룹 생성 요청 금지 리스트에 포함되어 요청을 진행할 수 업습니다.", HttpStatus.BAD_REQUEST)
+    GENE_GROUP_REQUEST_BANNED("그룹 생성 요청 금지 리스트에 포함되어 요청을 진행할 수 업습니다.", HttpStatus.BAD_REQUEST),
+    MANAGER_TEACHER_CANNOT_FOUND("담당 교사를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+    INVALID_EMAIL("유효하지 않은 이메일입니다.", HttpStatus.BAD_REQUEST)
 
 
 

@@ -6,6 +6,6 @@ import java.time.LocalDate
 interface MealService {
 
     fun getTodayMeal(): Meal
-    fun getMeal(date: LocalDate): Meal
+    fun getMeal(date: String): Meal
 
 }

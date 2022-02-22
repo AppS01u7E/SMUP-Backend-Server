@@ -1,12 +1,10 @@
 package com.appsolute.soomapi.domain.account.controller
 
-import com.appsolute.soomapi.domain.account.data.dto.request.LoginRequest
-import com.appsolute.soomapi.domain.account.data.dto.request.SignupRequest
-import com.appsolute.soomapi.domain.account.data.dto.request.StudentSignupRequest
-import com.appsolute.soomapi.domain.account.data.dto.request.TeacherSignupRequest
+import com.appsolute.soomapi.domain.account.data.dto.request.*
 import com.appsolute.soomapi.domain.account.data.entity.user.Teacher
 import com.appsolute.soomapi.domain.account.service.AuthService
 import com.appsolute.soomapi.global.security.data.response.TokenResponse
+import com.google.api.client.auth.oauth2.RefreshTokenRequest
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -29,10 +27,19 @@ class AuthController(
 
 
     @PostMapping("/signup")
-    fun signup(@RequestBody@Valid request: SignupRequest): () -> TokenResponse {
-        return authService.signup(request)
+    fun signup(@RequestBody@Valid request: StudentSignupRequest): TokenResponse {
+        return authService.studentSignup(request)
     }
 
+    @PostMapping("/signup/teacher")
+    fun teacherSignup(@RequestBody@Valid request: TeacherSignupRequest): TokenResponse{
+        return authService.teacherSignup(request)
+    }
+
+    @PostMapping("/refresh")
+    fun reissue(@RequestBody request: RefreshTokenReissueRequest): TokenResponse{
+        return authService.reissue(request)
+    }
 
 
 }

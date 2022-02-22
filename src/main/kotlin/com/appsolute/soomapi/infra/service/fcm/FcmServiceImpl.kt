@@ -2,7 +2,6 @@ package com.appsolute.soomapi.infra.service.fcm
 
 import com.appsolute.soomapi.domain.account.data.entity.user.User
 import com.appsolute.soomapi.domain.account.exception.UserNotFoundException
-import com.appsolute.soomapi.domain.account.repository.DeviceTokenRepository
 import com.appsolute.soomapi.domain.account.repository.UserRepository
 import com.appsolute.soomapi.domain.alarm.data.entity.Alarm
 import com.appsolute.soomapi.domain.alarm.repository.AlarmRepository
@@ -28,8 +27,7 @@ class FcmServiceImpl(
     private val fcmProperty: FcmProperty,
     private val alarmRepository: AlarmRepository,
     private val current: CurrentUser,
-    private val userRepository: UserRepository,
-    private val deviceTokenRepository: DeviceTokenRepository
+    private val userRepository: UserRepository
 ): FcmService {
 
     private val objectMapper: ObjectMapper? = null
@@ -43,7 +41,7 @@ class FcmServiceImpl(
 
         var tokenList: MutableList<String> = ArrayList<String>()
         alarmList.forEach {
-            tokenList.addAll(deviceTokenRepository.findById(it.uuid + "deviceToken").get().getToken())
+            tokenList.addAll( it.tokenList)
         }
 
         val notification = Notification.builder()
@@ -68,8 +66,8 @@ class FcmServiceImpl(
     }
 
     override fun sendTargetMessage(memberId: String, title: String, body: String, image: String?) {
-        val deviceToken: List<String> = (deviceTokenRepository.findById(memberId + "deviceToken")
-            .orElse(null)?: throw DeviceTokenNotFoundException(memberId)).getToken()
+        var user = userRepository.findById(memberId).orElse(null)?: throw UserNotFoundException(memberId)
+
         val notification: Notification = Notification.builder()
             .setTitle(title)
             .setBody(body)
@@ -77,7 +75,7 @@ class FcmServiceImpl(
             .build()
 
         val message = MulticastMessage.builder()
-            .addAllTokens(deviceToken)
+            .addAllTokens(user.tokenList)
             .setNotification(notification)
             .build()
         recordAlarm(title, body, current.getUser(),
@@ -123,17 +121,6 @@ class FcmServiceImpl(
                 receiver
             )
         )
-    }
-
-    @PostConstruct
-    override fun init() {
-        val googleCredentials: GoogleCredentials = GoogleCredentials.fromStream(ClassPathResource(fcmProperty.configPath).inputStream).createScoped((Arrays.asList(fcmProperty.fireBaseCreateScoped)))
-
-        val secondaryAppConfig: FirebaseOptions = FirebaseOptions.builder()
-            .setCredentials(googleCredentials)
-            .build()
-        val app: FirebaseApp = FirebaseApp.initializeApp(secondaryAppConfig)
-        this.instance = FirebaseMessaging.getInstance(app)
     }
 
 

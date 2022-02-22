@@ -29,12 +29,12 @@ public class TimeTableServiceImpl implements TimeTableService {
     private final CurrentUser current;
 
     @Override
-    public List<ScheReturnResponseDayDto> getSchedule() {
+    public ScheReturnResponseDayDto getSchedule() {
 
         Student std = current.getStudent();
         try {
             Integer today = Integer.valueOf(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")));
-            return school.getSchoolSchedule(std.getSchool().getSD_SCHUL_CODE(), std.getGrade(), std.getClass(), today, today);
+            return (ScheReturnResponseDayDto) school.getSchoolSchedule(std.getSchool().getSD_SCHUL_CODE(), std.getGrade(), std.getClass(), today, today);
         } catch (IOException e){
             throw new TimeTableImportingException();
         }

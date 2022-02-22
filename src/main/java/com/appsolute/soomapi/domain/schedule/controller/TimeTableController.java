@@ -20,7 +20,7 @@ public class TimeTableController {
     //학생만 이용 가능. 선생 권한으로 신청 시 에러 리턴
 
     @GetMapping
-    public List<ScheReturnResponseDayDto> getTimeTable() {
+    public ScheReturnResponseDayDto getTimeTable() {
         return timeTableService.getSchedule();
     }
 

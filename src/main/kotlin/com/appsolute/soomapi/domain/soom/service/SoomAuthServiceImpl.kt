@@ -1,6 +1,7 @@
 package com.appsolute.soomapi.domain.soom.service
 
 import com.appsolute.soomapi.domain.account.data.entity.user.GroupInfo
+import com.appsolute.soomapi.domain.account.data.entity.user.Teacher
 import com.appsolute.soomapi.domain.account.data.entity.user.User
 import com.appsolute.soomapi.domain.account.exception.UserNotFoundException
 import com.appsolute.soomapi.domain.account.repository.UserRepository
@@ -73,6 +74,21 @@ class SoomAuthServiceImpl(
             dto.soom.toShortnessGroupResponse(),
             groupInfo.auth
         )
+    }
+
+    @Transactional
+    override fun transferTeacher(groupId: String, teacherId: String) {
+        val dto = check.checkIsGroupMember(groupId, teacherId)
+        val group = dto.soom
+        val current = current.getUser()
+        val target = dto.user
+
+        if (group.teacher?. let {
+                it.equals(current)
+            }?: throw ManagerTeacherCannotFound(groupId)) {
+            if (target is Teacher) group.teacher = target
+            else throw LowerAuthException(target.uuid)
+        } else throw LowerAuthException(current.getRole().toString())
     }
 
 

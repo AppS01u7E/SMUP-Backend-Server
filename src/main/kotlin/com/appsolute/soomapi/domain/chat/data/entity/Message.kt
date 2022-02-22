@@ -6,6 +6,7 @@ import com.appsolute.soomapi.domain.chat.util.GetDataUtil
 import com.appsolute.soomapi.domain.account.data.entity.user.User
 import com.appsolute.soomapi.domain.chat.data.response.MessageResponse
 import com.appsolute.soomapi.domain.chat.data.response.SocketMessageResponse
+import com.appsolute.soomapi.domain.chat.data.type.ContentType
 import com.appsolute.soomapi.domain.soom.data.entity.Soom
 import java.time.LocalDateTime
 import javax.persistence.*
@@ -17,7 +18,8 @@ class Message(
     content: String,
     sender: User?,
     chatRoom: ChatRoom,
-    type: MessageType
+    type: MessageType,
+    contentType: ContentType
 
 ) {
 
@@ -32,6 +34,8 @@ class Message(
     private val chatRoom: ChatRoom = chatRoom
 
     private val type: MessageType = type
+    @Enumerated(EnumType.STRING)
+    private val contentType: ContentType = contentType
 
     private val sentAt: LocalDateTime = LocalDateTime.now()
 

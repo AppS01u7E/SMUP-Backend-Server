@@ -6,6 +6,7 @@ import com.appsolute.soomapi.domain.chat.data.entity.Message
 import com.appsolute.soomapi.domain.chat.data.request.ApplyInterviewRequest
 import com.appsolute.soomapi.domain.chat.data.request.ConcludeInterviewRequest
 import com.appsolute.soomapi.domain.chat.data.type.ChatRoomType
+import com.appsolute.soomapi.domain.chat.data.type.ContentType
 import com.appsolute.soomapi.domain.chat.data.type.MessageType
 import com.appsolute.soomapi.domain.chat.repository.ChatRoomRepository
 import com.appsolute.soomapi.domain.chat.repository.MessageRepository
@@ -51,7 +52,8 @@ class InterviewServiceImpl(
                 current.getUser().getFirstName()+"님께서 면접을 신청하셨습니다.",
                 current.getUser(),
                 chatRoom,
-                MessageType.SYSTEM
+                MessageType.SYSTEM,
+                ContentType.TEXT
             )
 
         )
@@ -78,8 +80,8 @@ class InterviewServiceImpl(
                 "면접 결과는 "+ request.result + "입니다.",
                 current.getUser(),
                 chatRoom,
-                MessageType.SYSTEM
-
+                MessageType.SYSTEM,
+                ContentType.TEXT
             )
         )
 

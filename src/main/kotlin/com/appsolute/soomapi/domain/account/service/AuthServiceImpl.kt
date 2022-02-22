@@ -1,22 +1,15 @@
 package com.appsolute.soomapi.domain.account.service
 
-import com.appsolute.soomapi.domain.account.data.dto.request.LoginRequest
-import com.appsolute.soomapi.domain.account.data.dto.request.SignupRequest
-import com.appsolute.soomapi.domain.account.data.dto.request.StudentSignupRequest
-import com.appsolute.soomapi.domain.account.data.dto.request.TeacherSignupRequest
+import com.appsolute.soomapi.domain.account.data.dto.request.*
 import com.appsolute.soomapi.domain.account.data.entity.token.DeviceToken
 import com.appsolute.soomapi.domain.account.data.entity.user.Student
 import com.appsolute.soomapi.domain.account.data.entity.user.Teacher
-import com.appsolute.soomapi.domain.account.env.EmailProperty
-import com.appsolute.soomapi.domain.account.exception.AlreadyUsedTokenException
-import com.appsolute.soomapi.domain.account.exception.IncorrectPasswordException
-import com.appsolute.soomapi.domain.account.exception.InvalidTeacherCodeException
-import com.appsolute.soomapi.domain.account.exception.UserNotFoundException
-import com.appsolute.soomapi.domain.account.repository.DeviceTokenRepository
+import com.appsolute.soomapi.domain.account.exception.*
 import com.appsolute.soomapi.domain.account.repository.StudentRepository
 import com.appsolute.soomapi.domain.account.repository.TeacherRepository
 import com.appsolute.soomapi.domain.account.repository.UserRepository
 import com.appsolute.soomapi.domain.account.util.EmailJwtUtils
+import com.appsolute.soomapi.global.school.data.type.SchoolType
 import com.appsolute.soomapi.global.security.data.response.TokenResponse
 import com.appsolute.soomapi.global.security.util.AccessTokenUtil
 import com.appsolute.soomapi.global.security.util.RefreshTokenUtil
@@ -35,18 +28,18 @@ class AuthServiceImpl(
     private val emailJwtUtils: EmailJwtUtils,
     private val studentRepository: StudentRepository,
     private val teacherRepository: TeacherRepository,
-    private val redisTeacherAuthorizeService: RedisTeacherAuthorizeService,
-    private val deviceTokenRepository: DeviceTokenRepository
+    private val redisTeacherAuthorizeService: RedisTeacherAuthorizeService
 
 ): AuthService {
 
     @Transactional
     override fun login(request: LoginRequest): TokenResponse {
         val user = userRepository.findByEmail(request.email).orElse(null)?: throw UserNotFoundException(request.email)
-        var deviceToken = deviceTokenRepository.findById(user.uuid + "deviceToken").get()
-        deviceToken.addToken(request.deviceToken)
 
-        if (encoder.encode(request.password).equals(user.password)){
+        if (encoder.matches(request.password, user.password)){
+            request.deviceToken?.let {
+                user.addToken(it)
+            }
             return TokenResponse(
                 accessTokenUtil.encodeToken(user.uuid),
                 refreshTokenUtil.encodeToken(user.uuid)
@@ -54,24 +47,17 @@ class AuthServiceImpl(
         } else throw IncorrectPasswordException(request.password)
     }
 
-
-
-    override fun signup(request: SignupRequest): () -> TokenResponse {
-        var randomId: String = ThreadLocalRandom.current().nextInt(10000000, 99999999).toString() //유저 저장시 사용할 id 생성
-        if (userRepository.existsById(randomId)) randomId = ThreadLocalRandom.current().nextInt(10000000, 99999999).toString() // 검증
-        deviceTokenRepository.save(DeviceToken(randomId))
-
-        return {
-            if (request is StudentSignupRequest) signup(request, randomId)
-            else signup(request as TeacherSignupRequest, randomId)
-        }
+    override fun reissue(request: RefreshTokenReissueRequest): TokenResponse {
+        val userPk = refreshTokenUtil.decodeToken(request.refreshToken)
+        val user = userRepository.findById(userPk).orElse(null)?: throw UserNotFoundException(userPk)
+        return makeTokenResponse(userPk)
     }
 
 
-
-    private fun signup(@Valid request: StudentSignupRequest, randomId: String): TokenResponse{
+    override fun studentSignup(@Valid request: StudentSignupRequest): TokenResponse{
+        val randomId = randomId()
         val email = emailCheck(request.emailToken)
-        val student: Student = request.toStudent(randomId, email, encoder.encode(request.password))
+        val student: Student = request.toStudent(randomId, email, encoder.encode(request.password), getSchool(email))
         studentRepository.save(student)
 
         return makeTokenResponse(student.uuid)
@@ -79,20 +65,37 @@ class AuthServiceImpl(
 
 
 
-    private fun signup(@Valid request: TeacherSignupRequest, randomId: String): TokenResponse{
+    override fun teacherSignup(@Valid request: TeacherSignupRequest): TokenResponse{
+        val randomId = randomId()
         val email = emailCheck(request.emailToken)
         if (!redisTeacherAuthorizeService.checkTeacherCode(request.teacherCode)) throw InvalidTeacherCodeException(request.teacherCode)
         redisTeacherAuthorizeService.deleteTeacherCode(request.teacherCode)
-        val teacher: Teacher = request.toTeacher(randomId, email, encoder.encode(request.password))
+        val teacher: Teacher = request.toTeacher(randomId, email, encoder.encode(request.password), getSchool(email))
+
         teacherRepository.save(teacher)
 
         return makeTokenResponse(teacher.uuid)
     }
 
+    private fun randomId(): String{
+        var randomId: String = ThreadLocalRandom.current().nextInt(10000000, 99999999).toString() //유저 저장시 사용할 id 생성
+        if (userRepository.existsById(randomId)) randomId = ThreadLocalRandom.current().nextInt(10000000, 99999999).toString() // 검증
+
+        return randomId
+    }
+
+
+    private fun getSchool(email: String): SchoolType {
+        for (allow in SchoolType.values()) {
+            if (allow.checkPolicy(email)) return allow
+        }
+        throw InvalidEmailException(email)
+    }
 
 
     private fun emailCheck(emailToken: String): String {
         val email = emailJwtUtils.decodeToken(emailToken)
+        println(email)
         if (userRepository.existsByEmail(email)) throw AlreadyUsedTokenException(email)
         return email
     }

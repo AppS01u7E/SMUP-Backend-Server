@@ -21,8 +21,6 @@ interface FcmService {
 
     fun sendMessage(message: Message): String
 
-    fun init()
-
     fun sendMessage(message: MulticastMessage): BatchResponse
 
 

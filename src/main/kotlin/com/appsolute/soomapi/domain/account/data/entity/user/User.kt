@@ -42,11 +42,11 @@ abstract class User (
     private var birth = birth
 
     var password = password
-
+    @Enumerated(EnumType.STRING)
     private var role = role
 
     var profile: String? = null
-
+    @Enumerated(value = EnumType.STRING)
     var school: SchoolType = school
     @OneToMany(fetch = FetchType.LAZY)
     var groupInfo: MutableList<GroupInfo> = ArrayList<GroupInfo> ()
@@ -58,8 +58,20 @@ abstract class User (
 
     var discord: String? = null
 
+    @ElementCollection
+    var tokenList: MutableList<String> = ArrayList<String>()
+
     @ManyToMany(cascade = arrayOf(CascadeType.REMOVE), fetch = FetchType.LAZY)
     private val chatRoomList: MutableList<ChatRoom> = ArrayList<ChatRoom>()
+
+
+    fun addToken(token: String) {
+        if (!tokenList.contains(token)) tokenList.add(token)
+    }
+
+    fun removeToken(token: String) {
+        if (tokenList.contains(token)) tokenList.remove(token)
+    }
 
     fun getEmail(): String{
         return this.email

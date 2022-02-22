@@ -24,7 +24,7 @@ class MealController(
     }
 
     @GetMapping
-    fun getMeal(@RequestParam date: LocalDate): Meal{
+    fun getMeal(@RequestParam date: String): Meal{
         return mealService.getMeal(date)
     }
 

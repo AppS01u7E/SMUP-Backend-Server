@@ -8,8 +8,8 @@ import java.time.LocalDateTime
 data class GroupUserResponse(
     var user: UserResponse,
     var joinedAt: LocalDateTime,
-    var last10Notice: List<Post>,
-    var last10Replies: List<Post>,
+    var last10Notice: List<ShortnessNoticeResponse>,
+    var last10Replies: List<ShortnessReplyResponse>,
     var auth: List<GroupAuthType>
 
 )

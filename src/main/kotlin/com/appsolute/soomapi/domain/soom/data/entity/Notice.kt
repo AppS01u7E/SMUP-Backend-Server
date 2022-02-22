@@ -3,6 +3,7 @@ package com.appsolute.soomapi.domain.soom.data.entity
 import com.appsolute.soomapi.domain.account.data.entity.user.User
 import com.appsolute.soomapi.domain.soom.data.request.PostNoticeRequest
 import com.appsolute.soomapi.domain.soom.data.response.NoticeResponse
+import com.appsolute.soomapi.domain.soom.data.response.ShortnessNoticeResponse
 import com.appsolute.soomapi.domain.soom.data.type.PostType
 import com.appsolute.soomapi.global.security.CurrentUser
 import org.springframework.beans.factory.annotation.Autowired
@@ -43,6 +44,17 @@ class Notice(
             this.getAimingAtThisPostList().stream().map {
                 it.toReplyResponse()
             }.toList()
+        )
+    }
+
+    fun toShortnessNoticeResponse(): ShortnessNoticeResponse{
+        return ShortnessNoticeResponse(
+            this.uuid,
+            this.getTitle(),
+            this.content,
+            this.getWriter().toShortnessUserResponse(),
+            this.getLike(),
+            this.getAimingAtThisPostList().size
         )
     }
 

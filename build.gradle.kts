@@ -63,6 +63,10 @@ dependencies {
     implementation("com.corundumstudio.socketio:netty-socketio:1.7.19")
     //swagger
     implementation("io.springfox:springfox-boot-starter:3.0.0")
+    //jackson
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.11.0")
+    implementation("com.fasterxml.jackson.core:jackson-annotations:2.11.0")
+
 
 }
 

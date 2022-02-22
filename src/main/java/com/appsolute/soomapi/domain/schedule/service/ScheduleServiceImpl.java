@@ -1,7 +1,6 @@
 package com.appsolute.soomapi.domain.schedule.service;
 
 import com.appsolute.soomapi.domain.account.data.entity.user.User;
-import com.appsolute.soomapi.domain.account.repository.DeviceTokenRepository;
 import com.appsolute.soomapi.domain.schedule.data.dto.TaskDto;
 import com.appsolute.soomapi.domain.schedule.data.entity.TaskEntity;
 import com.appsolute.soomapi.domain.schedule.data.request.AddGroupTaskRequest;
@@ -25,14 +24,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.StreamSupport;
 
-import static com.appsolute.soomapi.domain.schedule.util.DateUtil.*;
 
 @Service
 @RequiredArgsConstructor
 public class ScheduleServiceImpl implements ScheduleService{
     private final TaskRepository taskRepository;
     private final CheckGroupUtil check;
-    private final DeviceTokenRepository deviceTokenRepository;
     private final CurrentUser current;
 
     @Override @Transactional
@@ -66,8 +63,6 @@ public class ScheduleServiceImpl implements ScheduleService{
 
     private TaskEntity addPersonalTask(AddPersonalTaskRequest request) {
         String userPk = current.getPk();
-
-        List<String> tokenList = deviceTokenRepository.findById(userPk+"deviceToken").get().getToken();
         List<String> listenerList = new ArrayList<>();
         listenerList.add(userPk);
 

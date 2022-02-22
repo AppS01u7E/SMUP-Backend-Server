@@ -37,5 +37,11 @@ class SoomAuthController(
         return soomAuthService.checkMyAuth(groupId)
     }
 
+    @PostMapping("/auth/transfer/teacher/{groupId}/{teacherId}")
+    fun transferAuthoritiy(@PathVariable groupId: String, @PathVariable teacherId: String) {
+        return soomAuthService.transferTeacher(groupId, teacherId)
+    }
+
+
 
 }

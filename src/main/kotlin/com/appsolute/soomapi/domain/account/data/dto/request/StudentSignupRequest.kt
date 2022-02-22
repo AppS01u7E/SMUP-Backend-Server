@@ -15,15 +15,20 @@ import javax.validation.constraints.Pattern
 
 
 class StudentSignupRequest(
+
+    @NotBlank(message = "email Token은 공백일 수 없습니다.")
     emailToken: String,
+    @NotBlank(message = "firstName은 공백일 수 없습니다.")
     firstName: String,
+    @NotBlank(message = "lastName은 공백일 수 없습니다.")
     lastName: String,
+    @NotBlank(message = "성별은 공백일 수 없습니니다.") //MAN, WOMAN
     gender: Gender,
     @Pattern(regexp = "/^(19[0-9][0-9]|20\\d{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])\$/",
         message = "유효하지 않은 생년월일입니다.")
-    birth: String, //ex. 20050817
+    birth: String,
+    @NotBlank(message = "비밀번호는 공백일 수 없습니다.")
     password: String,
-    school: SchoolType,
     @NotBlank(message = "학과는 공백일 수 없습니다.")
     dept: Dept,
     @NotBlank(message = "grade는 공백일 수 없습니다.")
@@ -49,8 +54,7 @@ class StudentSignupRequest(
     lastName,
     gender,
     birth,
-    password,
-    school,
+    password
 ){
     val dept = dept
     val grade = grade
@@ -58,7 +62,7 @@ class StudentSignupRequest(
     val number = number
     val ent = ent
 
-    fun toStudent(randomId: String, email: String, encodedPassword: String): Student{
+    fun toStudent(randomId: String, email: String, encodedPassword: String, school: SchoolType): Student{
         return Student(
             randomId,
             email,

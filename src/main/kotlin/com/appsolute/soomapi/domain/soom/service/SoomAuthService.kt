@@ -14,4 +14,6 @@ interface SoomAuthService {
     //해당 그룹에 대한 자신의 권한 확인
     fun checkMyAuth(groupId: String): CheckGroupAuthResponse
 
+    fun transferTeacher(groupId: String, teacherId: String)
+
 }

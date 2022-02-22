@@ -36,6 +36,7 @@ public abstract class StandardJwtUtils<T> implements JwtUtils<T> {
         } catch (Exception e){
             throw new InvalidTokenException(token);
         }
+        System.out.println(claims.get("email"));
         return getDataFromClaims(claims);
     }
 

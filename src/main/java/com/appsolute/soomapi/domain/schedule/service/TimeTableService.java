@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface TimeTableService {
 
-    List<ScheReturnResponseDayDto> getSchedule();
+    ScheReturnResponseDayDto getSchedule();
     List<ScheReturnResponseDayDto> getScheduleByDate(Integer startDate, Integer endDate);
 
 }
