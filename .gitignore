@@ -14,8 +14,6 @@ application.*
 ### Firebase ###
 firebase_develop_key.json
 
-/build/
-!/build/**/*.jar
 .DS_Store
 smup-444d5-firebase-adminsdk-vw1qu-df0d795261.json
 src/main/resources/smup-444d5-firebase-adminsdk-vw1qu-df0d795261.json
